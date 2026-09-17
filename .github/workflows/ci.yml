@@ -123,9 +123,30 @@ jobs:
         # idempotency suites. PARALLEL_CONCURRENCY turns on the tests that open
         # real second connections and contend for row locks, which only mean
         # something against a real server.
+        #
+        # Downloading job logs needs admin rights on the repository; check-run
+        # annotations do not. So a failure is re-emitted as annotations, and a
+        # red build stays diagnosable by anyone who can see the repository.
         env:
           PARALLEL_CONCURRENCY: '1'
-        run: php artisan test --no-interaction
+          NO_COLOR: '1'
+        run: |
+          set -o pipefail
+          if php artisan test --no-interaction 2>&1 | tee test-output.txt; then
+            exit 0
+          fi
+          echo "::group::Failure detail"
+          grep -E 'FAILED|SQLSTATE|Tests:|^ *⨯|Failed asserting|Expected|Error' test-output.txt             | head -40             | while IFS= read -r line; do echo "::error::${line}"; done
+          echo "::endgroup::"
+          exit 1
+
+      - name: Keep the test output
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-output-mysql-${{ matrix.mysql }}
+          path: api/test-output.txt
+          retention-days: 7
 
       - name: Security advisories
         run: composer audit --no-interaction
