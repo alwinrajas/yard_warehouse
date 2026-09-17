@@ -12,12 +12,14 @@
   }
 
   html {
+    height: 100%;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
   }
 
   body {
-    background-color: var(--color-graphite-50);
+    height: 100%;
+    background-color: var(--color-surface-canvas);
     color: var(--color-graphite-900);
     font-family: var(--font-sans);
     font-size: var(--text-body);
@@ -139,7 +141,8 @@
 
   /* Skip link — visible only when focused. */
   .skip-link {
-    position: absolute;
+    position: fixed;
+    top: -9999px;
     left: -9999px;
     z-index: 100;
   }

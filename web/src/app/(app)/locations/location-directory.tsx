@@ -100,13 +100,20 @@ export function LocationDirectory() {
       priority: 2,
       accessor: (row) =>
         !row.is_active ? (
-          <span className="text-body-sm text-graphite-500">Not in use</span>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-graphite-200 bg-graphite-100/90 px-2.5 py-0.5 text-caption font-semibold text-graphite-600">
+            <span className="size-1.5 rounded-full bg-graphite-400" aria-hidden />
+            Inactive
+          </span>
         ) : row.is_blocked ? (
-          <span className="text-body-sm text-signal-danger-fg">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-signal-danger-border bg-signal-danger-surface px-2.5 py-0.5 text-caption font-semibold text-signal-danger-fg">
+            <span className="size-1.5 rounded-full bg-signal-danger-fg" aria-hidden />
             Blocked{row.blocked_reason ? ` · ${row.blocked_reason}` : ''}
           </span>
         ) : (
-          <span className="text-body-sm text-graphite-500">Available</span>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-signal-success-border bg-signal-success-surface px-2.5 py-0.5 text-caption font-semibold text-signal-success-fg">
+            <span className="size-1.5 rounded-full bg-signal-success-fg" aria-hidden />
+            Available
+          </span>
         ),
     },
   ]

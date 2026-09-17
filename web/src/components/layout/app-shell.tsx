@@ -44,7 +44,7 @@ export function AppShell({
   const [navOpen, setNavOpen] = useState(false)
 
   return (
-    <div className="flex h-dvh flex-col bg-surface-canvas">
+    <div className="fixed inset-0 flex flex-col overflow-hidden bg-surface-canvas">
       <a href="#main-content" className="skip-link rounded-md bg-anodic-600 px-3 py-2 text-graphite-0">
         Skip to content
       </a>
@@ -70,8 +70,8 @@ export function AppShell({
         />
       </Drawer>
 
-      <div className="flex min-h-0 flex-1">
-        <div className="hidden md:flex">
+      <div className="flex min-h-0 flex-1 overflow-hidden">
+        <div className="hidden h-full min-h-0 md:flex flex-col">
           <Sidebar badges={badges} isAdminRole={isAdminRole} />
         </div>
 

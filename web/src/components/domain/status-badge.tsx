@@ -51,8 +51,8 @@ export function StatusBadge({
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1.5 rounded-sm border font-medium',
-        size === 'sm' ? 'px-1.5 py-0.5 text-caption' : 'px-2 py-1 text-body-sm',
+        'inline-flex items-center gap-1.5 rounded-full border font-semibold shadow-xs',
+        size === 'sm' ? 'px-2.5 py-0.5 text-caption' : 'px-3 py-1 text-body-sm',
         token.className,
         className,
       )}

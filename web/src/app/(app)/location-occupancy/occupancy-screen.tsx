@@ -117,13 +117,13 @@ export function OccupancyScreen() {
 
       {/* State summary doubles as the filter: clicking a tile filters the board,
           so the count and the way to act on it are the same control. */}
-      <section aria-label="Occupancy summary" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <section aria-label="Occupancy summary" className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
         {(
           [
             { key: '', label: 'All locations', value: summary?.total, color: 'var(--color-chart-6)' },
-            { key: 'occupied', label: 'Occupied', value: summary?.occupied, color: 'var(--color-chart-1)' },
-            { key: 'empty', label: 'Available', value: summary?.empty, color: 'var(--color-chart-2)' },
-            { key: 'blocked', label: 'Blocked', value: summary?.blocked, color: 'var(--color-signal-danger-fg)' },
+            { key: 'occupied', label: 'Occupied bays', value: summary?.occupied, color: 'var(--color-chart-1)' },
+            { key: 'empty', label: 'Available bays', value: summary?.empty, color: 'var(--color-chart-2)' },
+            { key: 'blocked', label: 'Blocked bays', value: summary?.blocked, color: 'var(--color-signal-danger-fg)' },
           ] as const
         ).map((tile) => {
           const active = stateFilter === tile.key
@@ -134,24 +134,24 @@ export function OccupancyScreen() {
               onClick={() => url.set({ state: tile.key || null })}
               aria-pressed={active}
               className={cn(
-                'card-interactive relative flex flex-col items-start overflow-hidden rounded-xl border',
-                'bg-graphite-0 p-4 text-left shadow-card',
-                active ? 'border-anodic-400 ring-1 ring-anodic-200' : 'border-graphite-200',
+                'card-interactive relative flex flex-col items-start overflow-hidden rounded-2xl border',
+                'bg-graphite-0 p-5 text-left shadow-card transition-all duration-fast',
+                active ? 'border-anodic-500 ring-2 ring-anodic-200' : 'border-graphite-200/80 hover:border-anodic-300',
               )}
             >
-              <span aria-hidden className="absolute inset-x-0 top-0 h-0.5" style={{ backgroundColor: tile.color }} />
-              <span className="text-overline uppercase tracking-wide text-graphite-500">
+              <span aria-hidden className="absolute inset-x-0 top-0 h-[3px]" style={{ backgroundColor: tile.color }} />
+              <span className="text-overline uppercase tracking-wider text-graphite-500 font-medium">
                 {tile.label}
               </span>
               {isLoading ? (
-                <Skeleton className="mt-2.5 h-7 w-16" />
+                <Skeleton className="mt-3 h-8 w-20" />
               ) : (
-                <span className="mt-2.5 text-display leading-none tabular-nums text-graphite-900">
+                <span className="mt-3 text-display font-semibold leading-none tabular-nums text-graphite-900">
                   {formatNumber(tile.value ?? 0)}
                 </span>
               )}
-              <span className="mt-1.5 text-caption text-graphite-500">
-                {active ? 'Filtering the board' : 'Show only these'}
+              <span className="mt-2 text-caption text-graphite-500">
+                {active ? 'Filtering the board' : 'Click to filter board'}
               </span>
             </button>
           )
@@ -384,37 +384,40 @@ function LocationTile({ cell, onOpen }: { cell: OccupancyCell; onOpen: () => voi
       onClick={onOpen}
       aria-label={`${cell.code}, ${token.label}, ${cell.pallet_count} pallet${cell.pallet_count === 1 ? '' : 's'}${cell.capacity ? ` of ${cell.capacity}` : ''}`}
       className={cn(
-        'card-interactive group relative flex flex-col items-start gap-1.5 overflow-hidden rounded-lg border p-2.5 text-left',
+        'card-interactive group relative flex flex-col items-start gap-2 overflow-hidden rounded-xl border p-3 text-left shadow-xs transition-all duration-fast',
         token.className,
         token.pattern === 'hatch' && 'pattern-hatch',
         token.pattern === 'dotted' && 'pattern-dotted',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-anodic-400',
-        cell.has_ageing_stock && 'ring-1 ring-signal-warning-fg',
+        cell.has_ageing_stock && 'ring-2 ring-signal-warning-fg',
       )}
     >
-      <span className="flex w-full items-start justify-between gap-1.5">
-        <span className="truncate font-mono text-mono text-graphite-900">{cell.code}</span>
+      <span className="flex w-full items-center justify-between gap-1.5">
+        <span className="truncate font-mono text-mono-lg font-semibold tracking-tight text-graphite-900">{cell.code}</span>
         {cell.state === 'blocked' ? (
           <Ban className="size-3.5 shrink-0 text-signal-danger-fg" aria-hidden />
-        ) : null}
+        ) : (
+          <span className="rounded px-1 py-0.2 text-overline uppercase tracking-wider text-graphite-600 bg-graphite-0/80 font-medium">
+            {token.label}
+          </span>
+        )}
       </span>
 
-      <span className="flex w-full items-baseline gap-1">
-        <span className="text-h3 leading-none tabular-nums text-graphite-900">
+      <span className="flex w-full items-baseline gap-1.5 mt-0.5">
+        <span className="text-h2 font-semibold leading-none tabular-nums text-graphite-900">
           {cell.pallet_count}
         </span>
         {cell.capacity ? (
-          <span className="text-caption tabular-nums text-graphite-500">/ {cell.capacity}</span>
+          <span className="text-caption font-medium tabular-nums text-graphite-500">/ {cell.capacity} bays</span>
         ) : null}
-        <span className="ml-auto text-caption text-graphite-600">{token.label}</span>
       </span>
 
       {cell.capacity ? (
-        <span aria-hidden className="block h-1 w-full overflow-hidden rounded-full bg-graphite-0/70">
+        <span aria-hidden className="block h-1.5 w-full overflow-hidden rounded-full bg-graphite-200/50">
           <span
             className={cn(
-              'anim-meter block h-full rounded-full',
-              fill >= 1 ? 'bg-signal-warning-fg' : 'bg-anodic-500',
+              'anim-meter block h-full rounded-full transition-all',
+              fill >= 1 ? 'bg-anodic-800' : 'bg-anodic-500',
             )}
             style={{ width: `${fill * 100}%` }}
           />
@@ -422,7 +425,7 @@ function LocationTile({ cell, onOpen }: { cell: OccupancyCell; onOpen: () => voi
       ) : null}
 
       {cell.blocked_reason ? (
-        <span className="w-full truncate text-caption text-signal-danger-fg">
+        <span className="w-full truncate text-caption font-medium text-signal-danger-fg">
           {cell.blocked_reason}
         </span>
       ) : null}

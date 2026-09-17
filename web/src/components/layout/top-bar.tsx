@@ -59,8 +59,8 @@ export function TopBar({
     <header
       style={{ height: 'var(--layout-topbar-height)' }}
       className={cn(
-        'flex shrink-0 items-center gap-3 border-b border-graphite-200',
-        'bg-graphite-0/95 px-3 backdrop-blur-sm sm:px-4',
+        'flex shrink-0 items-center gap-3.5 border-b border-graphite-200/80',
+        'bg-graphite-0/95 px-4 backdrop-blur-md sm:px-6 shadow-xs',
       )}
     >
       {onOpenNav ? (
@@ -74,7 +74,7 @@ export function TopBar({
 
       <Logo className="shrink-0" />
 
-      <div className="mx-0.5 hidden h-6 w-px bg-graphite-200 sm:block" aria-hidden />
+      <div className="mx-1 hidden h-6 w-px bg-graphite-200 sm:block" aria-hidden />
 
       {session ? (
         <ScopeSelector
@@ -87,10 +87,10 @@ export function TopBar({
         type="button"
         onClick={onOpenSearch}
         className={cn(
-          'ml-auto hidden h-9 w-full max-w-[30rem] items-center gap-2.5 rounded-lg border',
-          'border-graphite-200 bg-surface-sunken px-3 text-left md:flex',
-          'text-body-sm text-graphite-500 transition-colors duration-fast ease-standard',
-          'hover:border-anodic-300 hover:bg-graphite-0',
+          'ml-auto hidden h-10 w-full max-w-[28rem] items-center gap-3 rounded-xl border',
+          'border-graphite-200/90 bg-graphite-50/80 px-3.5 text-left md:flex shadow-xs',
+          'text-body-sm text-graphite-500 transition-all duration-fast ease-standard',
+          'hover:border-anodic-300 hover:bg-graphite-0 hover:shadow-card',
           'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-anodic-400',
         )}
       >
@@ -98,15 +98,15 @@ export function TopBar({
         <span className="flex-1 truncate">Search pallet, job, customer, location…</span>
         <kbd
           className={cn(
-            'hidden shrink-0 rounded border border-graphite-200 bg-graphite-0 px-1.5 py-0.5',
-            'text-overline tracking-wider text-graphite-500 lg:block',
+            'hidden shrink-0 rounded-md border border-graphite-200 bg-graphite-0 px-2 py-0.5',
+            'font-mono text-caption font-medium tracking-wide text-graphite-500 shadow-xs lg:block',
           )}
         >
           Ctrl K
         </kbd>
       </button>
 
-      <div className="ml-auto flex items-center gap-0.5 md:ml-0 md:gap-1">
+      <div className="ml-auto flex items-center gap-1 md:ml-0 md:gap-2">
         <IconButton
           label="Search"
           icon={<Search className="size-4" />}
@@ -135,13 +135,13 @@ export function TopBar({
         >
           <span
             className={cn(
-              'hidden items-center gap-1 rounded-md px-2 py-1 text-overline tracking-wide lg:inline-flex',
+              'hidden items-center gap-1.5 rounded-lg border border-graphite-200/60 px-2.5 py-1 text-overline tracking-wider font-medium lg:inline-flex shadow-xs',
               IS_TIMEZONE_UNCONFIRMED
                 ? 'bg-signal-warning-surface text-signal-warning-fg'
-                : 'bg-surface-sunken text-graphite-500',
+                : 'bg-graphite-50 text-graphite-600',
             )}
           >
-            <Clock className="size-3" aria-hidden />
+            <Clock className="size-3 text-graphite-400" aria-hidden />
             {APP_TIMEZONE}
           </span>
         </Tooltip>
@@ -182,16 +182,16 @@ function ScopeSelector({
     return (
       <span
         className={cn(
-          'hidden items-center gap-2 rounded-lg bg-surface-sunken px-2.5 py-1.5 sm:flex',
+          'hidden items-center gap-2 rounded-xl border border-graphite-200/70 bg-graphite-50/80 px-3 py-1.5 sm:flex shadow-xs',
           'text-body-sm text-graphite-600',
         )}
       >
-        <Warehouse className="size-4 shrink-0 text-graphite-400" aria-hidden />
-        <span className="font-medium text-graphite-800">{scopeLabel}</span>
+        <Warehouse className="size-4 shrink-0 text-anodic-600" aria-hidden />
+        <span className="font-semibold text-graphite-900">{scopeLabel}</span>
         <span className="text-graphite-300" aria-hidden>
           /
         </span>
-        <span className="truncate">{facilityLabel}</span>
+        <span className="truncate text-graphite-600">{facilityLabel}</span>
       </span>
     )
   }
@@ -202,12 +202,12 @@ function ScopeSelector({
         <button
           type="button"
           className={cn(
-            'hidden items-center gap-2 rounded-lg bg-surface-sunken px-2.5 py-1.5 text-body-sm sm:flex',
-            'text-graphite-600 transition-colors duration-fast ease-standard hover:bg-graphite-100',
+            'hidden items-center gap-2 rounded-xl border border-graphite-200/70 bg-graphite-50/80 px-3 py-1.5 text-body-sm sm:flex shadow-xs',
+            'text-graphite-600 transition-all duration-fast ease-standard hover:bg-graphite-100 hover:border-graphite-300',
           )}
         >
-          <Warehouse className="size-4 shrink-0 text-graphite-400" aria-hidden />
-          <span className="font-medium text-graphite-800">{scopeLabel}</span>
+          <Warehouse className="size-4 shrink-0 text-anodic-600" aria-hidden />
+          <span className="font-semibold text-graphite-900">{scopeLabel}</span>
           <span className="text-graphite-300">/</span>
           <span>{facilityLabel}</span>
           <ChevronDown className="size-3.5 text-graphite-400" aria-hidden />
@@ -242,22 +242,22 @@ function UserMenu({
         <button
           type="button"
           className={cn(
-            'flex items-center gap-2 rounded-md py-1 pl-1 pr-2',
-            'hover:bg-graphite-50 focus-visible:outline-2 focus-visible:outline-offset-2',
+            'flex items-center gap-2.5 rounded-xl p-1.5 pr-2.5 transition-all duration-fast',
+            'hover:bg-graphite-50 hover:border-graphite-200/70 focus-visible:outline-2 focus-visible:outline-offset-2',
             'focus-visible:outline-anodic-400',
           )}
         >
           <span
             aria-hidden
             className={cn(
-              'flex size-8 shrink-0 items-center justify-center rounded-full',
-              'bg-gradient-to-br from-anodic-500 to-anodic-700 text-overline text-graphite-0',
+              'flex size-8 shrink-0 items-center justify-center rounded-lg shadow-xs',
+              'bg-gradient-to-br from-anodic-500 to-anodic-700 text-overline font-semibold text-graphite-0',
             )}
           >
             {initials(name)}
           </span>
           <span className="hidden text-left lg:block">
-            <span className="block text-body-sm leading-tight text-graphite-800">{name}</span>
+            <span className="block text-body-sm font-medium leading-tight text-graphite-900">{name}</span>
             <span className="block text-caption leading-tight text-graphite-500">{roleLabel}</span>
           </span>
           <ChevronDown className="size-3.5 shrink-0 text-graphite-400" aria-hidden />

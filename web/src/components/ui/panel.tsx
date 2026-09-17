@@ -20,8 +20,8 @@ export function Panel({
   return (
     <Tag
       className={cn(
-        'rounded-lg border border-graphite-200 bg-graphite-0',
-        padded && 'p-5',
+        'rounded-2xl border border-graphite-200/80 bg-graphite-0 shadow-card transition-shadow duration-fast',
+        padded && 'p-5 sm:p-6',
         className,
       )}
     >

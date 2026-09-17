@@ -24,10 +24,13 @@ export default function ReportsPage() {
           <h2 className="mb-3 text-overline uppercase text-graphite-500">{group}</h2>
           <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
             {REPORTS.filter((r) => r.group === group).map((report) => (
-              <Link key={report.slug} href={`/reports/${report.slug}`} className="block">
-                <Panel className="h-full transition-colors duration-fast hover:border-graphite-300 hover:bg-graphite-25">
-                  <h3 className="text-h3 text-graphite-800">{report.title}</h3>
-                  <p className="mt-1 text-body-sm text-graphite-500">{report.description}</p>
+              <Link key={report.slug} href={`/reports/${report.slug}`} className="group block">
+                <Panel className="card-interactive h-full border-graphite-200/80 shadow-card transition-all duration-fast hover:border-anodic-300 hover:shadow-card-hover">
+                  <div className="flex items-start justify-between gap-2">
+                    <h3 className="text-h3 font-semibold text-graphite-900 transition-colors group-hover:text-anodic-600">{report.title}</h3>
+                    <span className="text-graphite-400 transition-transform duration-fast group-hover:translate-x-0.5 group-hover:text-anodic-600" aria-hidden>→</span>
+                  </div>
+                  <p className="mt-1.5 text-body-sm text-graphite-500 leading-relaxed">{report.description}</p>
                 </Panel>
               </Link>
             ))}

@@ -59,10 +59,12 @@ export function LocationRef({
       <div className={cn('min-w-0', className)}>
         <div className="flex items-center gap-2">
           {dot}
-          <span className="font-mono text-mono-lg text-graphite-900">{location.code}</span>
+          <span className="inline-flex items-center rounded-md border border-graphite-200/90 bg-graphite-100/80 px-2.5 py-1 font-mono text-mono-lg font-semibold text-graphite-900 shadow-xs">
+            {location.code}
+          </span>
           {stateLabel}
         </div>
-        {context ? <p className="mt-0.5 text-body-sm text-graphite-500">{context}</p> : null}
+        {context ? <p className="mt-1 text-body-sm text-graphite-500">{context}</p> : null}
         {location.capacity ? (
           <p className="mt-0.5 text-caption tabular-nums text-graphite-500">
             {location.palletCount ?? 0} of {location.capacity} occupied
@@ -75,13 +77,15 @@ export function LocationRef({
   if (variant === 'stacked') {
     return (
       <div className={cn('min-w-0', className)}>
-        <span className="flex items-center gap-1.5">
+        <span className="inline-flex items-center gap-1.5">
           {dot}
-          <span className="font-mono text-mono text-graphite-900">{location.code}</span>
+          <span className="inline-flex items-center rounded-md border border-graphite-200/80 bg-graphite-100/70 px-2 py-0.5 font-mono text-mono font-semibold text-graphite-900 shadow-xs">
+            {location.code}
+          </span>
           {stateLabel}
         </span>
         {context ? (
-          <span className="block truncate text-caption text-graphite-500">{context}</span>
+          <span className="mt-0.5 block truncate text-caption text-graphite-500">{context}</span>
         ) : null}
       </div>
     )
@@ -90,7 +94,9 @@ export function LocationRef({
   return (
     <span className={cn('inline-flex min-w-0 items-center gap-1.5', className)}>
       {dot}
-      <span className="font-mono text-mono text-graphite-900">{location.code}</span>
+      <span className="inline-flex items-center rounded-md border border-graphite-200/80 bg-graphite-100/70 px-2 py-0.5 font-mono text-mono font-semibold text-graphite-900 shadow-xs">
+        {location.code}
+      </span>
       {stateLabel}
     </span>
   )

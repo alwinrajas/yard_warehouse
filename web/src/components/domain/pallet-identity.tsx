@@ -34,10 +34,12 @@ export function PalletIdentity({
     return (
       <div className={cn('min-w-0', className)}>
         <div className="flex flex-wrap items-center gap-2">
-          <span className="font-mono text-mono-lg text-graphite-900">{pallet.palletNumber}</span>
+          <span className="inline-flex items-center rounded-md border border-graphite-200/90 bg-graphite-100/80 px-2.5 py-1 font-mono text-mono-lg font-semibold text-graphite-900 shadow-xs">
+            {pallet.palletNumber}
+          </span>
           {showStatus && pallet.status ? <StatusBadge status={pallet.status} size="md" /> : null}
         </div>
-        <p className="mt-1 truncate text-body-sm text-graphite-500">
+        <p className="mt-1.5 truncate text-body-sm text-graphite-500">
           {[pallet.jobNumber, pallet.customerName, pallet.lpoNumber].filter(Boolean).join(' · ') ||
             'No job details recorded'}
         </p>
@@ -48,9 +50,11 @@ export function PalletIdentity({
   if (variant === 'stacked') {
     return (
       <div className={cn('min-w-0', className)}>
-        <span className="block font-mono text-mono text-graphite-900">{pallet.palletNumber}</span>
+        <span className="inline-flex items-center rounded-md border border-graphite-200/80 bg-graphite-100/70 px-2 py-0.5 font-mono text-mono font-semibold text-graphite-900 shadow-xs">
+          {pallet.palletNumber}
+        </span>
         {pallet.jobNumber ? (
-          <span className="block truncate text-caption text-graphite-500">{pallet.jobNumber}</span>
+          <span className="mt-0.5 block truncate text-caption text-graphite-500">{pallet.jobNumber}</span>
         ) : null}
       </div>
     )
@@ -58,7 +62,9 @@ export function PalletIdentity({
 
   return (
     <span className={cn('inline-flex min-w-0 items-center gap-2', className)}>
-      <span className="font-mono text-mono text-graphite-900">{pallet.palletNumber}</span>
+      <span className="inline-flex items-center rounded-md border border-graphite-200/80 bg-graphite-100/70 px-2 py-0.5 font-mono text-mono font-semibold text-graphite-900 shadow-xs">
+        {pallet.palletNumber}
+      </span>
       {pallet.jobNumber ? (
         <span className="truncate text-caption text-graphite-500">{pallet.jobNumber}</span>
       ) : null}

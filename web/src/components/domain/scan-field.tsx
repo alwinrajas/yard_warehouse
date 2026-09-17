@@ -77,15 +77,15 @@ export function ScanField({
   return (
     <div
       className={cn(
-        'flex flex-col gap-2.5 rounded-xl border-2 border-dashed p-4',
-        'transition-colors duration-fast ease-standard',
+        'flex flex-col gap-3 rounded-2xl border-2 border-dashed p-5',
+        'transition-all duration-fast ease-standard',
         error
           ? 'border-signal-danger-border bg-signal-danger-surface/40'
-          : 'border-graphite-200 bg-surface-sunken/60 focus-within:border-anodic-300 focus-within:bg-graphite-0',
+          : 'border-graphite-300/80 bg-graphite-50/70 focus-within:border-anodic-400 focus-within:bg-graphite-0 focus-within:ring-4 focus-within:ring-anodic-50',
       )}
     >
-      <label className="flex items-center gap-2 text-label text-graphite-700">
-        <ScanLine className="size-4 text-anodic-500" aria-hidden />
+      <label className="flex items-center gap-2 text-label font-semibold text-graphite-800">
+        <ScanLine className="size-4 text-anodic-600" aria-hidden />
         {label}
       </label>
       <div className="flex items-center gap-2">

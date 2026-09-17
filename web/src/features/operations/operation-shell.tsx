@@ -56,10 +56,10 @@ export function OperationShell({
 
       <div className={cn('grid gap-4', aside && 'lg:grid-cols-[1fr_20rem]')}>
         <Panel padded={false} className="overflow-hidden shadow-card">
-          <div className="border-b border-graphite-200 bg-surface-sunken px-5 py-3.5">
+          <div className="border-b border-graphite-200/80 bg-graphite-50/90 px-6 py-4">
             <ProgressSteps steps={steps} current={current} />
           </div>
-          <div className="p-5">{children}</div>
+          <div className="p-6">{children}</div>
         </Panel>
 
         {aside ? <div className="flex flex-col gap-4">{aside}</div> : null}

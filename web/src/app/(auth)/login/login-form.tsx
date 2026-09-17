@@ -52,7 +52,6 @@ export function LoginForm() {
         return
       }
       router.replace(next && next.startsWith('/') ? next : channel === 'PDA' ? '/pda' : '/dashboard')
-      router.refresh()
     } catch (caught) {
       const apiError =
         caught instanceof ApiError

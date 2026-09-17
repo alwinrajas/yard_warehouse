@@ -67,8 +67,17 @@
   --color-chart-5: #3E9BE8;
   --color-chart-6: #647183;
 
+  /* --- accent colors (docs/21) --- */
+  --color-accent-blue: #2563EB;
+  --color-accent-cyan: #0EA5E9;
+  --color-accent-emerald: #10B981;
+  --color-accent-amber: #F59E0B;
+  --color-accent-orange: #F97316;
+  --color-accent-coral: #EF4444;
+  --color-accent-violet: #8B5CF6;
+
   /* --- surfaces --- */
-  --color-surface-canvas: #F4F6FA;
+  --color-surface-canvas: #F6F8FC;
   --color-surface-raised: #FFFFFF;
   --color-surface-sunken: #EDF1F7;
   --color-surface-rail: #FBFCFE;
@@ -138,53 +147,53 @@
   /* --- typography --- */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
-  --text-display: 1.875rem;
-  --text-display--line-height: 2.375rem;
-  --text-display--font-weight: 600;
-  --text-display--letter-spacing: -0.02em;
+  --text-display: 2rem;
+  --text-display--line-height: 2.5rem;
+  --text-display--font-weight: 700;
+  --text-display--letter-spacing: -0.025em;
   --text-h1: 1.5rem;
   --text-h1--line-height: 2rem;
-  --text-h1--font-weight: 600;
-  --text-h1--letter-spacing: -0.015em;
-  --text-h2: 1.125rem;
-  --text-h2--line-height: 1.625rem;
+  --text-h1--font-weight: 700;
+  --text-h1--letter-spacing: -0.02em;
+  --text-h2: 1.25rem;
+  --text-h2--line-height: 1.75rem;
   --text-h2--font-weight: 600;
-  --text-h2--letter-spacing: -0.01em;
-  --text-h3: 0.9375rem;
-  --text-h3--line-height: 1.375rem;
+  --text-h2--letter-spacing: -0.015em;
+  --text-h3: 1rem;
+  --text-h3--line-height: 1.5rem;
   --text-h3--font-weight: 600;
-  --text-h3--letter-spacing: 0;
+  --text-h3--letter-spacing: -0.01em;
   --text-body: 0.875rem;
-  --text-body--line-height: 1.25rem;
+  --text-body--line-height: 1.375rem;
   --text-body--font-weight: 400;
-  --text-body--letter-spacing: 0;
+  --text-body--letter-spacing: -0.005em;
   --text-body-sm: 0.8125rem;
-  --text-body-sm--line-height: 1.125rem;
+  --text-body-sm--line-height: 1.25rem;
   --text-body-sm--font-weight: 400;
   --text-body-sm--letter-spacing: 0;
   --text-label: 0.8125rem;
   --text-label--line-height: 1.125rem;
-  --text-label--font-weight: 500;
-  --text-label--letter-spacing: 0;
+  --text-label--font-weight: 600;
+  --text-label--letter-spacing: -0.005em;
   --text-caption: 0.75rem;
   --text-caption--line-height: 1rem;
   --text-caption--font-weight: 400;
   --text-caption--letter-spacing: 0;
   --text-overline: 0.6875rem;
   --text-overline--line-height: 0.875rem;
-  --text-overline--font-weight: 600;
-  --text-overline--letter-spacing: 0.06em;
+  --text-overline--font-weight: 700;
+  --text-overline--letter-spacing: 0.08em;
   --text-mono: 0.8125rem;
   --text-mono--line-height: 1.125rem;
-  --text-mono--font-weight: 500;
-  --text-mono--letter-spacing: -0.01em;
+  --text-mono--font-weight: 600;
+  --text-mono--letter-spacing: 0.02em;
   --text-mono-lg: 1rem;
   --text-mono-lg--line-height: 1.375rem;
   --text-mono-lg--font-weight: 600;
-  --text-mono-lg--letter-spacing: -0.01em;
-  --text-mono-xl: 1.75rem;
-  --text-mono-xl--line-height: 2.125rem;
-  --text-mono-xl--font-weight: 600;
+  --text-mono-lg--letter-spacing: 0;
+  --text-mono-xl: 1.875rem;
+  --text-mono-xl--line-height: 2.25rem;
+  --text-mono-xl--font-weight: 700;
   --text-mono-xl--letter-spacing: -0.02em;
 
   /* --- radius --- */
@@ -193,13 +202,17 @@
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
   --radius-2xl: 1rem;
+  --radius-3xl: 1.25rem;
 
   /* --- elevation: three levels only --- */
   --shadow-e1: 0 1px 2px rgba(16, 24, 40, 0.05);
   --shadow-e2: 0 4px 8px -2px rgba(16, 24, 40, 0.08), 0 2px 4px -2px rgba(16, 24, 40, 0.04);
   --shadow-e3: 0 12px 24px -6px rgba(16, 24, 40, 0.12);
   --shadow-e0: 0 0 0 1px rgba(16, 24, 40, 0.04);
-  --shadow-card: 0 1px 2px rgba(16, 24, 40, 0.04), 0 1px 3px rgba(16, 24, 40, 0.06);
+  --shadow-card: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 8px 24px -4px rgba(15, 23, 42, 0.06);
+  --shadow-card-hover: 0 4px 6px -1px rgba(15, 23, 42, 0.06), 0 16px 32px -6px rgba(15, 23, 42, 0.10);
+  --shadow-glow: 0 0 24px -2px rgba(37, 99, 235, 0.16);
+  --shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
 
   /* --- motion --- */
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);

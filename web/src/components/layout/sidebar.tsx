@@ -84,7 +84,7 @@ export function Sidebar({
           : { width: collapsed ? 'var(--layout-sidebar-rail)' : 'var(--layout-sidebar-expanded)' }
       }
       className={cn(
-        'flex min-h-0 flex-1 shrink-0 flex-col bg-surface-rail',
+        'flex h-full min-h-0 flex-1 shrink-0 flex-col bg-surface-rail',
         !forceExpanded && 'border-r border-graphite-200 transition-[width] duration-base ease-standard',
       )}
     >
@@ -144,7 +144,7 @@ export function Sidebar({
         })}
       </nav>
 
-      <footer className="border-t border-graphite-200 p-2.5">
+      <footer className="shrink-0 border-t border-graphite-200 p-2.5">
         <button
           type="button"
           hidden={forceExpanded}
@@ -199,10 +199,10 @@ function SidebarLink({
   const content = (
     <span
       className={cn(
-        'relative flex h-9 items-center gap-2.5 rounded-lg px-2.5',
-        'transition-colors duration-fast ease-standard',
+        'relative flex h-10 items-center gap-3 rounded-xl px-3',
+        'transition-all duration-fast ease-standard',
         active
-          ? 'bg-anodic-50 font-medium text-anodic-800 shadow-e0'
+          ? 'bg-anodic-50/90 font-semibold text-anodic-700 shadow-xs ring-1 ring-anodic-200/60'
           : item.available
             ? 'text-graphite-600 hover:bg-graphite-100/70 hover:text-graphite-900'
             : 'text-graphite-400',
@@ -214,12 +214,15 @@ function SidebarLink({
           aria-hidden
           className={cn(
             'absolute rounded-full bg-anodic-600',
-            collapsed ? 'inset-y-1.5 -left-1 w-1' : 'inset-y-1.5 left-0 w-[3px]',
+            collapsed ? 'inset-y-2.5 -left-1 w-1' : 'inset-y-2 left-0.5 w-[3.5px]',
           )}
         />
       ) : null}
       <Icon
-        className={cn('size-[1.125rem] shrink-0', active ? 'text-anodic-600' : 'text-graphite-400')}
+        className={cn(
+          'size-4 shrink-0 transition-colors',
+          active ? 'text-anodic-600' : 'text-graphite-400 group-hover:text-graphite-700',
+        )}
         aria-hidden
       />
       {!collapsed ? (
@@ -227,7 +230,7 @@ function SidebarLink({
           <span className="flex-1 truncate text-body-sm">{item.label}</span>
           {badge ? <CountBadge count={badge} /> : null}
           {!item.available ? (
-            <span className="text-caption text-graphite-300" aria-hidden>
+            <span className="rounded bg-graphite-100 px-1.5 py-0.5 text-caption text-graphite-400" aria-hidden>
               {item.increment}
             </span>
           ) : null}

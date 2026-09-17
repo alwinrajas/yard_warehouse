@@ -92,7 +92,7 @@ export function MasterPage<T>({
         actions={primaryAction}
       />
 
-      <Panel padded={false} className="overflow-hidden">
+      <Panel padded={false} className="overflow-hidden shadow-card">
         <div className="flex flex-col gap-3 p-4">
           <DataTableToolbar
             searchValue={search}

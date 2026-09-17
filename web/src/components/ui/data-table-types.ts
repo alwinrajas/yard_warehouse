@@ -59,4 +59,6 @@ export type DataTableProps<T> = {
   selectedRowId?: string | null
   rowActions?: (row: T) => ReactNode
   caption?: string
+  embedded?: boolean
+  className?: string
 }

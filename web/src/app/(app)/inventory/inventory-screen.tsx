@@ -27,6 +27,7 @@ import {
 import { useFacilityLookup, useZoneLookup } from '@/features/masters/use-lookups'
 import { useApiList } from '@/features/shared/use-api'
 import { statusKeyOf, type InventoryRow } from '@/lib/api/inventory-types'
+import { cn } from '@/lib/cn'
 import { formatDateTime, formatNumber } from '@/lib/format'
 import { usePermission } from '@/lib/permissions/session'
 
@@ -112,8 +113,68 @@ export function InventoryScreen() {
         }
       />
 
-      <Panel className="shadow-card">
-        <div className="flex flex-col gap-3">
+      <Panel padded={false} className="overflow-hidden shadow-card">
+        <div className="flex flex-col gap-3 p-4">
+          <div className="flex flex-wrap items-center gap-1.5 pb-3 border-b border-graphite-100">
+            <span className="text-overline uppercase tracking-wider text-graphite-400 font-semibold mr-1.5">
+              Quick Filter:
+            </span>
+            {[
+              {
+                label: 'All Stock',
+                active: !list.filters['status'] && !list.filters['ageing'],
+                onClick: () => {
+                  list.setFilter('status', null)
+                  list.setFilter('ageing', null)
+                },
+              },
+              {
+                label: 'Stored in Yard',
+                active: list.filters['status'] === 'STORED',
+                onClick: () => {
+                  list.setFilter('status', 'STORED')
+                  list.setFilter('ageing', null)
+                },
+              },
+              {
+                label: 'Staged for Dispatch',
+                active: list.filters['status'] === 'STAGED_FOR_DISPATCH',
+                onClick: () => {
+                  list.setFilter('status', 'STAGED_FOR_DISPATCH')
+                  list.setFilter('ageing', null)
+                },
+              },
+              {
+                label: 'On Hold',
+                active: list.filters['status'] === 'ON_HOLD',
+                onClick: () => {
+                  list.setFilter('status', 'ON_HOLD')
+                  list.setFilter('ageing', null)
+                },
+              },
+              {
+                label: 'Critical Ageing (>30d)',
+                active: list.filters['ageing'] === 'critical',
+                onClick: () => {
+                  list.setFilter('ageing', 'critical')
+                },
+              },
+            ].map((preset) => (
+              <button
+                key={preset.label}
+                type="button"
+                onClick={preset.onClick}
+                className={cn(
+                  'rounded-lg px-2.5 py-1 text-caption font-medium transition-all duration-fast',
+                  preset.active
+                    ? 'bg-anodic-50 text-anodic-700 font-semibold shadow-xs ring-1 ring-anodic-200'
+                    : 'bg-graphite-50 text-graphite-600 hover:bg-graphite-100 hover:text-graphite-900',
+                )}
+              >
+                {preset.label}
+              </button>
+            ))}
+          </div>
           <DataTableToolbar
             searchValue={list.search}
             onSearchChange={list.setSearch}
@@ -185,10 +246,9 @@ export function InventoryScreen() {
             />
           </FilterBar>
         </div>
-      </Panel>
 
-      <Panel padded={false} className="overflow-hidden shadow-card">
         <DataTable
+          embedded={true}
           dataset="inventory"
           columns={columns}
           rows={list.rows}

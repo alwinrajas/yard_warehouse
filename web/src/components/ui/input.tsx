@@ -26,12 +26,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   return (
     <div
       className={cn(
-        'flex h-9 items-center gap-2 rounded-md border bg-graphite-0 px-2.5',
-        'transition-colors duration-fast ease-standard',
-        'focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-anodic-400',
+        'flex h-9.5 items-center gap-2.5 rounded-xl border bg-graphite-0 px-3',
+        'shadow-xs transition-all duration-fast ease-standard',
+        'focus-within:border-anodic-400 focus-within:ring-2 focus-within:ring-anodic-100',
         hasError
-          ? 'border-signal-danger-border'
-          : 'border-graphite-300 hover:border-graphite-400',
+          ? 'border-signal-danger-border ring-2 ring-signal-danger-surface'
+          : 'border-graphite-200/90 hover:border-graphite-300',
         disabled && 'cursor-not-allowed bg-graphite-100 opacity-70',
         className,
       )}

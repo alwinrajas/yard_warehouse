@@ -139,23 +139,25 @@ export function MastersIndex() {
         if (visible.length === 0) return null
 
         return (
-          <Panel key={section.title}>
-            <h2 className="text-h3 text-graphite-800">{section.title}</h2>
+          <Panel key={section.title} className="shadow-card">
+            <h2 className="text-h3 font-semibold text-graphite-900">{section.title}</h2>
             <p className="mt-1 text-body-sm text-graphite-500">{section.hint}</p>
 
-            <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+            <ul className="mt-4 grid gap-3.5 sm:grid-cols-2">
               {visible.map((entry) => (
                 <li key={entry.href}>
                   <Link
                     href={entry.href}
-                    className="flex h-full gap-3 rounded-md border border-graphite-200 p-3 transition-colors hover:border-anodic-400 hover:bg-anodic-50"
+                    className="group flex h-full items-start gap-3.5 rounded-xl border border-graphite-200/90 bg-graphite-0 p-4 shadow-xs transition-all duration-fast hover:border-anodic-300 hover:bg-anodic-50/40 hover:shadow-card"
                   >
-                    <entry.icon className="mt-0.5 size-5 shrink-0 text-anodic-600" aria-hidden />
-                    <span className="min-w-0">
-                      <span className="block text-body-sm font-medium text-graphite-900">
+                    <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-anodic-50 text-anodic-600 transition-colors group-hover:bg-anodic-600 group-hover:text-graphite-0">
+                      <entry.icon className="size-5" aria-hidden />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-body font-semibold text-graphite-900 transition-colors group-hover:text-anodic-700">
                         {entry.label}
                       </span>
-                      <span className="block text-caption text-graphite-500">{entry.description}</span>
+                      <span className="mt-0.5 block text-caption text-graphite-500 leading-relaxed">{entry.description}</span>
                     </span>
                   </Link>
                 </li>

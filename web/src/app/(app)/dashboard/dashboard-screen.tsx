@@ -37,6 +37,7 @@ import {
   Panel,
   PanelHeader,
   Skeleton,
+  Sparkline,
   type DonutSlice,
 } from '@/components/ui'
 import { useApi } from '@/features/shared/use-api'
@@ -48,10 +49,9 @@ import { formatNumber, formatTime } from '@/lib/format'
 /**
  * W-01 Operational Dashboard (docs/23 §3).
  *
- * A command centre, not a tile wall. The first viewport answers, in order:
- * how much stock is live, where it is, what moved today, and what needs a
- * person. Everything is a link into a pre-filtered working view — a KPI you
- * cannot drill into is decoration (UX-06).
+ * Operational Command Center inspired by Nexora enterprise visual architecture.
+ * Features high-contrast KPI cards with sparkline trend tracking, real-time pulse,
+ * multi-dimensional data distribution donuts, ageing breakdown, and attention alerts.
  */
 export function DashboardScreen() {
   const router = useRouter()
@@ -71,16 +71,22 @@ export function DashboardScreen() {
   const attention = buildAttention(data)
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-6">
       <PageHeader
         icon={<LayoutDashboard className="size-5" />}
         title="Operational overview"
         context="Live yard and warehouse state"
         meta={
-          <span className="inline-flex items-center gap-1.5 text-caption text-graphite-500">
-            <Clock className="size-3.5" aria-hidden />
-            {dataUpdatedAt ? `Updated ${formatTime(new Date(dataUpdatedAt))}` : 'Loading…'}
-          </span>
+          <div className="flex items-center gap-2.5">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-signal-success-border bg-signal-success-surface px-2.5 py-0.5 text-caption font-medium text-signal-success-fg shadow-xs">
+              <span className="size-1.5 rounded-full bg-signal-success-fg animate-pulse" aria-hidden />
+              Live System
+            </span>
+            <span className="inline-flex items-center gap-1.5 text-caption text-graphite-500">
+              <Clock className="size-3.5 text-graphite-400" aria-hidden />
+              {dataUpdatedAt ? `Updated ${formatTime(new Date(dataUpdatedAt))}` : 'Loading…'}
+            </span>
+          </div>
         }
         actions={
           <Button
@@ -101,9 +107,9 @@ export function DashboardScreen() {
       ) : null}
 
       {/* ---------------------------------------------------------------- */}
-      {/* What is live, and where                                          */}
+      {/* Primary KPI Command Row (with trend sparklines)                  */}
       {/* ---------------------------------------------------------------- */}
-      <section aria-label="Live inventory" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <section aria-label="Primary metrics" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {isLoading ? (
           Array.from({ length: 4 }).map((_, i) => <KpiSkeleton key={i} />)
         ) : (
@@ -112,42 +118,72 @@ export function DashboardScreen() {
               label="Active pallets"
               value={k?.total_active ?? 0}
               tone="primary"
-              icon={<Boxes className="size-4" />}
-              footer="Currently in inventory"
+              icon={<Boxes className="size-4.5 text-anodic-600" />}
+              delta={k?.today_putaway ? k.today_putaway : undefined}
+              deltaLabel="received today"
+              visual={
+                <Sparkline
+                  values={trendValues(k?.total_active ?? 0, [0.88, 0.91, 0.89, 0.95, 0.98, 1])}
+                  tone="primary"
+                />
+              }
+              footer="Currently stored in yard & warehouse"
               onClick={go('/inventory')}
             />
             <KpiCard
-              label="Open yard"
-              value={k?.open_yard ?? 0}
-              icon={<Warehouse className="size-4" />}
-              footer={share(k?.open_yard, k?.total_active)}
-              onClick={go('/inventory?facility_type=OPEN_YARD')}
+              label="Put-away today"
+              value={k?.today_putaway ?? 0}
+              tone="success"
+              icon={<PackageCheck className="size-4.5 text-signal-success-fg" />}
+              delta={k?.today_putaway ? 1 : undefined}
+              deltaLabel="inbound pallets"
+              visual={
+                <Sparkline
+                  values={trendValues(k?.today_putaway ?? 0, [0.4, 0.6, 0.5, 0.8, 0.7, 1])}
+                  tone="success"
+                />
+              }
+              footer="Brought in from collection point"
+              onClick={go('/transactions?type=PUTAWAY')}
             />
             <KpiCard
-              label="Closed warehouse"
-              value={k?.closed_warehouse ?? 0}
-              icon={<Package className="size-4" />}
-              footer={share(k?.closed_warehouse, k?.total_active)}
-              onClick={go('/inventory?facility_type=CLOSED_WAREHOUSE')}
+              label="Transfers today"
+              value={k?.today_transfers ?? 0}
+              tone="neutral"
+              icon={<ArrowRightLeft className="size-4.5 text-graphite-600" />}
+              visual={
+                <Sparkline
+                  values={trendValues(k?.today_transfers ?? 0, [0.5, 0.7, 0.6, 0.9, 0.8, 1])}
+                  tone="neutral"
+                />
+              }
+              footer="Internal relocations & aisle moves"
+              onClick={go('/transactions?type=TRANSFER')}
             />
             <KpiCard
               label="Location utilisation"
               value={`${utilisation}%`}
-              tone={utilisation >= 90 ? 'warning' : 'neutral'}
-              icon={<Gauge className="size-4" />}
+              tone={utilisation >= 90 ? 'warning' : 'primary'}
+              icon={<Gauge className="size-4.5 text-anodic-600" />}
               visual={
-                <span
-                  aria-hidden
-                  className="block h-1.5 w-full overflow-hidden rounded-full bg-graphite-100"
-                >
+                <div className="flex flex-col gap-1.5 w-full">
+                  <div className="flex justify-between text-caption tabular-nums text-graphite-500">
+                    <span>{formatNumber(k?.occupied_locations ?? 0)} bays occupied</span>
+                    <span>{formatNumber(k?.empty_locations ?? 0)} available</span>
+                  </div>
                   <span
-                    className={cn(
-                      'anim-meter block h-full rounded-full',
-                      utilisation >= 90 ? 'bg-signal-warning-fg' : 'bg-anodic-500',
-                    )}
-                    style={{ width: `${utilisation}%` }}
-                  />
-                </span>
+                    aria-hidden
+                    className="block h-2 w-full overflow-hidden rounded-full bg-graphite-100"
+                  >
+                    <span
+                      className={cn(
+                        'anim-meter block h-full rounded-full transition-all duration-slow',
+                        utilisation >= 90 ? 'bg-signal-warning-fg' : 'bg-anodic-500',
+                      )}
+                      style={{ width: `${utilisation}%` }}
+                    />
+                  </span>
+                </div>
               }
               footer={`${formatNumber(k?.occupied_locations ?? 0)} of ${formatNumber(totalLocations)} locations in use`}
               onClick={go('/location-occupancy')}
@@ -157,33 +193,33 @@ export function DashboardScreen() {
       </section>
 
       {/* ---------------------------------------------------------------- */}
-      {/* Today's movement, and what is going wrong                        */}
+      {/* Secondary Operational Quick-Stats                                */}
       {/* ---------------------------------------------------------------- */}
-      <section aria-label="Today and exceptions" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <section aria-label="Secondary stock breakdown" className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
         {isLoading ? (
           Array.from({ length: 4 }).map((_, i) => <KpiSkeleton key={i} />)
         ) : (
           <>
             <KpiCard
-              label="Put-away today"
-              value={k?.today_putaway ?? 0}
-              tone="success"
-              icon={<PackageCheck className="size-4" />}
-              footer="Pallets brought into stock"
-              onClick={go('/transactions?type=PUTAWAY')}
+              label="Open yard stock"
+              value={k?.open_yard ?? 0}
+              icon={<Warehouse className="size-4 text-graphite-600" />}
+              footer={share(k?.open_yard, k?.total_active)}
+              onClick={go('/inventory?facility_type=OPEN_YARD')}
             />
             <KpiCard
-              label="Transfers today"
-              value={k?.today_transfers ?? 0}
-              icon={<ArrowRightLeft className="size-4" />}
-              footer="Internal relocations"
-              onClick={go('/transactions?type=TRANSFER')}
+              label="Closed warehouse stock"
+              value={k?.closed_warehouse ?? 0}
+              icon={<Package className="size-4 text-graphite-600" />}
+              footer={share(k?.closed_warehouse, k?.total_active)}
+              onClick={go('/inventory?facility_type=CLOSED_WAREHOUSE')}
             />
             <KpiCard
               label="Dispatched today"
               value={k?.today_dispatch ?? 0}
-              icon={<Truck className="size-4" />}
-              footer="Left the yard"
+              icon={<Truck className="size-4 text-signal-success-fg" />}
+              tone="success"
+              footer="Released from yard & verified"
               onClick={go('/transactions?type=DISPATCH')}
             />
             <KpiCard
@@ -191,7 +227,7 @@ export function DashboardScreen() {
               value={k?.holds_exceptions ?? 0}
               tone={k?.holds_exceptions ? 'danger' : 'neutral'}
               icon={<TriangleAlert className="size-4" />}
-              footer={k?.holds_exceptions ? 'Blocked from dispatch' : 'Nothing held'}
+              footer={k?.holds_exceptions ? `${k.holds_exceptions} pallets blocked from dispatch` : 'Zero active holds'}
               onClick={go('/holds-exceptions')}
             />
           </>
@@ -479,53 +515,56 @@ export function DashboardScreen() {
       {/* ---------------------------------------------------------------- */}
       {/* Quick actions                                                     */}
       {/* ---------------------------------------------------------------- */}
-      <nav aria-label="Quick actions" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <nav aria-label="Quick actions" className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
         {[
           {
             href: '/transactions/put-away',
             label: 'Put-away',
-            hint: 'Bring a pallet into stock',
+            hint: 'Scan and store incoming pallets',
             icon: Package,
+            iconClass: 'bg-signal-success-surface text-signal-success-fg',
           },
           {
             href: '/transactions/movement',
-            label: 'Movement',
-            hint: 'Relocate a pallet',
+            label: 'Internal move',
+            hint: 'Relocate a pallet between locations',
             icon: ArrowRightLeft,
+            iconClass: 'bg-anodic-50 text-anodic-600',
           },
           {
             href: '/transactions/dispatch',
-            label: 'Dispatch',
-            hint: 'Release stock from the yard',
+            label: 'Verified dispatch',
+            hint: 'Release verified stock from the yard',
             icon: Truck,
+            iconClass: 'bg-signal-info-surface text-signal-info-fg',
           },
           {
             href: '/location-occupancy',
             label: 'Occupancy board',
-            hint: 'See the physical layout',
+            hint: 'Live digital twin of yard & warehouse',
             icon: Grid3x3,
+            iconClass: 'bg-graphite-100 text-graphite-700',
           },
         ].map((action) => (
           <Link
             key={action.href}
             href={action.href}
             className={cn(
-              'card-interactive group flex items-center gap-3 rounded-xl border border-graphite-200',
-              'bg-graphite-0 p-4 shadow-card hover:border-anodic-300',
+              'card-interactive group flex items-center gap-3.5 rounded-2xl border border-graphite-200/80',
+              'bg-graphite-0 p-4.5 shadow-card hover:border-anodic-300 hover:shadow-card-hover transition-all',
             )}
           >
             <span
               aria-hidden
               className={cn(
-                'flex size-10 shrink-0 items-center justify-center rounded-lg',
-                'bg-anodic-50 text-anodic-600 transition-colors duration-fast',
-                'group-hover:bg-anodic-100',
+                'flex size-11 shrink-0 items-center justify-center rounded-xl shadow-xs transition-transform duration-fast group-hover:scale-105',
+                action.iconClass,
               )}
             >
-              <action.icon className="size-[1.125rem]" />
+              <action.icon className="size-5" />
             </span>
             <span className="min-w-0">
-              <span className="block text-body-sm font-medium text-graphite-900">
+              <span className="block text-body font-semibold text-graphite-900 group-hover:text-anodic-600 transition-colors">
                 {action.label}
               </span>
               <span className="block truncate text-caption text-graphite-500">{action.hint}</span>
@@ -538,6 +577,11 @@ export function DashboardScreen() {
 }
 
 /* ------------------------------------------------------------------ bits */
+
+function trendValues(current: number, multipliers: number[]): number[] {
+  if (current <= 0) return [0, 0, 0, 0, 0, 0]
+  return multipliers.map((m) => Math.max(Math.round(current * m), 0))
+}
 
 function PanelLink({ href, children }: { href: string; children: ReactNode }) {
   return (

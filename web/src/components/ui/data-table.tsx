@@ -45,6 +45,8 @@ export function DataTable<T>({
   selectedRowId,
   rowActions,
   caption,
+  embedded = true,
+  className,
 }: DataTableProps<T>) {
   // Dev-time guard: a sortable column without a covering index is a defect
   // that only shows up once the yard is full (docs/26 §9).
@@ -56,7 +58,13 @@ export function DataTable<T>({
 
   if (loading) {
     return (
-      <div className="overflow-hidden rounded-lg border border-graphite-200 bg-graphite-0">
+      <div
+        className={cn(
+          'overflow-hidden bg-graphite-0',
+          embedded ? 'border-t border-graphite-200/80' : 'rounded-2xl border border-graphite-200/80 shadow-card',
+          className,
+        )}
+      >
         <TableSkeleton columns={skeletonWidths(columns)} />
       </div>
     )
@@ -64,7 +72,13 @@ export function DataTable<T>({
 
   if (error) {
     return (
-      <div className="rounded-lg border border-graphite-200 bg-graphite-0">
+      <div
+        className={cn(
+          'bg-graphite-0',
+          embedded ? 'border-t border-graphite-200/80' : 'rounded-2xl border border-graphite-200/80 shadow-card',
+          className,
+        )}
+      >
         <EmptyState
           variant="error"
           title="Could not load this data"
@@ -85,7 +99,13 @@ export function DataTable<T>({
 
   if (rows.length === 0) {
     return (
-      <div className="rounded-lg border border-graphite-200 bg-graphite-0">
+      <div
+        className={cn(
+          'bg-graphite-0',
+          embedded ? 'border-t border-graphite-200/80' : 'rounded-2xl border border-graphite-200/80 shadow-card',
+          className,
+        )}
+      >
         {emptyState ?? <EmptyState variant="no-results" title="No records found" />}
       </div>
     )
@@ -100,12 +120,18 @@ export function DataTable<T>({
   }
 
   return (
-    <div className="overflow-hidden rounded-lg border border-graphite-200 bg-graphite-0">
+    <div
+      className={cn(
+        'overflow-hidden bg-graphite-0',
+        embedded ? 'border-t border-graphite-200/80' : 'rounded-2xl border border-graphite-200/80 shadow-card',
+        className,
+      )}
+    >
       <div className="overflow-x-auto">
         <table className="w-full border-collapse text-body-sm">
           {caption ? <caption className="sr-only">{caption}</caption> : null}
-          <thead className="sticky top-0 z-10 bg-graphite-50">
-            <tr className="border-b border-graphite-200">
+          <thead className="sticky top-0 z-10 bg-graphite-50/90 backdrop-blur-xs">
+            <tr className="border-b border-graphite-200/80">
               {columns.map((column) => {
                 const key = column.sortKey ?? column.id
                 const active = sort?.key === key
@@ -123,7 +149,7 @@ export function DataTable<T>({
                     aria-sort={ariaSort}
                     style={column.width ? { width: column.width } : undefined}
                     className={cn(
-                      'px-4 py-2.5 text-overline uppercase text-graphite-500',
+                      'px-4 py-3 text-overline uppercase tracking-wider text-graphite-500 font-semibold',
                       column.align === 'right' ? 'text-right' : 'text-left',
                       PRIORITY_CLASS[column.priority],
                     )}
@@ -133,20 +159,20 @@ export function DataTable<T>({
                         type="button"
                         onClick={() => toggleSort(column)}
                         className={cn(
-                          'inline-flex items-center gap-1 rounded-sm uppercase',
-                          'hover:text-graphite-800',
-                          active && 'text-anodic-700',
+                          'inline-flex items-center gap-1 rounded-sm uppercase font-semibold',
+                          'hover:text-graphite-800 transition-colors',
+                          active ? 'text-anodic-700 font-bold' : 'text-graphite-500',
                         )}
                       >
                         {column.header}
                         {active ? (
                           sort.direction === 'asc' ? (
-                            <ArrowUp className="size-3" aria-hidden />
+                            <ArrowUp className="size-3 text-anodic-600" aria-hidden />
                           ) : (
-                            <ArrowDown className="size-3" aria-hidden />
+                            <ArrowDown className="size-3 text-anodic-600" aria-hidden />
                           )
                         ) : (
-                          <ArrowUpDown className="size-3 opacity-40" aria-hidden />
+                          <ArrowUpDown className="size-3 opacity-35" aria-hidden />
                         )}
                       </button>
                     ) : (

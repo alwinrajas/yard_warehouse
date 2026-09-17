@@ -139,10 +139,10 @@ export function Timeline({ events }: { events: TransactionRow[] }) {
             <div className={cn('min-w-0 flex-1', last ? 'pb-0' : 'pb-5')}>
               <div
                 className={cn(
-                  'rounded-lg border p-3',
+                  'rounded-xl border p-3.5 shadow-xs transition-all duration-fast',
                   isCorrection
                     ? 'border-signal-warning-border bg-signal-warning-surface/50'
-                    : 'border-graphite-200 bg-graphite-0',
+                    : 'border-graphite-200/90 bg-graphite-0 hover:border-anodic-300 hover:shadow-card',
                 )}
               >
                 <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">

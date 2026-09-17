@@ -232,22 +232,22 @@ export function ReportViewer({ slug }: { slug: string }) {
             <div className="overflow-x-auto">
               <table className="w-full text-body-sm">
                 <caption className="sr-only">{def?.title}</caption>
-                <thead className="sticky top-0 bg-graphite-50">
-                  <tr className="border-b border-graphite-200">
+                <thead className="sticky top-0 bg-graphite-50/90 backdrop-blur-xs">
+                  <tr className="border-b border-graphite-200/80">
                     {columns.map((column) => (
                       <th
                         key={column}
                         scope="col"
-                        className="whitespace-nowrap px-4 py-2.5 text-left text-overline uppercase text-graphite-500"
+                        className="whitespace-nowrap px-4 py-3 text-left text-overline uppercase tracking-wider text-graphite-500 font-medium"
                       >
                         {column.replace(/_/g, ' ')}
                       </th>
                     ))}
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-graphite-200/80">
                   {rows.map((row, index) => (
-                    <tr key={index} className="border-b border-graphite-200 hover:bg-graphite-25">
+                    <tr key={index} className="transition-colors duration-fast hover:bg-anodic-50/30">
                       {columns.map((column) => {
                         const value = row[column]
                         const isDate = /_at$|^date$/.test(column) && typeof value === 'string'

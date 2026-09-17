@@ -81,39 +81,38 @@ export function KpiCard({
     <Wrapper
       {...(interactive ? { type: 'button' as const, onClick } : {})}
       className={cn(
-        'group relative flex w-full flex-col items-start overflow-hidden rounded-xl border bg-graphite-0',
-        'p-4 text-left shadow-card',
+        'group relative flex w-full flex-col items-start overflow-hidden rounded-2xl border bg-graphite-0',
+        'p-5 text-left shadow-card transition-all duration-fast ease-standard',
         palette.border,
-        interactive && 'card-interactive hover:border-anodic-300',
+        interactive && 'card-interactive hover:border-anodic-300 hover:shadow-card-hover',
         interactive &&
           'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-anodic-400',
         className,
       )}
     >
-      {/* A 2px accent along the top edge: enough to group and to signal tone,
-          not enough to compete with the number. */}
-      <span aria-hidden className={cn('absolute inset-x-0 top-0 h-0.5', palette.accent)} />
+      {/* 3px gradient accent along the top edge */}
+      <span aria-hidden className={cn('absolute inset-x-0 top-0 h-[3px]', palette.accent)} />
 
-      <span className="flex w-full items-start justify-between gap-3">
-        <span className="text-overline uppercase tracking-wide text-graphite-500">{label}</span>
+      <span className="flex w-full items-center justify-between gap-3">
+        <span className="text-overline uppercase tracking-wider text-graphite-500 font-medium">{label}</span>
         {icon ? (
           <span
             aria-hidden
-            className={cn('flex size-8 shrink-0 items-center justify-center rounded-lg', palette.icon)}
+            className={cn('flex size-9 shrink-0 items-center justify-center rounded-xl shadow-xs transition-transform duration-fast ease-standard group-hover:scale-105', palette.icon)}
           >
             {icon}
           </span>
         ) : null}
       </span>
 
-      <span className="mt-2.5 flex w-full items-baseline gap-2">
-        <span className="text-display leading-none tabular-nums text-graphite-900">
+      <span className="mt-3 flex w-full items-baseline gap-2">
+        <span className="text-display font-semibold leading-none tracking-tight tabular-nums text-graphite-900">
           {typeof value === 'number' ? formatNumber(value) : value}
         </span>
         {delta !== undefined && delta !== 0 ? (
           <span
             className={cn(
-              'inline-flex items-center gap-0.5 rounded-full px-1.5 py-0.5 text-caption tabular-nums',
+              'inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-caption font-medium tabular-nums',
               delta > 0
                 ? 'bg-signal-success-surface text-signal-success-fg'
                 : 'bg-surface-sunken text-graphite-600',
@@ -133,17 +132,17 @@ export function KpiCard({
             aria-hidden
             className={cn(
               'ml-auto size-4 shrink-0 self-center text-graphite-300',
-              'transition-transform duration-fast ease-standard group-hover:translate-x-0.5',
-              'group-hover:text-anodic-500',
+              'transition-transform duration-fast ease-standard group-hover:translate-x-1',
+              'group-hover:text-anodic-600',
             )}
           />
         ) : null}
       </span>
 
-      {visual ? <span className="mt-2 block w-full">{visual}</span> : null}
+      {visual ? <span className="mt-3 block w-full">{visual}</span> : null}
 
       {footer ? (
-        <span className="mt-1.5 block w-full text-caption text-graphite-500">{footer}</span>
+        <span className="mt-2 block w-full text-caption text-graphite-500">{footer}</span>
       ) : null}
     </Wrapper>
   )

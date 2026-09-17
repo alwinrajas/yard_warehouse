@@ -70,6 +70,14 @@ function generateCss() {
     push(`  --color-chart-${key}: ${hex};`)
   }
 
+  if (tokens.color.accent) {
+    push('')
+    push('  /* --- accent colors (docs/21) --- */')
+    for (const [key, hex] of entries(tokens.color.accent)) {
+      push(`  --color-accent-${key}: ${hex};`)
+    }
+  }
+
   push('')
   push('  /* --- surfaces --- */')
   for (const [key, hex] of entries(tokens.color.surface)) {
