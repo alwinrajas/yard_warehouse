@@ -1,0 +1,203 @@
+/* GENERATED FILE - DO NOT EDIT.
+ * Source: design-tokens/tokens.json
+ * Regenerate: node design-tokens/generate.mjs
+ * Spec: docs/21-design-system.md
+ */
+
+@theme {
+  /* Wipe Tailwind's default palette, type scale and shadows so that ONLY
+     ALU TRACK tokens exist. `bg-red-500` and `text-xl` do not resolve —
+     an off-system colour is a build error, not a review comment. */
+  --color-*: initial;
+  --text-*: initial;
+  --shadow-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-inherit: inherit;
+
+  /* --- palette: graphite (cool neutral) --- */
+  --color-graphite-0: #FFFFFF;
+  --color-graphite-25: #FBFCFD;
+  --color-graphite-50: #F6F8FA;
+  --color-graphite-100: #EDF0F4;
+  --color-graphite-200: #DDE3EA;
+  --color-graphite-300: #C3CCD8;
+  --color-graphite-400: #9AA7B8;
+  --color-graphite-500: #647183;
+  --color-graphite-600: #536074;
+  --color-graphite-700: #3D4859;
+  --color-graphite-800: #2A3342;
+  --color-graphite-900: #1B2230;
+  --color-graphite-950: #11161F;
+
+  /* --- palette: anodic blue (the only brand colour) --- */
+  --color-anodic-50: #EEF4FB;
+  --color-anodic-100: #D8E6F6;
+  --color-anodic-200: #B3CDEC;
+  --color-anodic-300: #7FAADE;
+  --color-anodic-400: #4A84CB;
+  --color-anodic-500: #2A66B3;
+  --color-anodic-600: #1E5196;
+  --color-anodic-700: #184179;
+  --color-anodic-800: #143560;
+  --color-anodic-900: #112B4D;
+
+  /* --- semantic feedback --- */
+  --color-signal-success-fg: #15803D;
+  --color-signal-success-surface: #ECFDF3;
+  --color-signal-success-border: #ABEFC6;
+  --color-signal-warning-fg: #B45309;
+  --color-signal-warning-surface: #FFFAEB;
+  --color-signal-warning-border: #FEDF89;
+  --color-signal-danger-fg: #B42318;
+  --color-signal-danger-surface: #FEF3F2;
+  --color-signal-danger-border: #FECDCA;
+  --color-signal-info-fg: #1E5196;
+  --color-signal-info-surface: #EEF4FB;
+  --color-signal-info-border: #B3CDEC;
+  --color-signal-neutral-fg: #536074;
+  --color-signal-neutral-surface: #F6F8FA;
+  --color-signal-neutral-border: #DDE3EA;
+
+  /* --- semantic feedback on dark chrome (the PDA, docs/24 §3) --- */
+  --color-signal-dark-success-fg: #75E0A7;
+  --color-signal-dark-warning-fg: #FEC84B;
+  --color-signal-dark-danger-fg: #FDA29B;
+  --color-signal-dark-info-fg: #7FAADE;
+  --color-signal-dark-neutral-fg: #9AA7B8;
+  --color-signal-dark-success-surface: #074D31;
+  --color-signal-dark-warning-surface: #7A2E0E;
+  --color-signal-dark-danger-surface: #7A271A;
+
+  /* --- pallet status (docs/21 §2.4) --- */
+  --color-status-at-collection-fg: #536074;
+  --color-status-at-collection-surface: #EDF0F4;
+  --color-status-at-collection-border: #DDE3EA;
+  --color-status-at-collection-dot: #9AA7B8;
+  --color-status-stored-fg: #3D4859;
+  --color-status-stored-surface: #F6F8FA;
+  --color-status-stored-border: #DDE3EA;
+  --color-status-stored-dot: #647183;
+  --color-status-in-movement-fg: #B45309;
+  --color-status-in-movement-surface: #FFFAEB;
+  --color-status-in-movement-border: #FEDF89;
+  --color-status-in-movement-dot: #B45309;
+  --color-status-staged-fg: #0E7490;
+  --color-status-staged-surface: #ECFEFF;
+  --color-status-staged-border: #A5F0FC;
+  --color-status-staged-dot: #0E7490;
+  --color-status-dispatched-fg: #15803D;
+  --color-status-dispatched-surface: #ECFDF3;
+  --color-status-dispatched-border: #ABEFC6;
+  --color-status-dispatched-dot: #15803D;
+  --color-status-on-hold-fg: #C2410C;
+  --color-status-on-hold-surface: #FFF7ED;
+  --color-status-on-hold-border: #FED7AA;
+  --color-status-on-hold-dot: #C2410C;
+  --color-status-damaged-fg: #B42318;
+  --color-status-damaged-surface: #FEF3F2;
+  --color-status-damaged-border: #FECDCA;
+  --color-status-damaged-dot: #B42318;
+  --color-status-exception-fg: #B42318;
+  --color-status-exception-surface: #FEF3F2;
+  --color-status-exception-border: #FECDCA;
+  --color-status-exception-dot: #B42318;
+
+  /* --- location occupancy (docs/21 §2.5) --- */
+  --color-location-empty-fill: #FFFFFF;
+  --color-location-empty-border: #647183;
+  --color-location-occupied-fill: #EEF4FB;
+  --color-location-occupied-border: #4A84CB;
+  --color-location-full-fill: #D8E6F6;
+  --color-location-full-border: #1E5196;
+  --color-location-blocked-fill: #FFF7ED;
+  --color-location-blocked-border: #C2410C;
+  --color-location-inactive-fill: #EDF0F4;
+  --color-location-inactive-border: #647183;
+
+  /* --- ageing scale (docs/21 §2.6) --- */
+  --color-ageing-fresh: #647183;
+  --color-ageing-normal: #0E7490;
+  --color-ageing-attention: #B45309;
+  --color-ageing-critical: #B42318;
+
+  /* --- typography --- */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+  --text-display: 1.875rem;
+  --text-display--line-height: 2.375rem;
+  --text-display--font-weight: 600;
+  --text-display--letter-spacing: -0.02em;
+  --text-h1: 1.5rem;
+  --text-h1--line-height: 2rem;
+  --text-h1--font-weight: 600;
+  --text-h1--letter-spacing: -0.015em;
+  --text-h2: 1.125rem;
+  --text-h2--line-height: 1.625rem;
+  --text-h2--font-weight: 600;
+  --text-h2--letter-spacing: -0.01em;
+  --text-h3: 0.9375rem;
+  --text-h3--line-height: 1.375rem;
+  --text-h3--font-weight: 600;
+  --text-h3--letter-spacing: 0;
+  --text-body: 0.875rem;
+  --text-body--line-height: 1.25rem;
+  --text-body--font-weight: 400;
+  --text-body--letter-spacing: 0;
+  --text-body-sm: 0.8125rem;
+  --text-body-sm--line-height: 1.125rem;
+  --text-body-sm--font-weight: 400;
+  --text-body-sm--letter-spacing: 0;
+  --text-label: 0.8125rem;
+  --text-label--line-height: 1.125rem;
+  --text-label--font-weight: 500;
+  --text-label--letter-spacing: 0;
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1rem;
+  --text-caption--font-weight: 400;
+  --text-caption--letter-spacing: 0;
+  --text-overline: 0.6875rem;
+  --text-overline--line-height: 0.875rem;
+  --text-overline--font-weight: 600;
+  --text-overline--letter-spacing: 0.06em;
+  --text-mono: 0.8125rem;
+  --text-mono--line-height: 1.125rem;
+  --text-mono--font-weight: 500;
+  --text-mono--letter-spacing: -0.01em;
+  --text-mono-lg: 1rem;
+  --text-mono-lg--line-height: 1.375rem;
+  --text-mono-lg--font-weight: 600;
+  --text-mono-lg--letter-spacing: -0.01em;
+  --text-mono-xl: 1.75rem;
+  --text-mono-xl--line-height: 2.125rem;
+  --text-mono-xl--font-weight: 600;
+  --text-mono-xl--letter-spacing: -0.02em;
+
+  /* --- radius --- */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+
+  /* --- elevation: three levels only --- */
+  --shadow-e1: 0 1px 2px rgba(16, 24, 40, 0.05);
+  --shadow-e2: 0 4px 8px -2px rgba(16, 24, 40, 0.08), 0 2px 4px -2px rgba(16, 24, 40, 0.04);
+  --shadow-e3: 0 12px 24px -6px rgba(16, 24, 40, 0.12);
+
+  /* --- motion --- */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --duration-fast: 120ms;
+  --duration-base: 160ms;
+  --duration-slow: 220ms;
+
+  /* --- layout --- */
+  --layout-sidebar-expanded: 16.5rem;
+  --layout-sidebar-rail: 4rem;
+  --layout-topbar-height: 3.5rem;
+  --layout-content-max: 97.5rem;
+  --layout-drawer-md: 32.5rem;
+  --layout-drawer-lg: 35rem;
+  --layout-row-compact: 2rem;
+  --layout-row-default: 2.5rem;
+  --layout-row-comfortable: 3rem;
+}

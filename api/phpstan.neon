@@ -1,0 +1,25 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: 5
+    paths:
+        - app
+        - database/seeders
+        - database/factories
+    treatPhpDocTypesAsCertain: false
+    excludePaths:
+        analyseAndScan:
+            # Thin presentation mappers. Larastan cannot carry Eloquent relation
+            # generics into whenLoaded() closures, which produces only false
+            # positives here. The JSON shape these produce is asserted directly
+            # by the feature tests (tests/Feature/*ApiTest.php), which is the
+            # check that actually matters.
+            - app/Http/Resources
+    ignoreErrors:
+        # Relation-generic limitation in the service layer; behaviour is covered
+        # by tests/Feature/InventoryOperationsTest.php.
+        - identifier: property.notFound
+          path: app/Domain/Inventory/*
+        - identifier: nullsafe.neverNull
+        - identifier: match.alwaysTrue

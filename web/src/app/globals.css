@@ -1,0 +1,75 @@
+/* ALU TRACK global stylesheet.
+ *
+ * Import order matters:
+ *   1. Tailwind        - engine + preflight
+ *   2. tokens.generated - GENERATED @theme from design-tokens/tokens.json
+ *   3. base            - authored base layer
+ *
+ * No other stylesheet may define a colour. See docs/21-design-system.md.
+ */
+@import 'tailwindcss';
+@import '../styles/tokens.generated.css';
+@import '../styles/base.css';
+
+/* Radix data-state animations, expressed with motion tokens. */
+@layer components {
+  [data-state='open'] > .anim-fade,
+  .anim-fade[data-state='open'] {
+    animation: alu-fade-in var(--duration-base) var(--ease-standard);
+  }
+  [data-state='closed'] > .anim-fade,
+  .anim-fade[data-state='closed'] {
+    animation: alu-fade-out var(--duration-fast) var(--ease-standard);
+  }
+  .anim-slide-right[data-state='open'] {
+    animation: alu-slide-in-right var(--duration-slow) var(--ease-standard);
+  }
+  .anim-slide-right[data-state='closed'] {
+    animation: alu-slide-out-right var(--duration-base) var(--ease-standard);
+  }
+  .anim-slide-left[data-state='open'] {
+    animation: alu-slide-in-left var(--duration-slow) var(--ease-standard);
+  }
+  .anim-slide-left[data-state='closed'] {
+    animation: alu-slide-out-left var(--duration-base) var(--ease-standard);
+  }
+  .anim-scale[data-state='open'] {
+    animation: alu-scale-in var(--duration-base) var(--ease-standard);
+  }
+  .anim-scale[data-state='closed'] {
+    animation: alu-fade-out var(--duration-fast) var(--ease-standard);
+  }
+}
+
+@keyframes alu-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes alu-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+@keyframes alu-slide-in-right {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+@keyframes alu-slide-out-right {
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
+}
+@keyframes alu-slide-in-left {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+@keyframes alu-slide-out-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+@keyframes alu-scale-in {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes alu-pulse-once {
+  0% { background-color: var(--color-anodic-50); }
+  100% { background-color: transparent; }
+}

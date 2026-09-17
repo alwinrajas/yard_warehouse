@@ -1,0 +1,112 @@
+/* ALU TRACK base layer.
+ * Authored (not generated). Holds resets, focus behaviour, numeric defaults and
+ * the non-colour patterns required so occupancy state never depends on colour alone.
+ * Every value here resolves to a token from design-tokens/tokens.json.
+ */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-color: var(--color-graphite-200);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-graphite-50);
+    color: var(--color-graphite-900);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    font-feature-settings: 'cv05' 1, 'ss03' 1;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* UX-01: every identifier is monospaced with tabular, slashed-zero figures. */
+  .font-mono,
+  code,
+  kbd,
+  samp {
+    font-variant-numeric: tabular-nums slashed-zero;
+  }
+
+  /* Numeric columns must align; tabular figures are the default for all numbers. */
+  table,
+  [data-numeric] {
+    font-variant-numeric: tabular-nums;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    color: var(--color-graphite-800);
+  }
+
+  /* A visible focus ring on every interactive element, never removed (docs/21 §7). */
+  :focus-visible {
+    outline: 2px solid var(--color-anodic-400);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  ::placeholder {
+    color: var(--color-graphite-500);
+  }
+
+  ::selection {
+    background-color: var(--color-anodic-100);
+    color: var(--color-anodic-900);
+  }
+
+  /* Restrained scrollbars — this is an instrument, not a document viewer. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-graphite-300) transparent;
+  }
+}
+
+@layer utilities {
+  /* Non-colour differentiators for location occupancy (WCAG 1.4.1, docs/21 §2.5). */
+  .pattern-hatch {
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 3px,
+      color-mix(in srgb, currentColor 22%, transparent) 3px,
+      color-mix(in srgb, currentColor 22%, transparent) 5px
+    );
+  }
+
+  .pattern-dotted {
+    border-style: dotted;
+  }
+
+  /* Skip link — visible only when focused. */
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    z-index: 100;
+  }
+
+  .skip-link:focus {
+    left: var(--spacing-4, 1rem);
+    top: var(--spacing-4, 1rem);
+  }
+}
+
+/* Honour the user's motion preference everywhere, including Radix animations. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

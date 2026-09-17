@@ -1,0 +1,27 @@
+# Normalise line endings across the repository.
+#
+# Development happens on Windows and CI runs on Linux. Without this, files
+# committed with CRLF make CI's `git diff --exit-code` check on the generated
+# design tokens fail on line endings alone — a red build with no real defect
+# behind it.
+* text=auto eol=lf
+
+# Committed font subsets and icons are binary (docs/26 D-4).
+*.woff2 binary
+*.woff binary
+*.ico binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.docx binary
+
+# Lockfiles are generated: keep them out of diffs and out of language stats.
+package-lock.json -diff linguist-generated
+composer.lock -diff linguist-generated
+
+# Generated from design-tokens/tokens.json — never hand-edited (docs/26 D-3).
+web/src/styles/tokens.generated.css linguist-generated
+web/src/lib/design-tokens.generated.ts linguist-generated
+design-tokens/generated/** linguist-generated

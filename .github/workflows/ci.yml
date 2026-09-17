@@ -1,0 +1,174 @@
+name: CI
+
+# The production database is MySQL 8. Development happens on MariaDB 10.4
+# (docs/26 D-8), so CI is the only place the real engine is exercised — every
+# concurrency, locking, collation and date/time assumption is proven here or not
+# at all. Nothing in this file may fall back to MariaDB.
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Backend (MySQL ${{ matrix.mysql }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # 8.0 is the production target; 8.4 is the next LTS, run so an upgrade
+        # is not discovered to be blocked on the day it is needed.
+        mysql: ['8.0', '8.4']
+
+    services:
+      mysql:
+        image: mysql:${{ matrix.mysql }}
+        env:
+          MYSQL_ROOT_PASSWORD: alutrack_ci
+          MYSQL_DATABASE: alutrack_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -palutrack_ci"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+
+    env:
+      DB_CONNECTION: mysql
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_DATABASE: alutrack_test
+      DB_USERNAME: root
+      DB_PASSWORD: alutrack_ci
+      # Production collation. MariaDB 10.4 cannot use it, which is exactly why
+      # it is pinned here rather than left to the connection default.
+      DB_CHARSET: utf8mb4
+      DB_COLLATION: utf8mb4_0900_ai_ci
+      APP_TIMEZONE: UTC
+
+    defaults:
+      run:
+        working-directory: api
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo_mysql, mbstring, bcmath, intl
+          coverage: none
+          tools: composer:v2
+
+      - name: Cache Composer packages
+        uses: actions/cache@v4
+        with:
+          path: api/vendor
+          key: composer-${{ runner.os }}-${{ hashFiles('api/composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Prepare environment
+        run: |
+          cp .env.example .env || true
+          php artisan key:generate --force
+
+      - name: Confirm the database really is MySQL 8
+        # A silent fallback to MariaDB would make this whole job worthless, so
+        # the engine is asserted before anything is allowed to run against it.
+        run: |
+          VERSION=$(mysql -h 127.0.0.1 -P 3306 -uroot -palutrack_ci -N -B -e "SELECT VERSION();")
+          echo "Server reports: $VERSION"
+          case "$VERSION" in
+            *MariaDB*) echo "::error::MariaDB detected. CI must run against MySQL 8."; exit 1 ;;
+            8.*) echo "MySQL 8 confirmed." ;;
+            *) echo "::error::Unexpected server version: $VERSION"; exit 1 ;;
+          esac
+
+      - name: Verify the production collation is usable
+        run: |
+          mysql -h 127.0.0.1 -P 3306 -uroot -palutrack_ci -e \
+            "ALTER DATABASE alutrack_test CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;"
+
+      - name: Migrate
+        run: php artisan migrate --force --no-interaction
+
+      - name: Seed reference data
+        # The production seeders only: permission vocabulary, roles, reason codes
+        # and the configuration register. No customer data is ever seeded.
+        run: php artisan db:seed --force --no-interaction
+
+      - name: Verify migrations are reversible
+        run: php artisan migrate:fresh --force --no-interaction
+
+      - name: Static analysis
+        run: ./vendor/bin/phpstan analyse --no-progress
+
+      - name: Code style
+        run: ./vendor/bin/pint --test
+
+      - name: Test suite
+        # Includes the inventory invariant, RBAC, transaction, audit and
+        # idempotency suites. PARALLEL_CONCURRENCY turns on the tests that open
+        # real second connections and contend for row locks, which only mean
+        # something against a real server.
+        env:
+          PARALLEL_CONCURRENCY: '1'
+        run: php artisan test --no-interaction
+
+      - name: Security advisories
+        run: composer audit --no-interaction
+
+  frontend:
+    name: Frontend
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: web
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Design tokens are current
+        # The generated CSS, the TS status map and the PDA's Tokens.kt all come
+        # from tokens.json. If regenerating changes anything, a generated file
+        # was hand-edited and web and PDA are about to drift (docs/26 §9).
+        run: |
+          npm run tokens
+          git diff --exit-code -- src/styles/tokens.generated.css src/lib/design-tokens.generated.ts ../design-tokens/generated
+
+      - name: Contrast
+        run: npm run contrast
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Types
+        run: npm run typecheck
+
+      - name: Tests
+        run: npm run test
+
+      - name: Production build
+        run: npm run build

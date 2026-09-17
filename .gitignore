@@ -1,0 +1,61 @@
+# ALU TRACK — repository-wide ignores.
+#
+# api/.gitignore and web/.gitignore cover their own build output; this file
+# covers the workspace root and anything that must never reach a remote.
+
+# ---------------------------------------------------------------- secrets
+# Only .env.example files are tracked. A real .env carries the app key, the
+# database password and the session secret.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+auth.json
+
+# ------------------------------------------------------------ dependencies
+node_modules/
+vendor/
+
+# ----------------------------------------------------------- build output
+.next/
+out/
+build/
+dist/
+*.tsbuildinfo
+
+# ------------------------------------------------------- logs and runtime
+*.log
+npm-debug.log*
+yarn-error.log*
+storage/logs/
+.phpunit.result.cache
+.phpunit.cache/
+coverage/
+
+# ------------------------------------------------------------ data dumps
+# A dump of the development database would carry real inventory once the
+# customer's data is loaded.
+*.sql
+*.sqlite
+*.sqlite3
+*.dump
+
+# --------------------------------------------------------- editors and OS
+.idea/
+.vscode/
+.fleet/
+.nova/
+.zed/
+*.swp
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# ------------------------------------------------------- customer material
+# The BRD is the customer's document. This repository is public, so it is kept
+# out of it deliberately — move it to a private location or make the repository
+# private before tracking it.
+local_docs/
