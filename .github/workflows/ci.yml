@@ -132,13 +132,18 @@ jobs:
           NO_COLOR: '1'
         run: |
           set -o pipefail
-          if php artisan test --no-interaction 2>&1 | tee test-output.txt; then
+          # No --no-interaction here: `artisan test` forwards unrecognised
+          # options straight to PHPUnit, which rejects it and exits before a
+          # single test runs. That is what made this step red while every
+          # assertion in the suite was passing.
+          if php artisan test 2>&1 | tee test-output.txt; then
             exit 0
           fi
           echo "::error::Backend suite failed on MySQL ${{ matrix.mysql }}"
           # The tail unconditionally, not a grep: a fatal error does not
           # necessarily contain any of the words a pattern would look for.
-          tail -n 40 test-output.txt | tr -d '' | while IFS= read -r line; do
+          tail -n 40 test-output.txt | tr -d '
+' | while IFS= read -r line; do
             [ -n "$line" ] && echo "::error::${line}"
           done
           exit 1
