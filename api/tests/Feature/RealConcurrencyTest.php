@@ -23,7 +23,10 @@ use Tests\TestCase;
  * rather than reasoned about.
  *
  * It does not use RefreshDatabase, because that wraps the test in a transaction
- * the second connection could never see.
+ * the second connection could never see. That has a consequence: the rows these
+ * tests commit are real and outlive the test, so the class truncates on the way
+ * out. Without that, a RefreshDatabase test running afterwards inherits this
+ * data and fails counting rows it never created.
  *
  * Skipped unless PARALLEL_CONCURRENCY=1 so the developer suite stays fast; CI
  * sets it, and CI runs MySQL 8 — which is the engine these guarantees have to
@@ -68,6 +71,17 @@ class RealConcurrencyTest extends TestCase
             'site_id' => $facility->site_id,
             'lifecycle_status' => 'AT_COLLECTION_POINT',
         ]);
+    }
+
+    protected function tearDown(): void
+    {
+        // Committed rows survive this class; leave the database as it was found
+        // so the rest of the suite is unaffected by having run after it.
+        if (env('PARALLEL_CONCURRENCY') === '1') {
+            $this->truncateTablesForAllConnections();
+        }
+
+        parent::tearDown();
     }
 
     /** A second, independent session — not Laravel's, not inside its transaction. */
