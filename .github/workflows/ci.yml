@@ -135,9 +135,12 @@ jobs:
           if php artisan test --no-interaction 2>&1 | tee test-output.txt; then
             exit 0
           fi
-          echo "::group::Failure detail"
-          grep -E 'FAILED|SQLSTATE|Tests:|^ *⨯|Failed asserting|Expected|Error' test-output.txt             | head -40             | while IFS= read -r line; do echo "::error::${line}"; done
-          echo "::endgroup::"
+          echo "::error::Backend suite failed on MySQL ${{ matrix.mysql }}"
+          # The tail unconditionally, not a grep: a fatal error does not
+          # necessarily contain any of the words a pattern would look for.
+          tail -n 40 test-output.txt | tr -d '' | while IFS= read -r line; do
+            [ -n "$line" ] && echo "::error::${line}"
+          done
           exit 1
 
       - name: Keep the test output
