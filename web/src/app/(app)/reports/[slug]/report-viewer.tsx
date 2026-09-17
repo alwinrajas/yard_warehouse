@@ -92,7 +92,7 @@ export function ReportViewer({ slug }: { slug: string }) {
         }
       />
 
-      <Panel>
+      <Panel className="shadow-card">
         <div className="flex flex-wrap items-end gap-3">
           {def?.filters.includes('dateRange') ? (
             <>
@@ -190,7 +190,7 @@ export function ReportViewer({ slug }: { slug: string }) {
         ) : null}
       </Panel>
 
-      <Panel padded={false} className="overflow-hidden">
+      <Panel padded={false} className="overflow-hidden shadow-card">
         {needsInput ? (
           <EmptyState
             variant="not-started"

@@ -51,7 +51,7 @@ export function PreferencesPanel() {
   }, [])
 
   return (
-    <Panel>
+    <Panel className="shadow-card">
       <PanelHeader
         title="Display preferences"
         description="Saved on this device only"

@@ -1,6 +1,6 @@
 'use client'
 
-import { MoreHorizontal } from 'lucide-react'
+import { Boxes, MoreHorizontal } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 import { AgeingIndicator } from '@/components/domain/ageing-indicator'
@@ -97,15 +97,23 @@ export function InventoryScreen() {
   ]
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-5">
       <PageHeader
+        icon={<Boxes className="size-5" />}
         title="Live Inventory"
         context={`${formatNumber(list.pagination.total)} pallet${list.pagination.total === 1 ? '' : 's'} currently stored`}
         breadcrumbs={[{ label: 'Inventory' }, { label: 'Live Inventory' }]}
+        meta={
+          list.hasFilters ? (
+            <span className="rounded-full bg-anodic-50 px-2 py-0.5 text-caption text-anodic-700">
+              Filtered
+            </span>
+          ) : null
+        }
       />
 
-      <Panel padded={false} className="overflow-hidden">
-        <div className="flex flex-col gap-3 p-4">
+      <Panel className="shadow-card">
+        <div className="flex flex-col gap-3">
           <DataTableToolbar
             searchValue={list.search}
             onSearchChange={list.setSearch}
@@ -177,7 +185,9 @@ export function InventoryScreen() {
             />
           </FilterBar>
         </div>
+      </Panel>
 
+      <Panel padded={false} className="overflow-hidden shadow-card">
         <DataTable
           dataset="inventory"
           columns={columns}

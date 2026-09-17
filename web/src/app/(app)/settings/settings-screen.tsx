@@ -59,12 +59,12 @@ export function SettingsScreen() {
       ) : null}
 
       {isLoading ? (
-        <Panel>
+        <Panel className="shadow-card">
           <Skeleton className="h-5 w-40" />
           <Skeleton className="mt-3 h-24 w-full" />
         </Panel>
       ) : error ? (
-        <Panel padded={false}>
+        <Panel padded={false} className="shadow-card">
           <EmptyState
             headingLevel={2}
             variant="error"

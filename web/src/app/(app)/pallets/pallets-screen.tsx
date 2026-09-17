@@ -1,5 +1,7 @@
 'use client'
 
+import { Package } from 'lucide-react'
+
 import { useRouter } from 'next/navigation'
 
 import { AgeingIndicator } from '@/components/domain/ageing-indicator'
@@ -63,12 +65,13 @@ export function PalletsScreen() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
+        icon={<Package className="size-5" />}
         title="Pallets"
         context={`${formatNumber(list.pagination.total)} pallet${list.pagination.total === 1 ? '' : 's'} on record`}
         breadcrumbs={[{ label: 'Inventory' }, { label: 'Pallets' }]}
       />
 
-      <Panel padded={false} className="overflow-hidden">
+      <Panel padded={false} className="overflow-hidden shadow-card">
         <div className="flex flex-col gap-3 p-4">
           <DataTableToolbar
             searchValue={list.search}

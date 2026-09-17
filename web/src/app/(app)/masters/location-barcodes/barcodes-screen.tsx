@@ -111,7 +111,7 @@ export function BarcodesScreen() {
         <Alert tone="success" title={`${generateMissing.data.generated} barcode identities generated`} live />
       ) : null}
 
-      <Panel padded={false} className="overflow-hidden">
+      <Panel padded={false} className="overflow-hidden shadow-card">
         <div className="flex flex-col gap-3 p-4">
           <DataTableToolbar
             searchValue={list.search}

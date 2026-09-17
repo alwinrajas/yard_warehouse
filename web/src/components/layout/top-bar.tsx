@@ -1,6 +1,17 @@
 'use client'
 
-import { Bell, Check, ChevronDown, LogOut, Menu, Search, Settings, User } from 'lucide-react'
+import {
+  Bell,
+  Check,
+  ChevronDown,
+  Clock,
+  LogOut,
+  Menu,
+  Search,
+  Settings,
+  User,
+  Warehouse,
+} from 'lucide-react'
 import Link from 'next/link'
 
 import { APP_TIMEZONE, IS_TIMEZONE_UNCONFIRMED } from '@/lib/app-config'
@@ -47,7 +58,10 @@ export function TopBar({
   return (
     <header
       style={{ height: 'var(--layout-topbar-height)' }}
-      className="flex shrink-0 items-center gap-3 border-b border-graphite-200 bg-graphite-0 px-4 shadow-e1"
+      className={cn(
+        'flex shrink-0 items-center gap-3 border-b border-graphite-200',
+        'bg-graphite-0/95 px-3 backdrop-blur-sm sm:px-4',
+      )}
     >
       {onOpenNav ? (
         <IconButton
@@ -58,9 +72,9 @@ export function TopBar({
         />
       ) : null}
 
-      <Logo />
+      <Logo className="shrink-0" />
 
-      <div className="mx-1 h-5 w-px bg-graphite-200" aria-hidden />
+      <div className="mx-0.5 hidden h-6 w-px bg-graphite-200 sm:block" aria-hidden />
 
       {session ? (
         <ScopeSelector
@@ -73,20 +87,26 @@ export function TopBar({
         type="button"
         onClick={onOpenSearch}
         className={cn(
-          'ml-auto hidden h-8 w-full max-w-[26rem] items-center gap-2 rounded-md border',
-          'border-graphite-300 bg-graphite-50 px-2.5 text-left md:flex',
+          'ml-auto hidden h-9 w-full max-w-[30rem] items-center gap-2.5 rounded-lg border',
+          'border-graphite-200 bg-surface-sunken px-3 text-left md:flex',
           'text-body-sm text-graphite-500 transition-colors duration-fast ease-standard',
-          'hover:border-graphite-400 hover:bg-graphite-0',
+          'hover:border-anodic-300 hover:bg-graphite-0',
+          'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-anodic-400',
         )}
       >
-        <Search className="size-4 shrink-0" aria-hidden />
+        <Search className="size-4 shrink-0 text-graphite-400" aria-hidden />
         <span className="flex-1 truncate">Search pallet, job, customer, location…</span>
-        <kbd className="rounded-sm border border-graphite-300 bg-graphite-0 px-1 text-overline text-graphite-500">
+        <kbd
+          className={cn(
+            'hidden shrink-0 rounded border border-graphite-200 bg-graphite-0 px-1.5 py-0.5',
+            'text-overline tracking-wider text-graphite-500 lg:block',
+          )}
+        >
           Ctrl K
         </kbd>
       </button>
 
-      <div className="ml-auto flex items-center gap-1 md:ml-0">
+      <div className="ml-auto flex items-center gap-0.5 md:ml-0 md:gap-1">
         <IconButton
           label="Search"
           icon={<Search className="size-4" />}
@@ -103,15 +123,30 @@ export function TopBar({
           ) : null}
         </div>
 
-        {IS_TIMEZONE_UNCONFIRMED ? (
-          <Tooltip
-            content={`Timezone is not configured (CFG-13 / OI-19). Times are shown in ${APP_TIMEZONE}.`}
+        {/* Every timestamp in the product is rendered in this zone, so it is
+            stated rather than assumed. Unconfirmed (CFG-13 / OI-19) reads as a
+            warning; confirmed reads as quiet context. */}
+        <Tooltip
+          content={
+            IS_TIMEZONE_UNCONFIRMED
+              ? `Timezone is not configured (CFG-13 / OI-19). Times are shown in ${APP_TIMEZONE}.`
+              : `All times are shown in ${APP_TIMEZONE}.`
+          }
+        >
+          <span
+            className={cn(
+              'hidden items-center gap-1 rounded-md px-2 py-1 text-overline tracking-wide lg:inline-flex',
+              IS_TIMEZONE_UNCONFIRMED
+                ? 'bg-signal-warning-surface text-signal-warning-fg'
+                : 'bg-surface-sunken text-graphite-500',
+            )}
           >
-            <span className="rounded-sm bg-signal-warning-surface px-1.5 py-0.5 text-overline text-signal-warning-fg">
-              {APP_TIMEZONE}
-            </span>
-          </Tooltip>
-        ) : null}
+            <Clock className="size-3" aria-hidden />
+            {APP_TIMEZONE}
+          </span>
+        </Tooltip>
+
+        <div className="mx-1 hidden h-6 w-px bg-graphite-200 lg:block" aria-hidden />
 
         {session ? (
           <UserMenu
@@ -145,10 +180,18 @@ function ScopeSelector({
   // implies a choice the user does not have.
   if (facilities.length <= 1) {
     return (
-      <span className="hidden items-center gap-1.5 text-body-sm text-graphite-600 sm:flex">
+      <span
+        className={cn(
+          'hidden items-center gap-2 rounded-lg bg-surface-sunken px-2.5 py-1.5 sm:flex',
+          'text-body-sm text-graphite-600',
+        )}
+      >
+        <Warehouse className="size-4 shrink-0 text-graphite-400" aria-hidden />
         <span className="font-medium text-graphite-800">{scopeLabel}</span>
-        <span className="text-graphite-300">/</span>
-        <span>{facilityLabel}</span>
+        <span className="text-graphite-300" aria-hidden>
+          /
+        </span>
+        <span className="truncate">{facilityLabel}</span>
       </span>
     )
   }
@@ -159,10 +202,11 @@ function ScopeSelector({
         <button
           type="button"
           className={cn(
-            'hidden items-center gap-1.5 rounded-md px-2 py-1 text-body-sm sm:flex',
-            'text-graphite-600 hover:bg-graphite-50',
+            'hidden items-center gap-2 rounded-lg bg-surface-sunken px-2.5 py-1.5 text-body-sm sm:flex',
+            'text-graphite-600 transition-colors duration-fast ease-standard hover:bg-graphite-100',
           )}
         >
+          <Warehouse className="size-4 shrink-0 text-graphite-400" aria-hidden />
           <span className="font-medium text-graphite-800">{scopeLabel}</span>
           <span className="text-graphite-300">/</span>
           <span>{facilityLabel}</span>
@@ -206,8 +250,8 @@ function UserMenu({
           <span
             aria-hidden
             className={cn(
-              'flex size-7 shrink-0 items-center justify-center rounded-full',
-              'bg-anodic-100 text-overline text-anodic-800',
+              'flex size-8 shrink-0 items-center justify-center rounded-full',
+              'bg-gradient-to-br from-anodic-500 to-anodic-700 text-overline text-graphite-0',
             )}
           >
             {initials(name)}

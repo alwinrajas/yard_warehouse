@@ -1,5 +1,7 @@
 'use client'
 
+import { ArrowRightLeft } from 'lucide-react'
+
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
@@ -86,7 +88,7 @@ export function MovementScreen() {
 
   if (result) {
     return (
-      <OperationShell title="Location Movement" context="Move a pallet between locations" breadcrumb="Movement" steps={STEPS} current={2}>
+      <OperationShell icon={<ArrowRightLeft className="size-5" />} title="Location Movement" context="Move a pallet between locations" breadcrumb="Movement" steps={STEPS} current={2}>
         <TransactionResult
           headingLevel={2}
           replayed={replayed}
@@ -114,7 +116,7 @@ export function MovementScreen() {
   }
 
   return (
-    <OperationShell title="Location Movement" context="Move a pallet between locations" breadcrumb="Movement" steps={STEPS} current={step}>
+    <OperationShell icon={<ArrowRightLeft className="size-5" />} title="Location Movement" context="Move a pallet between locations" breadcrumb="Movement" steps={STEPS} current={step}>
       <div className="flex flex-col gap-5">
         <ScanField
           label="Pallet to move"

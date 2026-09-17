@@ -1,5 +1,7 @@
 'use client'
 
+import { ClipboardCheck } from 'lucide-react'
+
 import { useState } from 'react'
 
 import { PermissionGate } from '@/components/domain/permission-gate'
@@ -99,6 +101,7 @@ export function VerificationScreen() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
+        icon={<ClipboardCheck className="size-5" />}
         title="Stock Verification"
         context={`${formatNumber(list.pagination.total)} count${list.pagination.total === 1 ? '' : 's'} — expected against physically scanned`}
         breadcrumbs={[{ label: 'Operations' }, { label: 'Stock Verification' }]}
@@ -139,7 +142,7 @@ export function VerificationScreen() {
 
       {start.error ? <Alert tone="danger" title={start.error.message} live /> : null}
 
-      <Panel padded={false} className="overflow-hidden">
+      <Panel padded={false} className="overflow-hidden shadow-card">
         <div className="flex flex-col gap-3 p-4">
           <DataTableToolbar searchValue={list.search} onSearchChange={list.setSearch} searchPlaceholder="Search…" />
           <Select

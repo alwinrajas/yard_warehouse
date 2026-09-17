@@ -111,7 +111,7 @@ export function LocationImportScreen() {
       />
 
       {/* -------------------------------------------------- step 1: choose */}
-      <Panel>
+      <Panel className="shadow-card">
         <PanelHeader
           title="Choose a file"
           description="CSV with columns: facility_code, zone_code, location_code, description, location_type, capacity, sequence"
@@ -194,7 +194,7 @@ export function LocationImportScreen() {
 
       {/* -------------------------------------------------- step 2: review */}
       {batch && !committed ? (
-        <Panel>
+        <Panel className="shadow-card">
           <PanelHeader
             title="Validation result"
             description={
@@ -319,7 +319,7 @@ export function LocationImportScreen() {
 
       {/* -------------------------------------------------- step 3: done */}
       {committed ? (
-        <Panel padded={false}>
+        <Panel padded={false} className="shadow-card">
           <EmptyState
             headingLevel={2}
             variant="not-started"

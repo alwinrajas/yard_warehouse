@@ -43,7 +43,7 @@ export function ProfileScreen({ mustChangePassword }: { mustChangePassword: bool
         </Alert>
       ) : null}
 
-      <Panel>
+      <Panel className="shadow-card">
         <PanelHeader
           title="Identity"
           description="Role, site and facility access are managed by an administrator"
@@ -61,7 +61,7 @@ export function ProfileScreen({ mustChangePassword }: { mustChangePassword: bool
         />
       </Panel>
 
-      <Panel>
+      <Panel className="shadow-card">
         <PanelHeader
           title="Password"
           description="Individual credentials only — ALU TRACK accounts are never shared, so every movement traces to a real person"

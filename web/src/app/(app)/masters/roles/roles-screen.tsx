@@ -117,7 +117,7 @@ export function RolesScreen() {
         are signed in under — both are enforced by the server, not by this screen.
       </Alert>
 
-      <Panel padded={false} className="overflow-hidden">
+      <Panel padded={false} className="overflow-hidden shadow-card">
         <DataTable
           dataset="users"
           columns={columns}

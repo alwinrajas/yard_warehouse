@@ -1,5 +1,7 @@
 'use client'
 
+import { PackagePlus } from 'lucide-react'
+
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -72,6 +74,7 @@ export function PutAwayScreen() {
   if (result) {
     return (
       <OperationShell
+        icon={<PackagePlus className="size-5" />}
         title="Put-Away"
         context="Bring a pallet into live inventory"
         breadcrumb="Put-Away"
@@ -110,6 +113,7 @@ export function PutAwayScreen() {
 
   return (
     <OperationShell
+      icon={<PackagePlus className="size-5" />}
       title="Put-Away"
       context="Bring a pallet into live inventory"
       breadcrumb="Put-Away"

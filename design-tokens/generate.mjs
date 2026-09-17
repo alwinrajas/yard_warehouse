@@ -65,6 +65,18 @@ function generateCss() {
   }
 
   push('')
+  push('  /* --- data-visualisation palette (docs/21 §2.7) --- */')
+  for (const [key, hex] of entries(tokens.color.chart)) {
+    push(`  --color-chart-${key}: ${hex};`)
+  }
+
+  push('')
+  push('  /* --- surfaces --- */')
+  for (const [key, hex] of entries(tokens.color.surface)) {
+    push(`  --color-surface-${key}: ${hex};`)
+  }
+
+  push('')
   push('  /* --- semantic feedback on dark chrome (the PDA, docs/24 §3) --- */')
   for (const [name, hex] of entries(tokens.color['signal-dark'])) {
     push(`  --color-signal-dark-${name}: ${hex};`)

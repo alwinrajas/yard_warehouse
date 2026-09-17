@@ -40,16 +40,16 @@ export function ReasonCodesScreen() {
       />
 
       {isLoading ? (
-        <Panel>
+        <Panel className="shadow-card">
           <Skeleton className="h-5 w-40" />
           <Skeleton className="mt-3 h-20 w-full" />
         </Panel>
       ) : error ? (
-        <Panel padded={false}>
+        <Panel padded={false} className="shadow-card">
           <EmptyState variant="error" title="Could not load reason codes" description={error.message} />
         </Panel>
       ) : (data ?? []).length === 0 ? (
-        <Panel padded={false}>
+        <Panel padded={false} className="shadow-card">
           <EmptyState variant="no-data" title="No reason codes configured" />
         </Panel>
       ) : (

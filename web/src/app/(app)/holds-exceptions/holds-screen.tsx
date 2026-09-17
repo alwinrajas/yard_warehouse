@@ -1,5 +1,7 @@
 'use client'
 
+import { TriangleAlert } from 'lucide-react'
+
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
@@ -86,12 +88,13 @@ export function HoldsScreen() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
+        icon={<TriangleAlert className="size-5" />}
         title="Holds & Exceptions"
         context={`${formatNumber(list.pagination.total)} record${list.pagination.total === 1 ? '' : 's'} — pallets blocked from normal dispatch`}
         breadcrumbs={[{ label: 'Operations' }, { label: 'Holds & Exceptions' }]}
       />
 
-      <Panel padded={false} className="overflow-hidden">
+      <Panel padded={false} className="overflow-hidden shadow-card">
         <div className="flex flex-col gap-3 p-4">
           <DataTableToolbar
             searchValue={list.search}

@@ -30,9 +30,11 @@ export function ProgressSteps({
             <span
               aria-current={state === 'active' ? 'step' : undefined}
               className={cn(
-                'flex size-5 shrink-0 items-center justify-center rounded-full text-overline',
+                'flex size-6 shrink-0 items-center justify-center rounded-full text-overline',
+                'transition-colors duration-base ease-standard',
                 state === 'done' && 'bg-anodic-600 text-graphite-0',
-                state === 'active' && 'bg-anodic-600 text-graphite-0',
+                state === 'active' &&
+                  'bg-anodic-600 text-graphite-0 ring-4 ring-anodic-100',
                 state === 'todo' && 'border border-graphite-300 bg-graphite-0 text-graphite-400',
               )}
             >
@@ -40,8 +42,12 @@ export function ProgressSteps({
             </span>
             <span
               className={cn(
-                'truncate text-body-sm',
-                state === 'active' ? 'font-medium text-graphite-900' : 'text-graphite-500',
+                'truncate text-body-sm transition-colors duration-base ease-standard',
+                state === 'active'
+                  ? 'font-medium text-graphite-900'
+                  : state === 'done'
+                    ? 'text-graphite-600'
+                    : 'text-graphite-400',
               )}
             >
               {step.label}
@@ -50,7 +56,7 @@ export function ProgressSteps({
               <span
                 aria-hidden
                 className={cn(
-                  'h-px flex-1',
+                  'h-0.5 flex-1 rounded-full transition-colors duration-base ease-standard',
                   index < current ? 'bg-anodic-600' : 'bg-graphite-200',
                 )}
               />

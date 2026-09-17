@@ -14,6 +14,10 @@ import { TopBar } from './top-bar'
  *
  * The shell is fluid; only the content region is max-width constrained, so a 4K
  * monitor shows more rows rather than more empty margin (docs/20 §7).
+ *
+ * The canvas is a cool off-white and every panel is pure white, so surfaces read
+ * as raised without a shadow on each one. Shadow stays reserved for things that
+ * genuinely float — menus, drawers, dialogs (docs/21 §4).
  */
 export function AppShell({
   children,
@@ -40,7 +44,7 @@ export function AppShell({
   const [navOpen, setNavOpen] = useState(false)
 
   return (
-    <div className="flex h-dvh flex-col bg-graphite-50">
+    <div className="flex h-dvh flex-col bg-surface-canvas">
       <a href="#main-content" className="skip-link rounded-md bg-anodic-600 px-3 py-2 text-graphite-0">
         Skip to content
       </a>
@@ -72,7 +76,12 @@ export function AppShell({
         </div>
 
         <main id="main-content" className="min-w-0 flex-1 overflow-y-auto">
-          <div className={cn('mx-auto w-full max-w-[var(--layout-content-max)] p-6', contentClassName)}>
+          <div
+            className={cn(
+              'mx-auto w-full max-w-[var(--layout-content-max)] px-4 py-5 sm:px-6 sm:py-6',
+              contentClassName,
+            )}
+          >
             {children}
           </div>
         </main>

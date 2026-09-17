@@ -84,11 +84,11 @@ export function Sidebar({
           : { width: collapsed ? 'var(--layout-sidebar-rail)' : 'var(--layout-sidebar-expanded)' }
       }
       className={cn(
-        'flex min-h-0 flex-1 shrink-0 flex-col bg-graphite-0',
+        'flex min-h-0 flex-1 shrink-0 flex-col bg-surface-rail',
         !forceExpanded && 'border-r border-graphite-200 transition-[width] duration-base ease-standard',
       )}
     >
-      <nav aria-label="Main" className="flex-1 overflow-y-auto px-2 py-3">
+      <nav aria-label="Main" className="flex-1 overflow-y-auto px-2.5 py-3">
         {visibleGroups.map((group) => {
           const open = isGroupOpen(group)
           return (
@@ -103,7 +103,7 @@ export function Sidebar({
                     aria-expanded={open}
                     className={cn(
                       'flex w-full items-center justify-between rounded-md px-2 py-1.5',
-                      'text-overline uppercase text-graphite-500 hover:text-graphite-700',
+                      'mt-3 text-overline uppercase tracking-[0.12em] text-graphite-400 hover:text-graphite-700',
                     )}
                   >
                     {group.label}
@@ -116,7 +116,7 @@ export function Sidebar({
                     />
                   </button>
                 ) : (
-                  <p className="px-2 pb-1 pt-3 text-overline uppercase text-graphite-500">
+                  <p className="px-2.5 pb-1.5 pt-4 text-overline uppercase tracking-[0.12em] text-graphite-400">
                     {group.label}
                   </p>
                 )
@@ -144,15 +144,17 @@ export function Sidebar({
         })}
       </nav>
 
-      <footer className="border-t border-graphite-200 p-2">
+      <footer className="border-t border-graphite-200 p-2.5">
         <button
           type="button"
           hidden={forceExpanded}
           onClick={toggleCollapsed}
           aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           className={cn(
-            'flex w-full items-center gap-2 rounded-md px-2 py-1.5',
-            'text-caption text-graphite-500 hover:bg-graphite-50 hover:text-graphite-700',
+            'flex w-full items-center gap-2 rounded-lg px-2.5 py-2',
+            'text-body-sm text-graphite-500 transition-colors duration-fast ease-standard',
+            'hover:bg-graphite-100/70 hover:text-graphite-800',
+            collapsed && 'justify-center px-0',
           )}
         >
           {collapsed ? (
@@ -197,20 +199,29 @@ function SidebarLink({
   const content = (
     <span
       className={cn(
-        'relative flex h-9 items-center gap-2 rounded-md px-2',
+        'relative flex h-9 items-center gap-2.5 rounded-lg px-2.5',
         'transition-colors duration-fast ease-standard',
         active
-          ? 'bg-anodic-50 font-medium text-anodic-700'
+          ? 'bg-anodic-50 font-medium text-anodic-800 shadow-e0'
           : item.available
-            ? 'text-graphite-600 hover:bg-graphite-50 hover:text-graphite-900'
+            ? 'text-graphite-600 hover:bg-graphite-100/70 hover:text-graphite-900'
             : 'text-graphite-400',
         collapsed && 'justify-center px-0',
       )}
     >
       {active ? (
-        <span aria-hidden className="absolute inset-y-1 left-0 w-0.5 rounded-full bg-anodic-600" />
+        <span
+          aria-hidden
+          className={cn(
+            'absolute rounded-full bg-anodic-600',
+            collapsed ? 'inset-y-1.5 -left-1 w-1' : 'inset-y-1.5 left-0 w-[3px]',
+          )}
+        />
       ) : null}
-      <Icon className={cn('size-4 shrink-0', active && 'text-anodic-600')} aria-hidden />
+      <Icon
+        className={cn('size-[1.125rem] shrink-0', active ? 'text-anodic-600' : 'text-graphite-400')}
+        aria-hidden
+      />
       {!collapsed ? (
         <>
           <span className="flex-1 truncate text-body-sm">{item.label}</span>

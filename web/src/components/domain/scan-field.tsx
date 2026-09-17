@@ -47,7 +47,7 @@ export function ScanField({
 
   if (resolved) {
     return (
-      <div className="rounded-lg border border-signal-success-border bg-signal-success-surface p-4">
+      <div className="anim-rise rounded-xl border border-signal-success-border bg-signal-success-surface p-4">
         <div className="flex items-start justify-between gap-3">
           <div className="flex min-w-0 items-start gap-3">
             <CircleCheck className="mt-0.5 size-5 shrink-0 text-signal-success-fg" aria-hidden />
@@ -75,8 +75,19 @@ export function ScanField({
   }
 
   return (
-    <div className="flex flex-col gap-2">
-      <label className="text-label text-graphite-700">{label}</label>
+    <div
+      className={cn(
+        'flex flex-col gap-2.5 rounded-xl border-2 border-dashed p-4',
+        'transition-colors duration-fast ease-standard',
+        error
+          ? 'border-signal-danger-border bg-signal-danger-surface/40'
+          : 'border-graphite-200 bg-surface-sunken/60 focus-within:border-anodic-300 focus-within:bg-graphite-0',
+      )}
+    >
+      <label className="flex items-center gap-2 text-label text-graphite-700">
+        <ScanLine className="size-4 text-anodic-500" aria-hidden />
+        {label}
+      </label>
       <div className="flex items-center gap-2">
         <Input
           ref={inputRef}

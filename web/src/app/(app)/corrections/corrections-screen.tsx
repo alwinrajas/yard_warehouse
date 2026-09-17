@@ -1,5 +1,7 @@
 'use client'
 
+import { Wrench } from 'lucide-react'
+
 import { useState } from 'react'
 
 import { AuditDiff } from '@/components/domain/audit-diff'
@@ -85,6 +87,7 @@ export function CorrectionsScreen() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
+        icon={<Wrench className="size-5" />}
         title="Corrections"
         context={`${formatNumber(list.pagination.total)} correction${list.pagination.total === 1 ? '' : 's'} — every one preserved with its original`}
         breadcrumbs={[{ label: 'Operations' }, { label: 'Corrections' }]}
@@ -102,7 +105,7 @@ export function CorrectionsScreen() {
         original record is never modified.
       </Alert>
 
-      <Panel padded={false} className="overflow-hidden">
+      <Panel padded={false} className="overflow-hidden shadow-card">
         <div className="p-4">
           <DataTableToolbar
             searchValue={list.search}

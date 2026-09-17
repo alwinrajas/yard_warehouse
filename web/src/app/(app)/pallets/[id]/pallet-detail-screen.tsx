@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, Boxes } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -48,11 +48,11 @@ export function PalletDetailScreen({ id }: { id: string }) {
     return (
       <div className="flex flex-col gap-6">
         <Skeleton className="h-8 w-64" />
-        <Panel>
+        <Panel className="shadow-card">
           <Skeleton className="h-6 w-48" />
           <Skeleton className="mt-3 h-4 w-72" />
         </Panel>
-        <Panel>
+        <Panel className="shadow-card">
           <Skeleton className="h-40 w-full" />
         </Panel>
       </div>
@@ -61,7 +61,7 @@ export function PalletDetailScreen({ id }: { id: string }) {
 
   if (error || !data) {
     return (
-      <Panel padded={false}>
+      <Panel padded={false} className="shadow-card">
         <EmptyState
           variant="error"
           title="Could not load this pallet"
@@ -90,6 +90,7 @@ export function PalletDetailScreen({ id }: { id: string }) {
   return (
     <div className="flex max-w-5xl flex-col gap-6">
       <PageHeader
+        icon={<Boxes className="size-5" />}
         title={pallet.pallet_number ?? pallet.pallet_key}
         context={[pallet.job_number, pallet.customer_name, pallet.lpo_number].filter(Boolean).join(' · ') || 'No job details recorded'}
         breadcrumbs={[
@@ -154,7 +155,7 @@ export function PalletDetailScreen({ id }: { id: string }) {
       ) : null}
 
       <div className="grid gap-4 lg:grid-cols-2">
-        <Panel>
+        <Panel className="shadow-card">
           <PanelHeader title="Pallet identity" />
           <PalletIdentity
             pallet={{
@@ -180,7 +181,7 @@ export function PalletDetailScreen({ id }: { id: string }) {
           />
         </Panel>
 
-        <Panel>
+        <Panel className="shadow-card">
           <PanelHeader title={dispatched ? 'Dispatch' : 'Current location'} />
           {dispatched ? (
             <StatPanel
@@ -228,7 +229,7 @@ export function PalletDetailScreen({ id }: { id: string }) {
         </Panel>
       </div>
 
-      <Panel>
+      <Panel className="shadow-card">
         <Tabs defaultValue="timeline">
           <TabsList>
             <TabsTrigger value="timeline" count={timeline.length}>

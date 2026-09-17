@@ -1,5 +1,7 @@
 'use client'
 
+import { Truck } from 'lucide-react'
+
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
@@ -78,7 +80,7 @@ export function DispatchScreen() {
 
   if (result) {
     return (
-      <OperationShell title="Dispatch" context="Verify and release a pallet" breadcrumb="Dispatch" steps={STEPS} current={2}>
+      <OperationShell icon={<Truck className="size-5" />} title="Dispatch" context="Verify and release a pallet" breadcrumb="Dispatch" steps={STEPS} current={2}>
         <TransactionResult
           headingLevel={2}
           replayed={replayed}
@@ -106,7 +108,7 @@ export function DispatchScreen() {
   }
 
   return (
-    <OperationShell title="Dispatch" context="Verify and release a pallet" breadcrumb="Dispatch" steps={STEPS} current={step}>
+    <OperationShell icon={<Truck className="size-5" />} title="Dispatch" context="Verify and release a pallet" breadcrumb="Dispatch" steps={STEPS} current={step}>
       <div className="flex flex-col gap-5">
         <ScanField
           label="Pallet to dispatch"

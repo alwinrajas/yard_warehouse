@@ -19,7 +19,7 @@ export default function LoginPage() {
   return (
     <div className="grid min-h-dvh lg:grid-cols-2">
       <aside className="relative hidden flex-col justify-between bg-graphite-950 p-10 lg:flex">
-        <Logo onDark />
+        <Logo variant="stacked" onDark />
 
         <div className="max-w-md">
           <h1 className="text-h1 text-graphite-0">

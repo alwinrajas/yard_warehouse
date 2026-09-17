@@ -59,6 +59,20 @@
   --color-signal-neutral-surface: #F6F8FA;
   --color-signal-neutral-border: #DDE3EA;
 
+  /* --- data-visualisation palette (docs/21 §2.7) --- */
+  --color-chart-1: #2A66B3;
+  --color-chart-2: #12A594;
+  --color-chart-3: #7C5CD6;
+  --color-chart-4: #E0912F;
+  --color-chart-5: #3E9BE8;
+  --color-chart-6: #647183;
+
+  /* --- surfaces --- */
+  --color-surface-canvas: #F4F6FA;
+  --color-surface-raised: #FFFFFF;
+  --color-surface-sunken: #EDF1F7;
+  --color-surface-rail: #FBFCFE;
+
   /* --- semantic feedback on dark chrome (the PDA, docs/24 §3) --- */
   --color-signal-dark-success-fg: #75E0A7;
   --color-signal-dark-warning-fg: #FEC84B;
@@ -178,11 +192,14 @@
   --radius-md: 0.375rem;
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
 
   /* --- elevation: three levels only --- */
   --shadow-e1: 0 1px 2px rgba(16, 24, 40, 0.05);
   --shadow-e2: 0 4px 8px -2px rgba(16, 24, 40, 0.08), 0 2px 4px -2px rgba(16, 24, 40, 0.04);
   --shadow-e3: 0 12px 24px -6px rgba(16, 24, 40, 0.12);
+  --shadow-e0: 0 0 0 1px rgba(16, 24, 40, 0.04);
+  --shadow-card: 0 1px 2px rgba(16, 24, 40, 0.04), 0 1px 3px rgba(16, 24, 40, 0.06);
 
   /* --- motion --- */
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);

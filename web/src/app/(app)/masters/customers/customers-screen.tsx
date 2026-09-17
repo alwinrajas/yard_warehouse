@@ -26,7 +26,7 @@ export function CustomersScreen() {
         customer records are created automatically from whatever the label carries.
       </Alert>
 
-      <Panel padded={false}>
+      <Panel padded={false} className="shadow-card">
         <EmptyState
           headingLevel={2}
           variant="not-started"

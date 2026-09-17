@@ -1,5 +1,7 @@
 'use client'
 
+import { PackagePlus } from 'lucide-react'
+
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -78,6 +80,7 @@ export function OpeningStockScreen() {
 
   const header = (
     <PageHeader
+      icon={<PackagePlus className="size-5" />}
       title="Opening Stock"
       context="Record what is already in the yard, once, at go-live"
       breadcrumbs={[{ label: 'Configuration', href: '/masters' }, { label: 'Opening Stock' }]}
@@ -88,7 +91,7 @@ export function OpeningStockScreen() {
     return (
       <div className="flex max-w-3xl flex-col gap-6">
         {header}
-        <Panel>
+        <Panel className="shadow-card">
           <Skeleton className="h-5 w-48" />
           <Skeleton className="mt-3 h-24 w-full" />
         </Panel>
@@ -100,7 +103,7 @@ export function OpeningStockScreen() {
     return (
       <div className="flex max-w-3xl flex-col gap-6">
         {header}
-        <Panel padded={false}>
+        <Panel padded={false} className="shadow-card">
           <EmptyState
             headingLevel={2}
             variant="error"
@@ -122,7 +125,7 @@ export function OpeningStockScreen() {
           <span className="font-mono">{status.data?.setting_reference ?? 'CFG-17'}</span> in System
           Settings, and switches it off again once normal operation begins.
         </Alert>
-        <Panel padded={false}>
+        <Panel padded={false} className="shadow-card">
           <EmptyState
             headingLevel={2}
             variant="not-started"
@@ -181,7 +184,7 @@ export function OpeningStockScreen() {
         <span className="font-mono">CFG-17</span> off once go-live is complete.
       </Alert>
 
-      <Panel>
+      <Panel className="shadow-card">
         <div className="flex items-baseline justify-between gap-3">
           <h2 className="text-h3 text-graphite-800">Capture</h2>
           <span className="text-body-sm text-graphite-500">
@@ -269,7 +272,7 @@ export function OpeningStockScreen() {
       </Panel>
 
       {status.data.recent.length > 0 ? (
-        <Panel>
+        <Panel className="shadow-card">
           <h2 className="text-h3 text-graphite-800">Recently captured</h2>
           <ul className="mt-3 divide-y divide-graphite-200">
             {status.data.recent.map((txn) => (

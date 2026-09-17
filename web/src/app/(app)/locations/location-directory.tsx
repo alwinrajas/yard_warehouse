@@ -1,5 +1,7 @@
 'use client'
 
+import { MapPin } from 'lucide-react'
+
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
@@ -112,6 +114,7 @@ export function LocationDirectory() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
+        icon={<MapPin className="size-5" />}
         title="Locations"
         context={`${formatNumber(list.pagination.total)} location${list.pagination.total === 1 ? '' : 's'}`}
         breadcrumbs={[{ label: 'Inventory' }, { label: 'Locations' }]}
@@ -125,7 +128,7 @@ export function LocationDirectory() {
         }
       />
 
-      <Panel padded={false} className="overflow-hidden">
+      <Panel padded={false} className="overflow-hidden shadow-card">
         <div className="flex flex-col gap-3 p-4">
           <DataTableToolbar
             searchValue={list.search}

@@ -1,5 +1,7 @@
 'use client'
 
+import { ScrollText } from 'lucide-react'
+
 import { useState } from 'react'
 
 import { AuditDiff } from '@/components/domain/audit-diff'
@@ -60,6 +62,7 @@ export function AuditScreen() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
+        icon={<ScrollText className="size-5" />}
         title="Audit Log"
         context={`${formatNumber(list.pagination.total)} recorded event${list.pagination.total === 1 ? '' : 's'}`}
         breadcrumbs={[{ label: 'Insights' }, { label: 'Audit' }]}
@@ -71,7 +74,7 @@ export function AuditScreen() {
         modified is not an audit record.
       </Alert>
 
-      <Panel padded={false} className="overflow-hidden">
+      <Panel padded={false} className="overflow-hidden shadow-card">
         <div className="flex flex-col gap-3 p-4">
           <DataTableToolbar searchValue={list.search} onSearchChange={list.setSearch} searchPlaceholder="Search…" />
           <FilterBar

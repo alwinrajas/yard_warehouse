@@ -1,5 +1,7 @@
 'use client'
 
+import { UserCog } from 'lucide-react'
+
 import { useState } from 'react'
 
 import { PermissionGate } from '@/components/domain/permission-gate'
@@ -83,6 +85,7 @@ export function UsersScreen() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
+        icon={<UserCog className="size-5" />}
         title="Users & Roles"
         context={`${formatNumber(list.pagination.total)} account${list.pagination.total === 1 ? '' : 's'} — individual credentials only, never shared`}
         breadcrumbs={[{ label: 'Administration' }, { label: 'Users' }]}
@@ -97,7 +100,7 @@ export function UsersScreen() {
         </Alert>
       ) : null}
 
-      <Panel padded={false} className="overflow-hidden">
+      <Panel padded={false} className="overflow-hidden shadow-card">
         <div className="flex flex-col gap-3 p-4">
           <DataTableToolbar
             searchValue={list.search}
@@ -156,7 +159,7 @@ export function UsersScreen() {
         ) : null}
       </Panel>
 
-      <Panel>
+      <Panel className="shadow-card">
         <h2 className="text-h3 text-graphite-800">Roles and permissions</h2>
         <p className="mt-1 text-body-sm text-graphite-500">
           Permissions are enforced by the API on every request. What the interface shows or hides is

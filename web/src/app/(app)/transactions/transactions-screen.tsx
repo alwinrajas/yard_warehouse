@@ -1,5 +1,7 @@
 'use client'
 
+import { History } from 'lucide-react'
+
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
@@ -72,12 +74,13 @@ export function TransactionsScreen() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
+        icon={<History className="size-5" />}
         title="Transactions"
         context={`${formatNumber(list.pagination.total)} recorded movement${list.pagination.total === 1 ? '' : 's'} — append-only`}
         breadcrumbs={[{ label: 'Insights' }, { label: 'Transactions' }]}
       />
 
-      <Panel padded={false} className="overflow-hidden">
+      <Panel padded={false} className="overflow-hidden shadow-card">
         <div className="flex flex-col gap-3 p-4">
           <DataTableToolbar
             searchValue={list.search}

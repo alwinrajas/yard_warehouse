@@ -178,9 +178,12 @@ export function DataTable<T>({
                   }
                   style={{ height: DENSITY_HEIGHT[density] }}
                   className={cn(
-                    'border-b border-graphite-200 transition-colors duration-fast ease-standard',
+                    'border-b border-graphite-100 transition-colors duration-fast ease-standard',
+                    'last:border-0',
                     onRowClick && 'cursor-pointer',
-                    selected ? 'bg-anodic-50' : 'hover:bg-graphite-25',
+                    selected
+                      ? 'bg-anodic-50 shadow-[inset_3px_0_0_var(--color-anodic-600)]'
+                      : 'hover:bg-anodic-50/40',
                     'focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-anodic-400',
                   )}
                 >

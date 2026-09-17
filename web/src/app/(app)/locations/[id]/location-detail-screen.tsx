@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, MapPin } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -68,7 +68,7 @@ export function LocationDetailScreen({ id }: { id: string }) {
     return (
       <div className="flex flex-col gap-6">
         <Skeleton className="h-8 w-56" />
-        <Panel>
+        <Panel className="shadow-card">
           <Skeleton className="h-24 w-full" />
         </Panel>
       </div>
@@ -77,7 +77,7 @@ export function LocationDetailScreen({ id }: { id: string }) {
 
   if (contents.error || !contents.data) {
     return (
-      <Panel padded={false}>
+      <Panel padded={false} className="shadow-card">
         <EmptyState
           variant="error"
           title="Could not load this location"
@@ -102,6 +102,7 @@ export function LocationDetailScreen({ id }: { id: string }) {
   return (
     <div className="flex max-w-5xl flex-col gap-6">
       <PageHeader
+        icon={<MapPin className="size-5" />}
         title={location.code}
         context={[location.facility_name, location.zone_name].filter(Boolean).join(' › ')}
         breadcrumbs={[
@@ -145,7 +146,7 @@ export function LocationDetailScreen({ id }: { id: string }) {
       ) : null}
 
       <div className="grid gap-4 lg:grid-cols-2">
-        <Panel>
+        <Panel className="shadow-card">
           <PanelHeader title="Location" />
           <LocationRef
             location={{
@@ -172,7 +173,7 @@ export function LocationDetailScreen({ id }: { id: string }) {
           />
         </Panel>
 
-        <Panel>
+        <Panel className="shadow-card">
           <PanelHeader
             title="Barcode"
             description="Identity is permanent. A reprint reproduces the same value."
@@ -207,7 +208,7 @@ export function LocationDetailScreen({ id }: { id: string }) {
         </Panel>
       </div>
 
-      <Panel padded={false}>
+      <Panel padded={false} className="shadow-card">
         <div className="p-5 pb-3">
           <PanelHeader
             title={`Pallets at this location (${pallets.length})`}
