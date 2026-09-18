@@ -105,6 +105,27 @@
     animation: rise var(--duration-base) var(--ease-standard) both;
   }
 
+  /* Skeleton shimmer. A pulse reads as "broken"; a sweep reads as "coming". */
+  .anim-shimmer {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--color-graphite-100);
+  }
+
+  .anim-shimmer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--color-graphite-0) 65%, transparent),
+      transparent
+    );
+    animation: shimmer 1.6s var(--ease-standard) infinite;
+  }
+
   @keyframes donut-sweep {
     from {
       opacity: 0;
@@ -125,6 +146,23 @@
     }
   }
 
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  /* The PDA success countdown. It communicates that the screen is about to
+     advance on its own; without it, the change reads as a glitch (docs/08 §2). */
+  @keyframes pda-dismiss {
+    from {
+      transform: scaleX(1);
+    }
+    to {
+      transform: scaleX(0);
+    }
+  }
+
   /* Subtle lift for interactive cards. Colour and border carry the state; the
      shadow only says "this responds to you". */
   .card-interactive {
@@ -135,8 +173,123 @@
   }
 
   .card-interactive:hover {
-    box-shadow: var(--shadow-e2);
+    box-shadow: var(--shadow-card-hover);
     transform: translateY(-1px);
+  }
+
+  /* --- premium canvas & brand chrome ------------------------------------
+     Depth without borders: a faint brand-tinted wash at the top of the canvas
+     lets the white panels read as raised surfaces (docs/21 §4), and the sign-in
+     brand panel carries the product's identity before any data arrives.
+     Every gradient below is built from tokens — no off-system colour. */
+  .canvas-tint {
+    background-image:
+      radial-gradient(
+        80rem 24rem at 22% -10rem,
+        color-mix(in srgb, var(--color-anodic-100) 62%, transparent),
+        transparent 70%
+      ),
+      radial-gradient(
+        64rem 20rem at 88% -12rem,
+        color-mix(in srgb, var(--color-chart-5) 22%, transparent),
+        transparent 72%
+      );
+  }
+
+  /* The brand wash behind the content column of the sign-in page. */
+  .auth-canvas {
+    background-image:
+      radial-gradient(
+        70rem 30rem at 50% -14rem,
+        color-mix(in srgb, var(--color-anodic-100) 70%, transparent),
+        transparent 68%
+      ),
+      linear-gradient(
+        180deg,
+        var(--color-graphite-0) 0%,
+        var(--color-surface-canvas) 100%
+      );
+  }
+
+  /* Hairline + soft elevation, the recipe every raised surface shares so the
+     product reads as one material rather than a set of ad-hoc boxes. */
+  .surface-card {
+    border: 1px solid color-mix(in srgb, var(--color-graphite-200) 74%, transparent);
+    background-color: var(--color-graphite-0);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* A 1px gradient hairline along the top edge of a raised surface. */
+  .edge-highlight::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 1px;
+    background-image: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--color-graphite-0) 90%, transparent),
+      transparent
+    );
+  }
+
+  .brand-panel {
+    background:
+      radial-gradient(
+        50rem 26rem at 92% -12%,
+        color-mix(in srgb, var(--color-chart-5) 42%, transparent),
+        transparent 58%
+      ),
+      radial-gradient(
+        42rem 30rem at -16% 116%,
+        color-mix(in srgb, var(--color-anodic-400) 46%, transparent),
+        transparent 60%
+      ),
+      radial-gradient(
+        34rem 22rem at 62% 46%,
+        color-mix(in srgb, var(--color-chart-3) 16%, transparent),
+        transparent 64%
+      ),
+      linear-gradient(
+        152deg,
+        var(--color-graphite-950) 0%,
+        var(--color-anodic-900) 46%,
+        var(--color-anodic-800) 78%,
+        var(--color-anodic-700) 100%
+      );
+  }
+
+  /* The warehouse racking: a hairline grid that fades out from the top-right,
+     so the panel reads as space and depth rather than as a wallpaper. */
+  .brand-grid {
+    background-image:
+      linear-gradient(
+        color-mix(in srgb, var(--color-graphite-0) 5%, transparent) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--color-graphite-0) 5%, transparent) 1px,
+        transparent 1px
+      );
+    background-size: 2.75rem 2.75rem;
+    mask-image: radial-gradient(64rem 44rem at 72% 16%, black 25%, transparent 78%);
+    -webkit-mask-image: radial-gradient(64rem 44rem at 72% 16%, black 25%, transparent 78%);
+  }
+
+  /* Vignette so the brand panel's edges fall away and the panel reads as a
+     lit surface rather than a flat rectangle of colour. */
+  .brand-vignette::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      120% 90% at 20% 0%,
+      transparent 42%,
+      color-mix(in srgb, var(--color-graphite-950) 42%, transparent) 100%
+    );
   }
 
   /* Skip link — visible only when focused. */

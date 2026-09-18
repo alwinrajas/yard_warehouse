@@ -67,6 +67,7 @@ export function PdaPutAway() {
     return (
       <PdaResult
         ok
+        onDismiss={() => reset(true)}
         replayed={replayed}
         title="Stored"
         reference={result.transaction.txn_ref}

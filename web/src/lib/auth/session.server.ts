@@ -48,7 +48,10 @@ export async function persistSession(
     60,
     Math.floor((new Date(login.expires_at).getTime() - Date.now()) / 1000),
   )
-  const session = { ...toSession(login.user), channel }
+  // Recorded here because this is where the session actually begins. The PDA
+  // header reads it as shift-elapsed (docs/08 §2); CFG-20 allows one active PDA
+  // session per user, so signing in is starting work.
+  const session = { ...toSession(login.user), channel, signedInAt: new Date().toISOString() }
 
   jar.set(TOKEN_COOKIE, login.token, { ...COOKIE_OPTIONS, maxAge })
   jar.set(SESSION_COOKIE, JSON.stringify({ ...session, mustChangePassword: login.user.must_change_password }), {

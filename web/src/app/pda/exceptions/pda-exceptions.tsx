@@ -70,6 +70,7 @@ export function PdaExceptions() {
     return (
       <PdaResult
         ok
+        onDismiss={() => reset()}
         title="Hold placed"
         details={[
           { label: 'Pallet', value: placed.pallet_number ?? '—' },

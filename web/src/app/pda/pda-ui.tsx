@@ -4,6 +4,8 @@ import { CircleCheck, CircleX, ScanLine } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 
+import { pdaFeedback } from '@/features/pda/feedback'
+
 import type { ApiError } from '@/lib/api/errors'
 import { cn } from '@/lib/cn'
 import { formatTime } from '@/lib/format'
@@ -121,10 +123,15 @@ export function PdaButton({
 }
 
 /**
- * D-08 Result (docs/24 §4).
+ * D-08 Result (docs/24 §4) — and the single place a settled result is announced.
  *
  * Success renders only with a transaction reference — there is no optimistic
- * variant, because a success screen without one would be a lie (BRD §21).
+ * variant, because a success screen without one would be a lie (BRD §21). By the
+ * time this mounts the server has already answered, so announcing here cannot
+ * get ahead of the commit no matter which screen rendered it.
+ *
+ * Every PDA flow renders its outcome through this component, which is why the
+ * sound and vibration live here rather than in eight separate screens.
  */
 export function PdaResult({
   ok,
@@ -133,6 +140,9 @@ export function PdaResult({
   details,
   actions,
   replayed = false,
+  announce = true,
+  onDismiss,
+  dismissAfterMs = 3000,
 }: {
   ok: boolean
   title: string
@@ -141,7 +151,49 @@ export function PdaResult({
   actions: ReactNode
   /** True when the server replayed an earlier identical request (BR-08). */
   replayed?: boolean
+  /**
+   * Fire the sound and vibration. False for a result being re-read rather than
+   * one that just happened — the receipt screen, for instance.
+   */
+  announce?: boolean
+  /**
+   * Continue automatically once the operator has had time to read it. Honoured
+   * on success only: docs/08 §2 requires a failure to need a deliberate tap, so
+   * it cannot be missed while looking away.
+   */
+  onDismiss?: () => void
+  dismissAfterMs?: number
 }) {
+  // Announce once per result, not once per render. The dependency is the
+  // reference rather than the object, so re-rendering the same outcome is silent
+  // while a second transaction announces again.
+  const announced = useRef<string | null>(null)
+  const signature = `${ok ? 'ok' : 'fail'}:${reference ?? title}`
+
+  useEffect(() => {
+    if (!announce) return
+    if (announced.current === signature) return
+
+    announced.current = signature
+    if (ok) pdaFeedback.success()
+    else pdaFeedback.error()
+  }, [announce, ok, signature])
+
+  const autoDismiss = ok && Boolean(onDismiss)
+
+  // Held in a ref because callers pass an inline arrow, so its identity changes
+  // on every render. Depending on it directly would tear down and restart the
+  // timer each time, and the three seconds would never elapse.
+  const dismissRef = useRef(onDismiss)
+  dismissRef.current = onDismiss
+
+  useEffect(() => {
+    if (!autoDismiss) return
+
+    const timer = window.setTimeout(() => dismissRef.current?.(), dismissAfterMs)
+    return () => window.clearTimeout(timer)
+  }, [autoDismiss, dismissAfterMs, signature])
+
   return (
     <div
       role="status"
@@ -183,6 +235,24 @@ export function PdaResult({
       ) : null}
 
       <div className="flex w-full flex-col gap-2">{actions}</div>
+
+      {autoDismiss ? (
+        <div className="w-full">
+          <span
+            aria-hidden
+            className="block h-1 w-full overflow-hidden rounded-full bg-graphite-800"
+          >
+            <span
+              className="block h-full rounded-full bg-signal-dark-success-fg"
+              style={{
+                transformOrigin: 'left',
+                animation: `pda-dismiss ${dismissAfterMs}ms linear forwards`,
+              }}
+            />
+          </span>
+          <p className="mt-1.5 text-caption text-graphite-400">Continuing automatically…</p>
+        </div>
+      ) : null}
     </div>
   )
 }

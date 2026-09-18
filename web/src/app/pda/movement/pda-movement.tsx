@@ -74,6 +74,7 @@ export function PdaMovement() {
     return (
       <PdaResult
         ok
+        onDismiss={() => reset()}
         replayed={replayed}
         title="Moved"
         reference={result.transaction.txn_ref}

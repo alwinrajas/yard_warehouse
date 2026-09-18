@@ -47,6 +47,7 @@ export function PdaLastResult() {
   return (
     <PdaResult
       ok
+      announce={false}
       title={receipt.title}
       reference={receipt.reference}
       details={[...receipt.details, { label: 'Time', value: formatDateTime(receipt.at) }]}

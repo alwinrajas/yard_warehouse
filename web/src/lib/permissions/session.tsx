@@ -34,6 +34,8 @@ export type Session = {
   permissions: Permission[]
   /** The surface this session was opened for; stamped on its transactions. */
   channel?: 'WEB' | 'PDA'
+  /** When the BFF issued this session. Drives PDA shift-elapsed (docs/08 §2). */
+  signedInAt?: string
 }
 
 type SessionContextValue = {

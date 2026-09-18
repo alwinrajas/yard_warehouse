@@ -68,6 +68,7 @@ export function PdaDispatch() {
     return (
       <PdaResult
         ok
+        onDismiss={() => reset()}
         replayed={replayed}
         title="Dispatched"
         reference={result.transaction.txn_ref}
