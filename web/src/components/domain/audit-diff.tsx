@@ -26,7 +26,7 @@ export function AuditDiff({
         : String(value)
 
   return (
-    <div className={cn('overflow-hidden rounded-lg border border-graphite-200', className)}>
+    <div className={cn('overflow-hidden rounded-xl border border-graphite-200/80', className)}>
       <table className="w-full text-body-sm">
         <caption className="sr-only">Values before and after the change</caption>
         <thead className="bg-graphite-50">

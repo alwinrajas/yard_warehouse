@@ -253,7 +253,7 @@ export function PalletDetailScreen({ id }: { id: string }) {
             ) : (
               <ul className="flex flex-col gap-3">
                 {holds.map((hold) => (
-                  <li key={hold.id} className="rounded-lg border border-graphite-200 p-3">
+                  <li key={hold.id} className="rounded-xl border border-graphite-200/80 bg-graphite-25 p-3">
                     <div className="flex flex-wrap items-baseline gap-2">
                       <StatusBadge status={statusKeyOf(hold.hold_type === 'HOLD' ? 'ON_HOLD' : hold.hold_type)} />
                       <span className="text-caption text-graphite-500">

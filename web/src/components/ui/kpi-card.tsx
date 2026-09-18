@@ -19,31 +19,36 @@ export type KpiTone = 'neutral' | 'primary' | 'success' | 'warning' | 'danger'
  * equally-coloured cards would mean nothing; one amber card among seven
  * neutrals means "look here".
  */
-const TONES: Record<KpiTone, { icon: string; accent: string; border: string }> = {
+const TONES: Record<KpiTone, { icon: string; accent: string; border: string; glow: string }> = {
   neutral: {
-    icon: 'bg-graphite-100 text-graphite-600',
+    icon: 'border-graphite-200 bg-graphite-50 text-graphite-600',
     accent: 'bg-graphite-300',
-    border: 'border-graphite-200',
+    border: 'border-graphite-200/80',
+    glow: '',
   },
   primary: {
-    icon: 'bg-anodic-50 text-anodic-600',
+    icon: 'border-anodic-200 bg-anodic-50 text-anodic-600',
     accent: 'bg-anodic-500',
-    border: 'border-graphite-200',
+    border: 'border-graphite-200/80',
+    glow: 'group-hover:shadow-glow',
   },
   success: {
-    icon: 'bg-signal-success-surface text-signal-success-fg',
+    icon: 'border-signal-success-border bg-signal-success-surface text-signal-success-fg',
     accent: 'bg-signal-success-fg',
-    border: 'border-graphite-200',
+    border: 'border-graphite-200/80',
+    glow: '',
   },
   warning: {
-    icon: 'bg-signal-warning-surface text-signal-warning-fg',
+    icon: 'border-signal-warning-border bg-signal-warning-surface text-signal-warning-fg',
     accent: 'bg-signal-warning-fg',
-    border: 'border-signal-warning-border',
+    border: 'border-signal-warning-border/70',
+    glow: '',
   },
   danger: {
-    icon: 'bg-signal-danger-surface text-signal-danger-fg',
+    icon: 'border-signal-danger-border bg-signal-danger-surface text-signal-danger-fg',
     accent: 'bg-signal-danger-fg',
-    border: 'border-signal-danger-border',
+    border: 'border-signal-danger-border/70',
+    glow: '',
   },
 }
 
@@ -81,32 +86,35 @@ export function KpiCard({
     <Wrapper
       {...(interactive ? { type: 'button' as const, onClick } : {})}
       className={cn(
-        'group relative flex w-full flex-col items-start overflow-hidden rounded-2xl border bg-graphite-0',
-        'p-5 text-left shadow-card transition-all duration-fast ease-standard',
+        'group relative flex w-full flex-col items-start overflow-hidden rounded-lg border bg-graphite-0',
+        'p-5 text-left transition-colors duration-fast ease-standard',
         palette.border,
-        interactive && 'card-interactive hover:border-anodic-300 hover:shadow-card-hover',
+        interactive && 'card-interactive hover:border-anodic-300',
+        interactive && palette.glow,
         interactive &&
           'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-anodic-400',
         className,
       )}
     >
-      {/* 3px gradient accent along the top edge */}
-      <span aria-hidden className={cn('absolute inset-x-0 top-0 h-[3px]', palette.accent)} />
+      <span aria-hidden className={cn('absolute inset-x-0 top-0 h-0.5', palette.accent)} />
 
       <span className="flex w-full items-center justify-between gap-3">
-        <span className="text-overline uppercase tracking-wider text-graphite-500 font-medium">{label}</span>
+        <span className="text-overline uppercase tracking-[0.1em] text-graphite-500">{label}</span>
         {icon ? (
           <span
             aria-hidden
-            className={cn('flex size-9 shrink-0 items-center justify-center rounded-xl shadow-xs transition-transform duration-fast ease-standard group-hover:scale-105', palette.icon)}
+            className={cn(
+              'flex size-9 shrink-0 items-center justify-center rounded-xl border shadow-xs',
+              palette.icon,
+            )}
           >
             {icon}
           </span>
         ) : null}
       </span>
 
-      <span className="mt-3 flex w-full items-baseline gap-2">
-        <span className="text-display font-semibold leading-none tracking-tight tabular-nums text-graphite-900">
+      <span className="mt-4 flex w-full items-baseline gap-2">
+        <span className="text-display font-bold leading-none tracking-[-0.03em] tabular-nums text-graphite-900">
           {typeof value === 'number' ? formatNumber(value) : value}
         </span>
         {delta !== undefined && delta !== 0 ? (

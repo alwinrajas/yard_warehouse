@@ -27,7 +27,7 @@ export function PopoverContent({
         sideOffset={6}
         aria-label={ariaLabel}
         className={cn(
-          'anim-fade z-50 rounded-lg border border-graphite-200 bg-graphite-0 p-3 shadow-e2',
+          'anim-fade z-50 rounded-xl border border-graphite-200/80 bg-graphite-0 p-3.5 shadow-pop',
           className,
         )}
       >

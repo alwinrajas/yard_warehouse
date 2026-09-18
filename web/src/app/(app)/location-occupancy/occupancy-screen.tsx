@@ -85,7 +85,7 @@ export function OccupancyScreen() {
           <div
             role="group"
             aria-label="Board density"
-            className="flex items-center gap-0.5 rounded-lg border border-graphite-200 bg-graphite-0 p-1 shadow-e0"
+            className="flex items-center gap-0.5 rounded-xl border border-graphite-200/80 bg-graphite-50/70 p-1 shadow-xs"
           >
             {(
               [
@@ -100,11 +100,11 @@ export function OccupancyScreen() {
                 onClick={() => setView(option.mode)}
                 aria-pressed={view === option.mode}
                 className={cn(
-                  'flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-body-sm',
-                  'transition-colors duration-fast ease-standard',
+                  'flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-body-sm',
+                  'transition-all duration-fast ease-standard',
                   view === option.mode
-                    ? 'bg-anodic-50 font-medium text-anodic-700'
-                    : 'text-graphite-600 hover:bg-graphite-50',
+                    ? 'bg-graphite-0 font-semibold text-anodic-700 shadow-xs ring-1 ring-graphite-200/70'
+                    : 'text-graphite-600 hover:bg-graphite-0/70 hover:text-graphite-900',
                 )}
               >
                 <option.icon className="size-4" aria-hidden />

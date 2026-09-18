@@ -39,13 +39,14 @@ export function Tooltip({
           side={side}
           sideOffset={6}
           className={cn(
-            'anim-fade z-50 max-w-xs rounded-md bg-graphite-900 px-2 py-1',
-            'text-caption text-graphite-0 shadow-e2',
+            'anim-fade z-50 max-w-xs rounded-lg bg-graphite-950 px-2.5 py-1.5',
+            'text-caption text-graphite-100 shadow-pop',
+            'ring-1 ring-graphite-0/10',
             className,
           )}
         >
           {content}
-          <TooltipPrimitive.Arrow className="fill-graphite-900" />
+          <TooltipPrimitive.Arrow className="fill-graphite-950" />
         </TooltipPrimitive.Content>
       </TooltipPrimitive.Portal>
     </TooltipPrimitive.Root>

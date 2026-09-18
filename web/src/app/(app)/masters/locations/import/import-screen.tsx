@@ -220,7 +220,7 @@ export function LocationImportScreen() {
                 skipped silently.
               </Alert>
 
-              <div className="mt-3 overflow-hidden rounded-lg border border-graphite-200">
+              <div className="mt-3 overflow-hidden rounded-xl border border-graphite-200/80">
                 <table className="w-full text-body-sm">
                   <caption className="sr-only">Row-level validation errors</caption>
                   <thead className="bg-graphite-50">
@@ -264,7 +264,7 @@ export function LocationImportScreen() {
               </Alert>
 
               {batch.preview?.length ? (
-                <div className="overflow-hidden rounded-lg border border-graphite-200">
+                <div className="overflow-hidden rounded-xl border border-graphite-200/80">
                   <table className="w-full text-body-sm">
                     <caption className="sr-only">Preview of the first rows to be created</caption>
                     <thead className="bg-graphite-50">

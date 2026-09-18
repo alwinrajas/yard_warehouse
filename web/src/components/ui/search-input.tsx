@@ -43,9 +43,13 @@ export function SearchInput({
   return (
     <div
       className={cn(
-        'flex h-9 items-center gap-2 rounded-md border border-graphite-300 bg-graphite-0 px-2.5',
-        'transition-colors duration-fast ease-standard hover:border-graphite-400',
-        'focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-anodic-400',
+        // Deliberately the same material as <Input> — a search box and a text
+        // box that look different for no reason is how a product starts to
+        // feel assembled rather than designed.
+        'flex h-9.5 items-center gap-2.5 rounded-xl border border-graphite-200 bg-graphite-0 px-3',
+        'shadow-xs inset-shadow-[0_1px_2px_0_rgba(17,22,31,0.03)]',
+        'transition-[border-color,box-shadow] duration-fast ease-standard hover:border-graphite-300',
+        'focus-within:border-anodic-400 focus-within:ring-[3px] focus-within:ring-anodic-500/15',
         className,
       )}
     >
@@ -72,7 +76,7 @@ export function SearchInput({
             setInternal('')
             inputRef.current?.focus()
           }}
-          className="shrink-0 rounded-sm text-graphite-400 hover:text-graphite-700"
+          className="shrink-0 rounded-sm text-graphite-400 transition-colors duration-fast hover:text-graphite-700"
         >
           <X className="size-3.5" aria-hidden />
         </button>

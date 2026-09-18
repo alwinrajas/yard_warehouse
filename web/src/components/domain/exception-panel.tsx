@@ -69,7 +69,7 @@ export function ExceptionPanel({
           ) : null}
 
           {comparison ? (
-            <dl className="mt-3 overflow-hidden rounded-md border border-graphite-200 bg-graphite-0">
+            <dl className="mt-3 overflow-hidden rounded-xl border border-graphite-200/80 bg-graphite-0">
               <div className="flex items-baseline justify-between gap-4 border-b border-graphite-200 px-3 py-2">
                 <dt className="text-overline uppercase text-graphite-500">
                   {comparison.expectedLabel ?? 'Expected'}

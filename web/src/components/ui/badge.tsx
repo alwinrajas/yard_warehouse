@@ -8,7 +8,10 @@ import { cn } from '@/lib/cn'
  * the semantic token map so no screen invents its own status colour (docs/21 §2.4).
  */
 const badgeVariants = cva(
-  'inline-flex items-center gap-1.5 rounded-sm border px-1.5 py-0.5 text-caption font-medium',
+  [
+    'inline-flex items-center gap-1.5 rounded-full border font-semibold',
+    'px-2 py-0.5 text-caption tabular-nums',
+  ],
   {
     variants: {
       tone: {
@@ -17,7 +20,7 @@ const badgeVariants = cva(
         success: 'border-signal-success-border bg-signal-success-surface text-signal-success-fg',
         warning: 'border-signal-warning-border bg-signal-warning-surface text-signal-warning-fg',
         danger: 'border-signal-danger-border bg-signal-danger-surface text-signal-danger-fg',
-        outline: 'border-graphite-300 bg-graphite-0 text-graphite-600',
+        outline: 'border-graphite-200 bg-graphite-50 text-graphite-600',
       },
     },
     defaultVariants: { tone: 'neutral' },
@@ -45,8 +48,10 @@ export function CountBadge({ count, className }: { count: number; className?: st
   return (
     <span
       className={cn(
-        'inline-flex min-w-5 items-center justify-center rounded-full bg-signal-warning-surface',
-        'px-1.5 py-px text-overline tabular-nums text-signal-warning-fg',
+        'inline-flex min-w-5 items-center justify-center rounded-full',
+        'bg-gradient-to-b from-signal-warning-fg to-signal-warning-fg/85 px-1.5 py-px',
+        'text-overline tabular-nums text-graphite-0',
+        'ring-2 ring-graphite-0',
         className,
       )}
     >

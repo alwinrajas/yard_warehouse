@@ -7,7 +7,6 @@ import { useState, type FormEvent } from 'react'
 import { Alert, Button, Field, Input } from '@/components/ui'
 import { request } from '@/lib/api/client'
 import { ApiError, loginErrorMessage } from '@/lib/api/errors'
-import { APP_ENV, APP_VERSION } from '@/lib/app-config'
 import type { Session } from '@/lib/permissions/session'
 
 type LoginResult = { session: Session; mustChangePassword: boolean }
@@ -65,16 +64,19 @@ export function LoginForm() {
 
   return (
     <div>
-      <h2 className="text-h1 text-graphite-900">
-        {channel === 'PDA' ? 'Sign in to the PDA' : 'Sign in'}
+      <p className="text-overline uppercase tracking-[0.16em] text-anodic-600">
+        {channel === 'PDA' ? 'Operator access' : 'Secure access'}
+      </p>
+      <h2 className="mt-2 text-h1 text-graphite-900">
+        {channel === 'PDA' ? 'Sign in to the PDA' : 'Sign in to your workspace'}
       </h2>
-      <p className="mt-1 text-body-sm text-graphite-500">
+      <p className="mt-1.5 text-body-sm text-graphite-500">
         {channel === 'PDA'
           ? 'Use your individual operator account. Shared logins are not permitted.'
           : 'Use your individual ALU TRACK account.'}
       </p>
 
-      <form onSubmit={onSubmit} className="mt-6 flex flex-col gap-4" noValidate>
+      <form onSubmit={onSubmit} className="mt-7 flex flex-col gap-4" noValidate>
         <Field label="Username" required error={fieldErrors.username ?? null}>
           <Input
             name="username"
@@ -132,20 +134,12 @@ export function LoginForm() {
         </Button>
       </form>
 
-      <p className="mt-5 text-caption text-graphite-500">
-        Forgotten your password? ALU TRACK accounts are administrator-managed — contact your
-        system administrator for a reset. There is no self-service reset.
-      </p>
-
-
-      <p className="mt-8 text-caption text-graphite-400">
-        ALU TRACK v{APP_VERSION}
-        {APP_ENV !== 'production' ? (
-          <span className="ml-1.5 rounded-sm bg-signal-warning-surface px-1 text-signal-warning-fg">
-            {APP_ENV}
-          </span>
-        ) : null}
-      </p>
+      <div className="mt-6 border-t border-graphite-200/80 pt-4">
+        <p className="text-caption text-graphite-500">
+          Forgotten your password? ALU TRACK accounts are administrator-managed — contact your
+          system administrator for a reset. There is no self-service reset.
+        </p>
+      </div>
     </div>
   )
 }

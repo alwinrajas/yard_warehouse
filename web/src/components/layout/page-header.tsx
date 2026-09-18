@@ -39,15 +39,15 @@ export function PageHeader({
             <span
               aria-hidden
               className={cn(
-                'mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-xl',
-                'bg-gradient-to-br from-anodic-50 to-anodic-100 text-anodic-600',
+                'mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-lg',
+                'border border-anodic-200 bg-anodic-50 text-anodic-600',
               )}
             >
               {icon}
             </span>
           ) : null}
           <div className="min-w-0">
-            <h1 className="text-h1 text-graphite-900">{title}</h1>
+            <h1 className="text-h1 tracking-[-0.02em] text-graphite-900">{title}</h1>
             {context || meta ? (
               <div className="mt-1 flex flex-wrap items-center gap-x-2.5 gap-y-1">
                 {context ? <p className="text-body-sm text-graphite-500">{context}</p> : null}

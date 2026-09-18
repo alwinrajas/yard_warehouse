@@ -23,8 +23,8 @@ export function DropdownMenuContent({
         align={align}
         sideOffset={4}
         className={cn(
-          'anim-fade z-50 min-w-48 overflow-hidden rounded-md border border-graphite-200',
-          'bg-graphite-0 p-1 shadow-e2',
+          'anim-fade z-50 min-w-52 overflow-hidden rounded-xl border border-graphite-200/80',
+          'bg-graphite-0 p-1.5 shadow-pop',
           className,
         )}
       >
@@ -56,13 +56,13 @@ export function DropdownMenuItem({
         asChild
         disabled={disabled}
         className={cn(
-          'flex cursor-default select-none items-center gap-2 rounded-md px-2 py-1.5',
+          'flex cursor-default select-none items-center gap-2.5 rounded-lg px-2.5 py-2',
           'text-body-sm text-graphite-700 outline-none',
-          'data-[highlighted]:bg-graphite-50 data-[highlighted]:text-graphite-900',
+          'data-[highlighted]:bg-anodic-50/70 data-[highlighted]:text-anodic-800',
           'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
         )}
       >
-        <span>
+        <span className="flex items-center gap-2.5">
           {icon}
           {children}
         </span>
@@ -74,11 +74,11 @@ export function DropdownMenuItem({
       onSelect={onSelect}
       disabled={disabled}
       className={cn(
-        'flex cursor-default select-none items-center gap-2 rounded-md px-2 py-1.5',
-        'text-body-sm outline-none',
+        'flex cursor-default select-none items-center gap-2.5 rounded-lg px-2.5 py-2',
+        'text-body-sm outline-none transition-colors duration-fast',
         tone === 'danger'
           ? 'text-signal-danger-fg data-[highlighted]:bg-signal-danger-surface'
-          : 'text-graphite-700 data-[highlighted]:bg-graphite-50 data-[highlighted]:text-graphite-900',
+          : 'text-graphite-700 data-[highlighted]:bg-anodic-50/70 data-[highlighted]:text-anodic-800',
         'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       )}
     >
@@ -90,12 +90,12 @@ export function DropdownMenuItem({
 
 export function DropdownMenuLabel({ children }: { children: ReactNode }) {
   return (
-    <DropdownPrimitive.Label className="px-2 py-1 text-overline uppercase text-graphite-500">
+    <DropdownPrimitive.Label className="px-2.5 pb-1 pt-1.5 text-overline uppercase tracking-[0.1em] text-graphite-500">
       {children}
     </DropdownPrimitive.Label>
   )
 }
 
 export function DropdownMenuSeparator() {
-  return <DropdownPrimitive.Separator className="my-1 h-px bg-graphite-200" />
+  return <DropdownPrimitive.Separator className="my-1.5 h-px bg-graphite-200/80" />
 }

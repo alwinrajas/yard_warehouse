@@ -38,7 +38,7 @@ export function PrivilegedAction({
         </div>
       </header>
 
-      <div className="mt-4 rounded-lg border border-graphite-200 bg-graphite-0 p-4">{children}</div>
+      <div className="surface-card mt-4 rounded-xl p-4 sm:p-5">{children}</div>
     </section>
   )
 }

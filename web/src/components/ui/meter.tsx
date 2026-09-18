@@ -27,7 +27,10 @@ export function Meter({
   return (
     <div className={cn('flex items-center gap-3', className)}>
       <span className="w-28 shrink-0 truncate text-body-sm text-graphite-700 sm:w-32">{label}</span>
-      <span aria-hidden className="h-2 min-w-0 flex-1 overflow-hidden rounded-full bg-graphite-100">
+      <span
+        aria-hidden
+        className="h-2 min-w-0 flex-1 overflow-hidden rounded-full bg-graphite-100 inset-shadow-[0_1px_1px_0_rgba(17,22,31,0.05)]"
+      >
         <span
           className="anim-meter block h-full rounded-full"
           style={{ width: `${share * 100}%`, backgroundColor: color }}

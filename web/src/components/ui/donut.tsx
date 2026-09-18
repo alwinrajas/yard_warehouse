@@ -85,7 +85,10 @@ export function Donut({
   )
 }
 
-/** The legend that belongs beside a donut: swatch, label, value, share. */
+/**
+ * The legend that belongs beside a donut: indicator, label, value, share.
+ * A quiet row hierarchy — no chips, no boxes; the panel border is the frame.
+ */
 export function DonutLegend({
   slices,
   total,

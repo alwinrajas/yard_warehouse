@@ -41,13 +41,14 @@ export function Sparkline({
     neutral: 'stroke-graphite-400',
   }[tone]
 
-  const fill = {
-    primary: 'fill-anodic-500',
-    success: 'fill-signal-success-fg',
-    warning: 'fill-signal-warning-fg',
-    danger: 'fill-signal-danger-fg',
-    neutral: 'fill-graphite-400',
+  const stop = {
+    primary: 'var(--color-anodic-500)',
+    success: 'var(--color-signal-success-fg)',
+    warning: 'var(--color-signal-warning-fg)',
+    danger: 'var(--color-signal-danger-fg)',
+    neutral: 'var(--color-graphite-400)',
   }[tone]
+  const gradientId = `spark-${tone}`
 
   return (
     <svg
@@ -57,10 +58,15 @@ export function Sparkline({
       className={cn('h-7 w-full', className)}
     >
       {filled ? (
-        <polygon
-          points={`0,${height} ${points.join(' ')} ${width},${height}`}
-          className={cn(fill, 'opacity-10')}
-        />
+        <>
+          <defs>
+            <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor={stop} stopOpacity="0.22" />
+              <stop offset="100%" stopColor={stop} stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          <polygon points={`0,${height} ${points.join(' ')} ${width},${height}`} fill={`url(#${gradientId})`} />
+        </>
       ) : null}
       <polyline
         points={points.join(' ')}

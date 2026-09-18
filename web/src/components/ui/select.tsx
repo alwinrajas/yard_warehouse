@@ -43,12 +43,13 @@ export function Select({
         aria-label={ariaLabel}
         className={cn(
           'flex h-9.5 w-full items-center justify-between gap-2 rounded-xl border bg-graphite-0 px-3',
-          'text-body-sm font-medium text-graphite-900 shadow-xs transition-all duration-fast ease-standard',
+          'text-body-sm font-medium text-graphite-900 shadow-xs inset-shadow-[0_1px_2px_0_rgba(17,22,31,0.03)]',
+          'transition-[border-color,box-shadow] duration-fast ease-standard',
           'data-[placeholder]:text-graphite-500',
-          'focus-visible:border-anodic-400 focus-visible:ring-2 focus-visible:ring-anodic-100',
+          'focus-visible:border-anodic-400 focus-visible:ring-[3px] focus-visible:ring-anodic-500/15',
           hasError
-            ? 'border-signal-danger-border ring-2 ring-signal-danger-surface'
-            : 'border-graphite-200/90 hover:border-graphite-300',
+            ? 'border-signal-danger-border focus-visible:border-signal-danger-fg focus-visible:ring-signal-danger-fg/15'
+            : 'border-graphite-200 hover:border-graphite-300',
           'disabled:cursor-not-allowed disabled:bg-graphite-100 disabled:opacity-70',
           className,
         )}
@@ -66,7 +67,7 @@ export function Select({
           sideOffset={6}
           className={cn(
             'anim-fade z-50 max-h-72 min-w-[var(--radix-select-trigger-width)] overflow-hidden',
-            'rounded-xl border border-graphite-200/90 bg-graphite-0 p-1 shadow-card-hover',
+            'rounded-xl border border-graphite-200/80 bg-graphite-0 p-1 shadow-pop',
           )}
         >
           <SelectPrimitive.Viewport className="p-1">
@@ -78,7 +79,7 @@ export function Select({
                 className={cn(
                   'relative flex cursor-default select-none items-start gap-2 rounded-lg py-2 pl-7 pr-2.5',
                   'text-body-sm font-medium text-graphite-700 outline-none transition-colors duration-fast',
-                  'data-[highlighted]:bg-anodic-50/70 data-[highlighted]:text-anodic-800',
+                  'data-[highlighted]:bg-anodic-50 data-[highlighted]:text-anodic-800',
                   'data-[state=checked]:bg-anodic-50 data-[state=checked]:text-anodic-700 data-[state=checked]:font-semibold',
                   'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
                 )}

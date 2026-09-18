@@ -8,6 +8,10 @@ import { cn } from '@/lib/cn'
  *
  * "No data" is where most enterprise UIs stop helping. Every variant here
  * distinguishes *why* the view is empty and offers the matching action (UX-10).
+ *
+ * The icon sits in a soft tile rather than floating on the surface: it gives the
+ * state a centre of gravity, so an empty panel still looks considered rather
+ * than broken.
  */
 export type EmptyStateVariant =
   | 'no-data'
@@ -19,14 +23,38 @@ export type EmptyStateVariant =
 
 const VARIANT: Record<
   EmptyStateVariant,
-  { icon: ComponentType<{ className?: string }>; tone: string }
+  { icon: ComponentType<{ className?: string }>; tile: string; glyph: string }
 > = {
-  'no-data': { icon: Inbox, tone: 'text-graphite-400' },
-  'no-results': { icon: SearchX, tone: 'text-graphite-400' },
-  'location-empty': { icon: PackageOpen, tone: 'text-graphite-400' },
-  'not-started': { icon: FileX, tone: 'text-graphite-400' },
-  error: { icon: TriangleAlert, tone: 'text-signal-danger-fg' },
-  forbidden: { icon: Lock, tone: 'text-graphite-400' },
+  'no-data': {
+    icon: Inbox,
+    tile: 'border-graphite-200/80 bg-gradient-to-b from-graphite-50 to-graphite-100/70',
+    glyph: 'text-graphite-400',
+  },
+  'no-results': {
+    icon: SearchX,
+    tile: 'border-graphite-200/80 bg-gradient-to-b from-graphite-50 to-graphite-100/70',
+    glyph: 'text-graphite-400',
+  },
+  'location-empty': {
+    icon: PackageOpen,
+    tile: 'border-graphite-200/80 bg-gradient-to-b from-graphite-50 to-graphite-100/70',
+    glyph: 'text-graphite-400',
+  },
+  'not-started': {
+    icon: FileX,
+    tile: 'border-graphite-200/80 bg-gradient-to-b from-graphite-50 to-graphite-100/70',
+    glyph: 'text-graphite-400',
+  },
+  error: {
+    icon: TriangleAlert,
+    tile: 'border-signal-danger-border/80 bg-gradient-to-b from-signal-danger-surface to-signal-danger-surface/60',
+    glyph: 'text-signal-danger-fg',
+  },
+  forbidden: {
+    icon: Lock,
+    tile: 'border-graphite-200/80 bg-gradient-to-b from-graphite-50 to-graphite-100/70',
+    glyph: 'text-graphite-400',
+  },
 }
 
 export function EmptyState({
@@ -59,20 +87,30 @@ export function EmptyState({
    */
   headingLevel?: 2 | 3 | 4
 }) {
-  const { icon: Icon, tone } = VARIANT[variant]
+  const { icon: Icon, tile, glyph } = VARIANT[variant]
   const Heading = `h${headingLevel}` as const
 
   return (
     <div
       className={cn(
         'flex flex-col items-center justify-center text-center',
-        compact ? 'px-4 py-8' : 'px-6 py-16',
+        compact ? 'px-4 py-9' : 'px-6 py-16',
         className,
       )}
       role={variant === 'error' ? 'alert' : undefined}
     >
-      <Icon className={cn('size-8', tone)} aria-hidden />
-      <Heading className="mt-3 text-h3 text-graphite-800">{title}</Heading>
+      <span
+        aria-hidden
+        className={cn(
+          'flex items-center justify-center rounded-2xl border shadow-xs',
+          compact ? 'size-11' : 'size-14',
+          tile,
+        )}
+      >
+        <Icon className={cn(compact ? 'size-5' : 'size-6', glyph)} />
+      </span>
+
+      <Heading className="mt-4 text-h3 text-graphite-900">{title}</Heading>
       {description ? (
         <p className="mt-1.5 max-w-md text-body-sm text-graphite-500">{description}</p>
       ) : null}

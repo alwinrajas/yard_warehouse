@@ -42,7 +42,7 @@ export function Swatch({
   return (
     <div className="min-w-0">
       <div
-        className="h-12 rounded-md border border-graphite-200"
+        className="h-12 rounded-lg border border-graphite-200/80"
         style={{ backgroundColor: `var(${varName})` }}
       />
       <p className="mt-1 truncate text-caption text-graphite-700">{name}</p>

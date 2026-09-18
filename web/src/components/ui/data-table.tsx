@@ -61,7 +61,7 @@ export function DataTable<T>({
       <div
         className={cn(
           'overflow-hidden bg-graphite-0',
-          embedded ? 'border-t border-graphite-200/80' : 'rounded-2xl border border-graphite-200/80 shadow-card',
+          embedded ? 'border-t border-graphite-200/80' : 'surface-card rounded-2xl',
           className,
         )}
       >
@@ -75,7 +75,7 @@ export function DataTable<T>({
       <div
         className={cn(
           'bg-graphite-0',
-          embedded ? 'border-t border-graphite-200/80' : 'rounded-2xl border border-graphite-200/80 shadow-card',
+          embedded ? 'border-t border-graphite-200/80' : 'surface-card rounded-2xl',
           className,
         )}
       >
@@ -102,7 +102,7 @@ export function DataTable<T>({
       <div
         className={cn(
           'bg-graphite-0',
-          embedded ? 'border-t border-graphite-200/80' : 'rounded-2xl border border-graphite-200/80 shadow-card',
+          embedded ? 'border-t border-graphite-200/80' : 'surface-card rounded-2xl',
           className,
         )}
       >
@@ -123,15 +123,15 @@ export function DataTable<T>({
     <div
       className={cn(
         'overflow-hidden bg-graphite-0',
-        embedded ? 'border-t border-graphite-200/80' : 'rounded-2xl border border-graphite-200/80 shadow-card',
+        embedded ? 'border-t border-graphite-200/80' : 'surface-card rounded-2xl',
         className,
       )}
     >
       <div className="overflow-x-auto">
         <table className="w-full border-collapse text-body-sm">
           {caption ? <caption className="sr-only">{caption}</caption> : null}
-          <thead className="sticky top-0 z-10 bg-graphite-50/90 backdrop-blur-xs">
-            <tr className="border-b border-graphite-200/80">
+          <thead className="sticky top-0 z-10 bg-graphite-50/85 backdrop-blur-md">
+            <tr className="border-b border-graphite-200">
               {columns.map((column) => {
                 const key = column.sortKey ?? column.id
                 const active = sort?.key === key
@@ -149,7 +149,7 @@ export function DataTable<T>({
                     aria-sort={ariaSort}
                     style={column.width ? { width: column.width } : undefined}
                     className={cn(
-                      'px-4 py-3 text-overline uppercase tracking-wider text-graphite-500 font-semibold',
+                      'px-4 py-3.5 text-overline uppercase tracking-[0.1em] text-graphite-500 font-semibold',
                       column.align === 'right' ? 'text-right' : 'text-left',
                       PRIORITY_CLASS[column.priority],
                     )}
@@ -208,8 +208,8 @@ export function DataTable<T>({
                     'last:border-0',
                     onRowClick && 'cursor-pointer',
                     selected
-                      ? 'bg-anodic-50 shadow-[inset_3px_0_0_var(--color-anodic-600)]'
-                      : 'hover:bg-anodic-50/40',
+                      ? 'bg-anodic-50/70 shadow-[inset_2px_0_0_var(--color-anodic-600)]'
+                      : 'hover:bg-anodic-50/45',
                     'focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-anodic-400',
                   )}
                 >

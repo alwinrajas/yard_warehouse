@@ -60,7 +60,7 @@ export function TopBar({
       style={{ height: 'var(--layout-topbar-height)' }}
       className={cn(
         'flex shrink-0 items-center gap-3.5 border-b border-graphite-200/80',
-        'bg-graphite-0/95 px-4 backdrop-blur-md sm:px-6 shadow-xs',
+        'bg-graphite-0 px-4 sm:px-6',
       )}
     >
       {onOpenNav ? (
@@ -87,19 +87,24 @@ export function TopBar({
         type="button"
         onClick={onOpenSearch}
         className={cn(
-          'ml-auto hidden h-10 w-full max-w-[28rem] items-center gap-3 rounded-xl border',
-          'border-graphite-200/90 bg-graphite-50/80 px-3.5 text-left md:flex shadow-xs',
-          'text-body-sm text-graphite-500 transition-all duration-fast ease-standard',
+          'group ml-auto hidden h-10 w-full max-w-[30rem] items-center gap-3 rounded-xl border',
+          'border-graphite-200 bg-graphite-50/70 px-3.5 text-left md:flex',
+          'shadow-xs inset-shadow-[0_1px_2px_0_rgba(17,22,31,0.03)]',
+          'text-body-sm text-graphite-500 transition-all duration-base ease-standard',
           'hover:border-anodic-300 hover:bg-graphite-0 hover:shadow-card',
           'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-anodic-400',
         )}
       >
-        <Search className="size-4 shrink-0 text-graphite-400" aria-hidden />
+        <Search
+          className="size-4 shrink-0 text-graphite-400 transition-colors duration-fast group-hover:text-anodic-500"
+          aria-hidden
+        />
         <span className="flex-1 truncate">Search pallet, job, customer, location…</span>
         <kbd
           className={cn(
             'hidden shrink-0 rounded-md border border-graphite-200 bg-graphite-0 px-2 py-0.5',
-            'font-mono text-caption font-medium tracking-wide text-graphite-500 shadow-xs lg:block',
+            'font-mono text-caption font-medium tracking-wide text-graphite-500 shadow-xs',
+            'inset-shadow-[0_1px_0_0_rgba(255,255,255,0.9)] lg:block',
           )}
         >
           Ctrl K
@@ -135,10 +140,10 @@ export function TopBar({
         >
           <span
             className={cn(
-              'hidden items-center gap-1.5 rounded-lg border border-graphite-200/60 px-2.5 py-1 text-overline tracking-wider font-medium lg:inline-flex shadow-xs',
+              'hidden items-center gap-1.5 rounded-lg border border-graphite-200/60 px-2.5 py-1 text-overline tracking-wider font-medium lg:inline-flex',
               IS_TIMEZONE_UNCONFIRMED
                 ? 'bg-signal-warning-surface text-signal-warning-fg'
-                : 'bg-graphite-50 text-graphite-600',
+                : 'bg-graphite-50/60 text-graphite-600',
             )}
           >
             <Clock className="size-3 text-graphite-400" aria-hidden />
@@ -182,7 +187,7 @@ function ScopeSelector({
     return (
       <span
         className={cn(
-          'hidden items-center gap-2 rounded-xl border border-graphite-200/70 bg-graphite-50/80 px-3 py-1.5 sm:flex shadow-xs',
+          'hidden items-center gap-2 rounded-xl border border-graphite-200/70 bg-graphite-50/60 px-3 py-1.5 sm:flex',
           'text-body-sm text-graphite-600',
         )}
       >
@@ -249,10 +254,11 @@ function UserMenu({
         >
           <span
             aria-hidden
-            className={cn(
-              'flex size-8 shrink-0 items-center justify-center rounded-lg shadow-xs',
-              'bg-gradient-to-br from-anodic-500 to-anodic-700 text-overline font-semibold text-graphite-0',
-            )}
+          className={cn(
+          'flex size-8 shrink-0 items-center justify-center rounded-full',
+          'bg-anodic-600',
+            'text-overline font-semibold text-graphite-0',
+          )}
           >
             {initials(name)}
           </span>

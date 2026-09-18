@@ -30,11 +30,12 @@ export function ProgressSteps({
             <span
               aria-current={state === 'active' ? 'step' : undefined}
               className={cn(
-                'flex size-6 shrink-0 items-center justify-center rounded-full text-overline',
-                'transition-colors duration-base ease-standard',
-                state === 'done' && 'bg-anodic-600 text-graphite-0',
+                'flex size-6 shrink-0 items-center justify-center rounded-full text-overline font-semibold',
+                'transition-all duration-base ease-standard',
+                state === 'done' &&
+                  'bg-gradient-to-b from-anodic-500 to-anodic-700 text-graphite-0 shadow-xs',
                 state === 'active' &&
-                  'bg-anodic-600 text-graphite-0 ring-4 ring-anodic-100',
+                  'bg-gradient-to-b from-anodic-500 to-anodic-700 text-graphite-0 shadow-glow-strong ring-4 ring-anodic-100',
                 state === 'todo' && 'border border-graphite-300 bg-graphite-0 text-graphite-400',
               )}
             >
@@ -57,7 +58,7 @@ export function ProgressSteps({
                 aria-hidden
                 className={cn(
                   'h-0.5 flex-1 rounded-full transition-colors duration-base ease-standard',
-                  index < current ? 'bg-anodic-600' : 'bg-graphite-200',
+                  index < current ? 'bg-anodic-500' : 'bg-graphite-200',
                 )}
               />
             ) : null}

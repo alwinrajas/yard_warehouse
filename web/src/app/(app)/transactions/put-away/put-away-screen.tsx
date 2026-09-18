@@ -180,7 +180,7 @@ export function PutAwayScreen() {
 
         {location.location && pallet.pallet ? (
           <>
-            <div className="rounded-lg border border-graphite-200 bg-graphite-50 p-4">
+            <div className="rounded-xl border border-graphite-200/80 bg-graphite-25 p-4">
               <MovementDirection
                 orientation="vertical"
                 fromLabel="Pallet"

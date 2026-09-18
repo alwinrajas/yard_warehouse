@@ -194,7 +194,7 @@ export function BarcodesScreen() {
         }
       >
         <div className="flex flex-col gap-3">
-          <div className="rounded-md border border-graphite-200 bg-graphite-50 p-3">
+          <div className="rounded-xl border border-graphite-200/80 bg-graphite-25 p-3">
             <p className="text-overline uppercase text-graphite-500">Barcode value</p>
             <p className="mt-1 font-mono text-mono-lg text-graphite-900">{reprinting?.barcode_value}</p>
             <p className="mt-1 text-caption text-graphite-500">

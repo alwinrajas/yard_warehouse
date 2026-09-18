@@ -167,7 +167,7 @@ export function UsersScreen() {
         </p>
         <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {(roles.data?.roles ?? []).map((role) => (
-            <div key={role.id} className="rounded-lg border border-graphite-200 p-4">
+            <div key={role.id} className="rounded-xl border border-graphite-200/80 bg-graphite-25 p-4">
               <div className="flex items-baseline justify-between gap-2">
                 <h3 className="text-body-sm font-medium text-graphite-900">{role.name}</h3>
                 <span className="font-mono text-caption text-graphite-500">{role.code}</span>

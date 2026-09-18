@@ -32,7 +32,7 @@ export function Pagination({
     <nav
       aria-label="Pagination"
       className={cn(
-        'flex flex-wrap items-center justify-between gap-3 border-t border-graphite-200 px-4 py-2.5',
+        'flex flex-wrap items-center justify-between gap-3 border-t border-graphite-200/80 bg-graphite-25 px-4 py-3',
         className,
       )}
     >

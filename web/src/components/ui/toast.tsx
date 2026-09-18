@@ -67,11 +67,16 @@ export function ToastProvider({ children }: { children: ReactNode }) {
               key={message.id}
               onOpenChange={(open) => !open && dismiss(message.id)}
               className={cn(
-                'anim-fade flex items-start gap-3 rounded-lg border p-3 shadow-e2',
+                'anim-fade flex items-start gap-3 rounded-xl border p-3.5 shadow-pop',
                 TONE_CLASS[message.tone],
               )}
             >
-              <Icon className="mt-0.5 size-4 shrink-0" aria-hidden />
+              <span
+                aria-hidden
+                className="mt-px flex size-6 shrink-0 items-center justify-center rounded-lg bg-current/10"
+              >
+                <Icon className="size-3.5" />
+              </span>
               <div className="min-w-0 flex-1">
                 <ToastPrimitive.Title className="text-body-sm font-medium">
                   {message.title}
@@ -97,7 +102,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             </ToastPrimitive.Root>
           )
         })}
-        <ToastPrimitive.Viewport className="fixed right-4 top-4 z-[60] flex w-80 flex-col gap-2 outline-none" />
+        <ToastPrimitive.Viewport className="fixed right-4 top-4 z-[60] flex w-[22rem] max-w-[calc(100vw-2rem)] flex-col gap-2.5 outline-none" />
       </ToastPrimitive.Provider>
     </ToastContext.Provider>
   )

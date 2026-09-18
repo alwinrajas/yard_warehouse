@@ -27,11 +27,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     <div
       className={cn(
         'flex h-9.5 items-center gap-2.5 rounded-xl border bg-graphite-0 px-3',
-        'shadow-xs transition-all duration-fast ease-standard',
-        'focus-within:border-anodic-400 focus-within:ring-2 focus-within:ring-anodic-100',
+        'shadow-xs inset-shadow-[0_1px_2px_0_rgba(17,22,31,0.03)]',
+        'transition-[border-color,box-shadow] duration-fast ease-standard',
+        'focus-within:border-anodic-400 focus-within:ring-[3px] focus-within:ring-anodic-500/15',
         hasError
-          ? 'border-signal-danger-border ring-2 ring-signal-danger-surface'
-          : 'border-graphite-200/90 hover:border-graphite-300',
+          ? 'border-signal-danger-border focus-within:border-signal-danger-fg focus-within:ring-signal-danger-fg/15'
+          : 'border-graphite-200 hover:border-graphite-300',
         disabled && 'cursor-not-allowed bg-graphite-100 opacity-70',
         className,
       )}

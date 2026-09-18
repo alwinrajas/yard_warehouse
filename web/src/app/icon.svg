@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 28">
+  <!-- ALU TRACK mark (docs/21 §8): single colour, legible at 16px. -->
+  <path d="M12.6 1.6h7.2L31 26.4h-6.6L16.2 7.4 7.9 26.4H1.3L12.6 1.6Z" fill="#184179" />
+  <path d="M16.2 12.2c4 0 6.9 2.4 8.6 6.6h-5.1c-.9-1.5-2.1-2.3-3.6-2.3-2.2 0-3.9 1.7-5.2 4.6H5.9c2-5.9 5.4-8.9 10.3-8.9Z" fill="#184179" fill-opacity="0.45" />
+</svg>

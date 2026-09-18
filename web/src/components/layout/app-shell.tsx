@@ -75,10 +75,10 @@ export function AppShell({
           <Sidebar badges={badges} isAdminRole={isAdminRole} />
         </div>
 
-        <main id="main-content" className="min-w-0 flex-1 overflow-y-auto">
+        <main id="main-content" className="relative min-w-0 flex-1 overflow-y-auto">
           <div
             className={cn(
-              'mx-auto w-full max-w-[var(--layout-content-max)] px-4 py-5 sm:px-6 sm:py-6',
+              'relative mx-auto w-full max-w-[var(--layout-content-max)] px-4 py-5 sm:px-6 sm:py-6',
               contentClassName,
             )}
           >

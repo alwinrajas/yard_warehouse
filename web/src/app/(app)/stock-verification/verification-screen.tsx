@@ -266,7 +266,7 @@ export function VerificationScreen() {
               {(session.lines ?? []).length === 0 ? (
                 <p className="text-body-sm text-graphite-500">No lines recorded.</p>
               ) : (
-                <ul className="divide-y divide-graphite-200 rounded-lg border border-graphite-200">
+                <ul className="divide-y divide-graphite-200/80 overflow-hidden rounded-xl border border-graphite-200/80 bg-graphite-0 shadow-xs">
                   {session.lines!.map((line) => (
                     <li key={line.id} className="flex items-center justify-between gap-3 px-3 py-2">
                       <span className="font-mono text-mono text-graphite-900">

@@ -85,14 +85,14 @@ export function Sidebar({
       }
       className={cn(
         'flex h-full min-h-0 flex-1 shrink-0 flex-col bg-surface-rail',
-        !forceExpanded && 'border-r border-graphite-200 transition-[width] duration-base ease-standard',
+        !forceExpanded && 'border-r border-graphite-200/70 transition-[width] duration-base ease-standard',
       )}
     >
-      <nav aria-label="Main" className="flex-1 overflow-y-auto px-2.5 py-3">
-        {visibleGroups.map((group) => {
+      <nav aria-label="Main" className="flex-1 overflow-y-auto px-3 py-4">
+        {visibleGroups.map((group, groupIndex) => {
           const open = isGroupOpen(group)
           return (
-            <div key={group.id} className="mb-1">
+            <div key={group.id} className={groupIndex > 0 ? 'mt-4' : undefined}>
               {group.label && !collapsed ? (
                 group.collapsedByDefault ? (
                   <button
@@ -103,7 +103,7 @@ export function Sidebar({
                     aria-expanded={open}
                     className={cn(
                       'flex w-full items-center justify-between rounded-md px-2 py-1.5',
-                      'mt-3 text-overline uppercase tracking-[0.12em] text-graphite-400 hover:text-graphite-700',
+                      'text-overline uppercase tracking-[0.14em] text-graphite-400 transition-colors duration-fast hover:text-graphite-700',
                     )}
                   >
                     {group.label}
@@ -116,7 +116,7 @@ export function Sidebar({
                     />
                   </button>
                 ) : (
-                  <p className="px-2.5 pb-1.5 pt-4 text-overline uppercase tracking-[0.12em] text-graphite-400">
+                  <p className="px-2.5 pb-1.5 text-overline uppercase tracking-[0.14em] text-graphite-400">
                     {group.label}
                   </p>
                 )
@@ -144,7 +144,7 @@ export function Sidebar({
         })}
       </nav>
 
-      <footer className="shrink-0 border-t border-graphite-200 p-2.5">
+      <footer className="shrink-0 border-t border-graphite-200/70 p-3">
         <button
           type="button"
           hidden={forceExpanded}
@@ -153,7 +153,7 @@ export function Sidebar({
           className={cn(
             'flex w-full items-center gap-2 rounded-lg px-2.5 py-2',
             'text-body-sm text-graphite-500 transition-colors duration-fast ease-standard',
-            'hover:bg-graphite-100/70 hover:text-graphite-800',
+            'hover:bg-graphite-100 hover:text-graphite-800',
             collapsed && 'justify-center px-0',
           )}
         >
@@ -199,12 +199,14 @@ function SidebarLink({
   const content = (
     <span
       className={cn(
-        'relative flex h-10 items-center gap-3 rounded-xl px-3',
-        'transition-all duration-fast ease-standard',
+        'relative flex h-9 items-center gap-3 rounded-md px-3',
+        'transition-colors duration-fast ease-standard group/navitem',
         active
-          ? 'bg-anodic-50/90 font-semibold text-anodic-700 shadow-xs ring-1 ring-anodic-200/60'
+          ? [
+              'bg-anodic-50 font-semibold text-anodic-800',
+            ]
           : item.available
-            ? 'text-graphite-600 hover:bg-graphite-100/70 hover:text-graphite-900'
+            ? 'text-graphite-600 hover:bg-graphite-100/80 hover:text-graphite-900'
             : 'text-graphite-400',
         collapsed && 'justify-center px-0',
       )}
@@ -214,14 +216,16 @@ function SidebarLink({
           aria-hidden
           className={cn(
             'absolute rounded-full bg-anodic-600',
-            collapsed ? 'inset-y-2.5 -left-1 w-1' : 'inset-y-2 left-0.5 w-[3.5px]',
+            collapsed ? 'inset-y-2.5 -left-1 w-1' : 'inset-y-2.5 left-0 w-0.5',
           )}
         />
       ) : null}
       <Icon
         className={cn(
-          'size-4 shrink-0 transition-colors',
-          active ? 'text-anodic-600' : 'text-graphite-400 group-hover:text-graphite-700',
+          'size-4 shrink-0 transition-colors duration-fast ease-standard',
+          active
+            ? 'text-anodic-600'
+            : 'text-graphite-400 group-hover/navitem:text-graphite-700',
         )}
         aria-hidden
       />

@@ -4,7 +4,7 @@ import type { ComponentType, ReactNode } from 'react'
 
 import { cn } from '@/lib/cn'
 
-const alertVariants = cva('flex gap-3 rounded-lg border p-3', {
+const alertVariants = cva('flex gap-3 rounded-xl border p-3.5 shadow-xs', {
   variants: {
     tone: {
       info: 'border-signal-info-border bg-signal-info-surface text-signal-info-fg',
@@ -40,7 +40,12 @@ export function Alert({ tone = 'info', title, children, action, className, live 
       role={live ? 'alert' : undefined}
       aria-live={live ? 'assertive' : undefined}
     >
-      <Icon className="mt-0.5 size-4 shrink-0" aria-hidden />
+      <span
+        aria-hidden
+        className="mt-px flex size-6 shrink-0 items-center justify-center rounded-lg bg-current/10"
+      >
+        <Icon className="size-3.5" />
+      </span>
       <div className="min-w-0 flex-1">
         {title ? <p className="text-body-sm font-medium">{title}</p> : null}
         {children ? (

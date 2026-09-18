@@ -184,12 +184,12 @@ export function RoleEditor({ role, onClose }: { role: RoleRow | null; onClose: (
           {groups.isLoading ? (
             <p className="text-body-sm text-graphite-500">Loading permissions…</p>
           ) : visibleGroups.length === 0 ? (
-            <p className="rounded-md border border-graphite-200 p-4 text-body-sm text-graphite-500">
+            <p className="rounded-xl border border-graphite-200/80 bg-graphite-25 p-4 text-body-sm text-graphite-500">
               No permission matches &ldquo;{search}&rdquo;.
             </p>
           ) : (
             visibleGroups.map((group) => (
-              <fieldset key={group.module} className="rounded-md border border-graphite-200 p-3">
+              <fieldset key={group.module} className="rounded-xl border border-graphite-200/80 bg-graphite-25 p-3">
                 <legend className="px-1 text-overline uppercase text-graphite-500">
                   {PERMISSION_MODULE_LABELS[group.module] ?? group.module}
                 </legend>

@@ -69,18 +69,18 @@ export function FilterBar({
             <span
               key={filter.id}
               className={cn(
-                'inline-flex items-center gap-1.5 rounded-sm border border-graphite-200',
-                'bg-graphite-50 py-0.5 pl-2 pr-1 text-caption text-graphite-600',
+                'inline-flex items-center gap-1.5 rounded-full border border-graphite-200',
+                'bg-graphite-50 py-0.5 pl-2.5 pr-1 text-caption text-graphite-600',
               )}
             >
               <span className="text-graphite-500">{filter.label}:</span>
-              <span className="font-medium text-graphite-800">{filter.value}</span>
+              <span className="font-semibold text-graphite-800">{filter.value}</span>
               {onRemoveFilter ? (
                 <button
                   type="button"
                   aria-label={`Remove filter ${filter.label}`}
                   onClick={() => onRemoveFilter(filter.id)}
-                  className="rounded-sm p-0.5 text-graphite-400 hover:bg-graphite-200 hover:text-graphite-700"
+                  className="rounded-full p-0.5 text-graphite-400 transition-colors duration-fast hover:bg-graphite-200 hover:text-graphite-700"
                 >
                   <X className="size-3" aria-hidden />
                 </button>

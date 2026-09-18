@@ -15,26 +15,33 @@ import { cn } from '@/lib/cn'
  */
 const buttonVariants = cva(
   [
-    'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl',
-    'font-semibold transition-all duration-fast ease-standard shadow-xs',
+    'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md',
+    'font-semibold transition-colors duration-fast ease-standard',
     'disabled:pointer-events-none disabled:opacity-50',
     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-anodic-400',
   ],
   {
     variants: {
       variant: {
-        primary:
-          'bg-anodic-600 text-graphite-0 hover:bg-anodic-700 active:bg-anodic-800 shadow-xs hover:shadow-card',
-        secondary:
-          'border border-graphite-200/90 bg-graphite-0 text-graphite-800 hover:bg-graphite-50/80 hover:border-graphite-300 active:bg-graphite-100 shadow-xs',
-        ghost: 'text-graphite-600 hover:bg-graphite-100/80 hover:text-graphite-900 shadow-none',
-        danger: 'bg-signal-danger-fg text-graphite-0 hover:bg-signal-danger-fg/90 active:bg-signal-danger-fg/80 shadow-xs',
+        primary: [
+          'bg-anodic-600 text-graphite-0',
+          'hover:bg-anodic-700 active:bg-anodic-800',
+        ],
+        secondary: [
+          'border border-graphite-200 bg-graphite-0 text-graphite-800',
+          'hover:border-graphite-300 hover:bg-graphite-50 active:bg-graphite-100',
+        ],
+        ghost: 'text-graphite-600 hover:bg-graphite-100 hover:text-graphite-900 shadow-none',
+        danger: [
+          'bg-signal-danger-fg text-graphite-0',
+          'hover:bg-signal-danger-fg/90 active:bg-signal-danger-fg/80',
+        ],
         link: 'text-anodic-600 underline-offset-4 hover:underline shadow-none',
       },
       size: {
         sm: 'h-8 px-3 text-caption font-semibold rounded-lg',
-        md: 'h-9.5 px-4 text-body-sm font-semibold rounded-xl',
-        lg: 'h-11 px-5.5 text-body font-semibold rounded-xl',
+        md: 'h-9.5 px-4 text-body-sm font-semibold rounded-md',
+        lg: 'h-11 px-5.5 text-body font-semibold rounded-md',
       },
       fullWidth: { true: 'w-full', false: '' },
     },

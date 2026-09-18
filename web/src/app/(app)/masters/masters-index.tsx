@@ -148,7 +148,7 @@ export function MastersIndex() {
                 <li key={entry.href}>
                   <Link
                     href={entry.href}
-                    className="group flex h-full items-start gap-3.5 rounded-xl border border-graphite-200/90 bg-graphite-0 p-4 shadow-xs transition-all duration-fast hover:border-anodic-300 hover:bg-anodic-50/40 hover:shadow-card"
+                    className="card-interactive group flex h-full items-start gap-3.5 rounded-2xl border border-graphite-200/80 bg-graphite-0 p-4 shadow-card hover:border-anodic-300 hover:bg-anodic-50/30"
                   >
                     <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-anodic-50 text-anodic-600 transition-colors group-hover:bg-anodic-600 group-hover:text-graphite-0">
                       <entry.icon className="size-5" aria-hidden />
