@@ -8,6 +8,7 @@ use App\Http\Resources\TransactionResource;
 use App\Models\AuditLog;
 use App\Models\InventoryTransaction;
 use App\Support\ApiResponse;
+use App\Support\BusinessTime;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -27,11 +28,13 @@ class TransactionController extends Controller
         if ($channel = $request->query('channel')) {
             $query->where('channel', $channel);
         }
+        // Business dates (CFG-13): the operator filtering "today" means their
+        // today, not UTC's.
         if ($from = $request->query('from')) {
-            $query->where('created_at', '>=', $from);
+            $query->where('created_at', '>=', BusinessTime::startOfDay($from));
         }
         if ($to = $request->query('to')) {
-            $query->where('created_at', '<=', $to.' 23:59:59');
+            $query->where('created_at', '<', BusinessTime::endOfDay($to));
         }
         if ($search = $request->query('search')) {
             $query->where(fn ($q) => $q
@@ -75,11 +78,13 @@ class TransactionController extends Controller
         if ($entity = $request->query('entity_type')) {
             $query->where('auditable_type', 'like', "%{$entity}");
         }
+        // Business dates (CFG-13): the operator filtering "today" means their
+        // today, not UTC's.
         if ($from = $request->query('from')) {
-            $query->where('created_at', '>=', $from);
+            $query->where('created_at', '>=', BusinessTime::startOfDay($from));
         }
         if ($to = $request->query('to')) {
-            $query->where('created_at', '<=', $to.' 23:59:59');
+            $query->where('created_at', '<', BusinessTime::endOfDay($to));
         }
 
         $query->orderByDesc('created_at')->orderByDesc('id');

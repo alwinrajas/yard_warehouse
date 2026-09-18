@@ -8,6 +8,7 @@ use App\Models\Facility;
 use App\Models\InventoryCurrent;
 use App\Models\Location;
 use App\Support\ApiResponse;
+use App\Support\BusinessTime;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -171,7 +172,10 @@ class InventoryController extends Controller
     public function dashboard(Request $request): JsonResponse
     {
         $visible = Facility::query()->visibleTo($request->user())->pluck('id');
-        $today = now()->startOfDay();
+        // The business day, not the UTC one: a dispatch at 21:30 in a UTC+4
+        // yard belongs to that local day, and would otherwise land in tomorrow
+        // (CFG-13).
+        $today = BusinessTime::startOfToday();
 
         $base = InventoryCurrent::whereIn('facility_id', $visible);
 

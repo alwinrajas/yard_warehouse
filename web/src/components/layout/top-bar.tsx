@@ -14,7 +14,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 
-import { APP_TIMEZONE, IS_TIMEZONE_UNCONFIRMED } from '@/lib/app-config'
+import { appTimezone, isTimezoneUnconfirmed } from '@/lib/app-config'
 import { cn } from '@/lib/cn'
 import { initials } from '@/lib/format'
 import { useSession } from '@/lib/permissions/session'
@@ -133,21 +133,21 @@ export function TopBar({
             warning; confirmed reads as quiet context. */}
         <Tooltip
           content={
-            IS_TIMEZONE_UNCONFIRMED
-              ? `Timezone is not configured (CFG-13 / OI-19). Times are shown in ${APP_TIMEZONE}.`
-              : `All times are shown in ${APP_TIMEZONE}.`
+            isTimezoneUnconfirmed()
+              ? `Timezone is not configured (CFG-13 / OI-19). Times are shown in ${appTimezone()}.`
+              : `All times are shown in ${appTimezone()}.`
           }
         >
           <span
             className={cn(
               'hidden items-center gap-1.5 rounded-lg border border-graphite-200/60 px-2.5 py-1 text-overline tracking-wider font-medium lg:inline-flex',
-              IS_TIMEZONE_UNCONFIRMED
+              isTimezoneUnconfirmed()
                 ? 'bg-signal-warning-surface text-signal-warning-fg'
                 : 'bg-graphite-50/60 text-graphite-600',
             )}
           >
             <Clock className="size-3 text-graphite-400" aria-hidden />
-            {APP_TIMEZONE}
+            {appTimezone()}
           </span>
         </Tooltip>
 

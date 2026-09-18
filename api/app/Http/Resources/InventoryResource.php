@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\InventoryCurrent;
+use App\Support\BusinessTime;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /** @mixin InventoryCurrent */
@@ -11,7 +12,7 @@ class InventoryResource extends JsonResource
     public function toArray($request): array
     {
         $pallet = $this->pallet;
-        $ageing = $this->putaway_at?->startOfDay()->diffInDays(now()->startOfDay());
+        $ageing = BusinessTime::daysStanding($this->putaway_at);
 
         return [
             'pallet_id' => (string) $this->pallet_id,

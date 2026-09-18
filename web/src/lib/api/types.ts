@@ -51,6 +51,8 @@ export type LoginRequest = {
 }
 
 export type SessionUser = {
+  /** CFG-13 — the business timezone every date in the product is rendered in. */
+  app_timezone?: string
   user_id: string
   name: string
   username: string

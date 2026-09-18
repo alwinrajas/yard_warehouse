@@ -8,6 +8,7 @@ use App\Models\SystemSetting;
 use App\Support\ApiResponse;
 use App\Support\AuditLogger;
 use App\Support\BusinessRuleException;
+use App\Support\BusinessTime;
 use App\Support\Settings;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -109,7 +110,17 @@ class SettingController extends Controller
                     $fail('This setting cannot be empty.');
                 }
 
-                return trim($value);
+                $trimmed = trim((string) $value);
+
+                // CFG-13 decides every business date in the product. An
+                // abbreviation such as IST is ambiguous and carries no daylight
+                // rules, so only a full IANA identifier is accepted — and it is
+                // checked here rather than failing later inside a report query.
+                if ($setting->key === 'app.timezone' && ! BusinessTime::isValidZone($trimmed)) {
+                    $fail('Use a full IANA timezone identifier, for example Asia/Dubai. Abbreviations such as IST are ambiguous.');
+                }
+
+                return $trimmed;
         }
     }
 }

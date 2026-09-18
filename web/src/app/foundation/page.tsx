@@ -54,7 +54,7 @@ import {
   type SortState,
   type TableDensity,
 } from '@/components/ui'
-import { APP_TIMEZONE, IS_TIMEZONE_UNCONFIRMED } from '@/lib/app-config'
+import { appTimezone, isTimezoneUnconfirmed } from '@/lib/app-config'
 import { formatDateTime, timezoneLabel } from '@/lib/format'
 import { AGEING_TOKENS, LOCATION_STATE_TOKENS, STATUS_KEYS } from '@/lib/status'
 
@@ -159,10 +159,10 @@ export default function FoundationPage() {
         }
       />
 
-      {IS_TIMEZONE_UNCONFIRMED ? (
+      {isTimezoneUnconfirmed() ? (
         <Alert tone="warning" title="Application timezone is not configured">
           <code className="font-mono text-mono">NEXT_PUBLIC_APP_TIMEZONE</code> is unset, so times
-          render in <span className="font-mono text-mono">{APP_TIMEZONE}</span>. This is CFG-13 /
+          render in <span className="font-mono text-mono">{appTimezone()}</span>. This is CFG-13 /
           open item OI-19 and must be confirmed before go-live — a wrong timezone silently corrupts
           every &ldquo;today&rdquo; KPI and daily snapshot.
         </Alert>

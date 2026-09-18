@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\User;
+use App\Support\BusinessTime;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /** The session payload consumed by the web BFF and the PDA (docs/02 §5). */
@@ -26,6 +27,10 @@ class UserSessionResource extends JsonResource
             ])->values(),
             'permissions' => $this->permissionCodes(),
             'must_change_password' => $this->must_change_password,
+            // CFG-13, carried on the session so every client renders dates in
+            // the yard's timezone without needing settings.view or a second
+            // configuration source (OI-19).
+            'app_timezone' => BusinessTime::zone(),
         ];
     }
 }

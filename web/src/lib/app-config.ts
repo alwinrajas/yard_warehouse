@@ -7,21 +7,43 @@
  */
 
 /**
- * CFG-13 — application timezone.
+ * CFG-13 — the business timezone.
  *
- * OPEN ITEM OI-19: the customer has not confirmed the operating timezone.
- * A wrong value silently corrupts every "today" KPI and daily snapshot, and the
- * error is typically noticed a month after go-live — so there is deliberately no
- * plausible-looking default here. We fall back to UTC and say so loudly.
+ * The authority is `system_settings` on the server, which is where the backend
+ * computes every "today" boundary from. It reaches the browser on the session,
+ * so the two can never disagree: one value, one place, both ends.
+ *
+ * The environment variable remains only as a pre-session fallback — the login
+ * screen renders before any session exists. If neither is set we use UTC and say
+ * so loudly in the header rather than picking a plausible-looking zone, because
+ * a wrong timezone silently corrupts every daily KPI and is typically noticed a
+ * month after go-live (OI-19).
  */
-const CONFIGURED_TIMEZONE = process.env.NEXT_PUBLIC_APP_TIMEZONE?.trim()
+const ENV_TIMEZONE = process.env.NEXT_PUBLIC_APP_TIMEZONE?.trim()
 
-export const APP_TIMEZONE = CONFIGURED_TIMEZONE && CONFIGURED_TIMEZONE.length > 0
-  ? CONFIGURED_TIMEZONE
-  : 'UTC'
+const FALLBACK_TIMEZONE = 'UTC'
 
-/** True when NEXT_PUBLIC_APP_TIMEZONE is unset and we are falling back to UTC. */
-export const IS_TIMEZONE_UNCONFIRMED = !CONFIGURED_TIMEZONE
+let resolvedTimezone: string | null = null
+
+/**
+ * Adopt the timezone the server reports for this session.
+ *
+ * Called once as the session is established. Module-level rather than context
+ * because `format.ts` is a plain module used outside React too, and a formatter
+ * that needed a provider would be trivially bypassed.
+ */
+export function setAppTimezone(timezone: string | null | undefined): void {
+  resolvedTimezone = timezone?.trim() || null
+}
+
+export function appTimezone(): string {
+  return resolvedTimezone ?? (ENV_TIMEZONE && ENV_TIMEZONE.length > 0 ? ENV_TIMEZONE : FALLBACK_TIMEZONE)
+}
+
+/** True while nothing has confirmed a zone and we are falling back to UTC. */
+export function isTimezoneUnconfirmed(): boolean {
+  return !resolvedTimezone && !ENV_TIMEZONE
+}
 
 export const APP_NAME = 'ALU TRACK'
 export const APP_FULL_NAME =

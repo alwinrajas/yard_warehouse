@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Facility;
 use App\Support\ApiResponse;
 use App\Support\BusinessRuleException;
+use App\Support\BusinessTime;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -207,11 +208,14 @@ class ReportController extends Controller
             ])
             ->orderByDesc('t.created_at');
 
+        // Business-day boundaries resolved to UTC instants, because the column is
+        // UTC. `< endOfDay` rather than `<= 23:59:59` so a transaction in the
+        // final second of the day cannot be dropped (CFG-13).
         if ($from) {
-            $query->where('t.created_at', '>=', $from);
+            $query->where('t.created_at', '>=', BusinessTime::startOfDay($from));
         }
         if ($to) {
-            $query->where('t.created_at', '<=', $to.' 23:59:59');
+            $query->where('t.created_at', '<', BusinessTime::endOfDay($to));
         }
 
         [$rows, $total] = $this->paginate($query, $page, $size);
@@ -261,10 +265,10 @@ class ReportController extends Controller
             ->orderByDesc('total');
 
         if ($from) {
-            $query->where('t.created_at', '>=', $from);
+            $query->where('t.created_at', '>=', BusinessTime::startOfDay($from));
         }
         if ($to) {
-            $query->where('t.created_at', '<=', $to.' 23:59:59');
+            $query->where('t.created_at', '<', BusinessTime::endOfDay($to));
         }
 
         $rows = $query->forPage($page, $size)->get()->map(fn ($r) => (array) $r)->values();
@@ -314,12 +318,12 @@ class ReportController extends Controller
     private function dailyMovement(?string $from, ?string $to): array
     {
         $rows = DB::table('inventory_transactions')
-            ->selectRaw('DATE(created_at) as date')
+            ->selectRaw(BusinessTime::dateExpression('created_at').' as date')
             ->selectRaw("SUM(CASE WHEN type IN ('PUTAWAY','OPENING_STOCK') THEN 1 ELSE 0 END) as put_away")
             ->selectRaw("SUM(CASE WHEN type = 'TRANSFER' THEN 1 ELSE 0 END) as transfers")
             ->selectRaw("SUM(CASE WHEN type = 'DISPATCH' THEN 1 ELSE 0 END) as dispatched")
-            ->when($from, fn ($q) => $q->where('created_at', '>=', $from))
-            ->when($to, fn ($q) => $q->where('created_at', '<=', $to.' 23:59:59'))
+            ->when($from, fn ($q) => $q->where('created_at', '>=', BusinessTime::startOfDay($from)))
+            ->when($to, fn ($q) => $q->where('created_at', '<', BusinessTime::endOfDay($to)))
             ->groupBy('date')
             ->orderByDesc('date')
             ->limit(90)

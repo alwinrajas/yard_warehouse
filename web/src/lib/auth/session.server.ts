@@ -36,6 +36,7 @@ export function toSession(user: SessionUser): Session {
     siteName: user.site_name,
     facilities: user.facilities,
     permissions: user.permissions as Permission[],
+    appTimezone: user.app_timezone,
   }
 }
 

@@ -14,6 +14,8 @@
  */
 import { createContext, useCallback, useContext, useMemo, type ReactNode } from 'react'
 
+import { setAppTimezone } from '@/lib/app-config'
+
 import type { Permission, RoleCode } from './permission-codes'
 
 export type FacilityScope = {
@@ -36,6 +38,8 @@ export type Session = {
   channel?: 'WEB' | 'PDA'
   /** When the BFF issued this session. Drives PDA shift-elapsed (docs/08 §2). */
   signedInAt?: string
+  /** CFG-13 — the business timezone, as the server computes "today" in. */
+  appTimezone?: string
 }
 
 type SessionContextValue = {
@@ -54,6 +58,12 @@ export function SessionProvider({
   session: Session | null
   children: ReactNode
 }) {
+  // Adopt CFG-13 before anything renders, so the first paint already formats in
+  // the yard's timezone rather than flashing UTC and correcting itself. Set
+  // during render on purpose: an effect would run after the children have
+  // already formatted their dates.
+  setAppTimezone(session?.appTimezone)
+
   const granted = useMemo(() => new Set<string>(session?.permissions ?? []), [session])
 
   const can = useCallback((permission: Permission) => granted.has(permission), [granted])

@@ -7,12 +7,14 @@
  * for any user whose machine is not set to the yard's timezone — the exact class
  * of defect that is invisible in testing and corrupts every daily KPI.
  *
- * Everything here resolves through APP_TIMEZONE (CFG-13 / OI-19).
+ * Everything here resolves through the business timezone (CFG-13 / OI-19),
+ * read per call so a session that arrives after this module loaded is honoured
+ * rather than baked in at import time.
  */
 import { TZDate } from '@date-fns/tz'
 import { differenceInCalendarDays, differenceInSeconds, format as fnsFormat } from 'date-fns'
 
-import { APP_TIMEZONE } from './app-config'
+import { appTimezone } from './app-config'
 import { AGEING_TOKENS, type AgeingKey } from './design-tokens.generated'
 
 export type DateInput = Date | string | number | null | undefined
@@ -21,7 +23,7 @@ function toZoned(value: DateInput): TZDate | null {
   if (value === null || value === undefined || value === '') return null
   const date = value instanceof Date ? value : new Date(value)
   if (Number.isNaN(date.getTime())) return null
-  return new TZDate(date, APP_TIMEZONE)
+  return new TZDate(date, appTimezone())
 }
 
 const EM_DASH = '—'
@@ -55,14 +57,14 @@ export function formatPreciseDateTime(value: DateInput, fallback = EM_DASH): str
  * Displayed explicitly so a reader never has to guess which clock a report uses.
  */
 export function timezoneLabel(): string {
-  return APP_TIMEZONE
+  return appTimezone()
 }
 
 /** `2h ago`, `4d ago` — a secondary hint only. Never the sole representation. */
 export function formatRelative(value: DateInput, fallback = EM_DASH): string {
   const d = toZoned(value)
   if (!d) return fallback
-  const seconds = differenceInSeconds(new TZDate(new Date(), APP_TIMEZONE), d)
+  const seconds = differenceInSeconds(new TZDate(new Date(), appTimezone()), d)
   if (seconds < 0) return 'just now'
   if (seconds < 45) return 'just now'
   if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`

@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Pallet;
+use App\Support\BusinessTime;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /** @mixin Pallet */
@@ -28,7 +29,7 @@ class PalletResource extends JsonResource
             'last_movement_at' => $this->last_movement_at?->toIso8601String(),
             'dispatched_at' => $this->dispatched_at?->toIso8601String(),
             'ageing_days' => $this->first_putaway_at !== null && $this->dispatched_at === null
-                ? $this->first_putaway_at->startOfDay()->diffInDays(now()->startOfDay())
+                ? BusinessTime::daysStanding($this->first_putaway_at)
                 : null,
             // relationLoaded() distinguishes "not loaded" from "loaded and null".
             // A dispatched pallet has no current row at all (FR-012).
